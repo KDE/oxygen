@@ -136,10 +136,9 @@ msgid "MDI Windows"
 msgstr ""
 
 #: oxygendemodialog.cpp:139
-#, fuzzy, kde-format
-#| msgid "Shows the appearance of tab widgets"
+#, kde-format
 msgid "Shows the appearance of MDI windows"
-msgstr "Taispeánann sé dealramh atá ar ghiuirléidí cluaisín"
+msgstr ""
 
 #: oxygendemodialog.cpp:147
 #, kde-format
@@ -194,10 +193,9 @@ msgid "Tabs"
 msgstr "Cluaisíní"
 
 #: oxygenmdidemowidget.cpp:38
-#, fuzzy, kde-format
-#| msgid "Toolbox"
+#, kde-format
 msgid "Tools"
-msgstr "Bosca Uirlisí"
+msgstr ""
 
 #: oxygenmdidemowidget.cpp:40
 #, kde-format
@@ -245,10 +243,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, runButton)
 #: ui/oxygenbenchmarkwidget.ui:82
-#, fuzzy, kde-format
-#| msgid "Animations"
+#, kde-format
 msgid "Run Simulation"
-msgstr "Íomhánna Beo"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ui/oxygenbuttondemowidget.ui:20
@@ -282,24 +279,21 @@ msgstr "Cnaipí raidió"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton)
 #: ui/oxygenbuttondemowidget.ui:84
-#, fuzzy, kde-format
-#| msgid "First item"
+#, kde-format
 msgid "F&irst Choice"
-msgstr "An chéad mhír"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
 #: ui/oxygenbuttondemowidget.ui:94
-#, fuzzy, kde-format
-#| msgid "Second item"
+#, kde-format
 msgid "Seco&nd Choice"
-msgstr "An dara mír"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton_3)
 #: ui/oxygenbuttondemowidget.ui:101
-#, fuzzy, kde-format
-#| msgid "Third item"
+#, kde-format
 msgid "&Third Choice"
-msgstr "An tríú mír"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygenbuttondemowidget.ui:126
@@ -427,10 +421,9 @@ msgstr "Saighead Dheas"
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ui/oxygenbuttondemowidget.ui:420 ui/oxygentabdemowidget.ui:81
-#, fuzzy, kde-format
-#| msgid "Text position:"
+#, kde-format
 msgid "Te&xt position:"
-msgstr "Ionad an téacs:"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
 #. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
@@ -461,10 +454,9 @@ msgstr "Téacs Faoi na Deilbhíní"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ui/oxygenbuttondemowidget.ui:470
-#, fuzzy, kde-format
-#| msgid "Icon size:"
+#, kde-format
 msgid "Icon si&ze:"
-msgstr "Méid na ndeilbhíní:"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
 #: ui/oxygenbuttondemowidget.ui:484
@@ -492,10 +484,9 @@ msgstr "Ollmhór (48×48)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygenframedemowidget.ui:31
-#, fuzzy, kde-format
-#| msgid "Layout direction:"
+#, kde-format
 msgid "&Layout direction:"
-msgstr "Treo an leagain amach:"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
 #: ui/oxygenframedemowidget.ui:45
@@ -529,25 +520,22 @@ msgstr "Fráma"
 
 #. i18n: ectx: property (text), widget (QRadioButton, raisedFrameRadioButton)
 #: ui/oxygenframedemowidget.ui:104
-#, fuzzy, kde-format
-#| msgid "Raised"
+#, kde-format
 msgid "&Raised"
-msgstr "Ardaithe"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, plainFrameRadioButton)
 #: ui/oxygenframedemowidget.ui:117
-#, fuzzy, kde-format
-#| msgid "Flat"
+#, kde-format
 msgctxt "Flat frame. No frame is actually drawn."
 msgid "&Flat"
-msgstr "Maol"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, sunkenFrameRadioButton)
 #: ui/oxygenframedemowidget.ui:124
-#, fuzzy, kde-format
-#| msgid "Sunken"
+#, kde-format
 msgid "S&unken"
-msgstr "Íslithe"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygenframedemowidget.ui:147
@@ -675,10 +663,9 @@ msgstr "An Tríú Fomhír"
 
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:89
-#, fuzzy, kde-format
-#| msgid "Third Description"
+#, kde-format
 msgid "Third Subitem Description"
-msgstr "An Tríú Cur Síos"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:98
@@ -694,10 +681,9 @@ msgstr "An Dara Fomhír"
 
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:105
-#, fuzzy, kde-format
-#| msgid "Second Description"
+#, kde-format
 msgid "Second Subitem Description"
-msgstr "An Dara Cur Síos"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:110
@@ -707,10 +693,9 @@ msgstr "An Chéad Fhomhír"
 
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:113
-#, fuzzy, kde-format
-#| msgid "First Description"
+#, kde-format
 msgid "First Subitem Description"
-msgstr "An Chéad Chur Síos"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:122
@@ -774,10 +759,9 @@ msgstr "Barr ar dheis"
 
 #. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
 #: ui/oxygenlistdemowidget.ui:177
-#, fuzzy, kde-format
-#| msgid "Left Arrow"
+#, kde-format
 msgid "Left "
-msgstr "Saighead Chlé"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
 #: ui/oxygenlistdemowidget.ui:182
@@ -859,17 +843,15 @@ msgstr "An Tríú Leathanach"
 
 #. i18n: ectx: property (text), widget (QCheckBox, animateProgressBarCheckBox)
 #: ui/oxygensliderdemowidget.ui:29
-#, fuzzy, kde-format
-#| msgid "Animate progress bars"
+#, kde-format
 msgid "Animate Progress Bars"
-msgstr "Beoigh na barraí dul chun cinn"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, invertProgressBarCheckBox)
 #: ui/oxygensliderdemowidget.ui:36
-#, fuzzy, kde-format
-#| msgid "Animate progress bars"
+#, kde-format
 msgid "Invert Progress Bars"
-msgstr "Beoigh na barraí dul chun cinn"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygensliderdemowidget.ui:43
@@ -915,10 +897,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygentabdemowidget.ui:31
-#, fuzzy, kde-format
-#| msgid "Tab position:"
+#, kde-format
 msgid "&Tab position:"
-msgstr "Ionad an chluaisín:"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
 #: ui/oxygentabdemowidget.ui:45
@@ -958,10 +939,9 @@ msgstr "Taispeáin Cnaipí Cúinne"
 
 #. i18n: ectx: property (text), widget (QCheckBox, tabCloseButtonsCheckBox)
 #: ui/oxygentabdemowidget.ui:129
-#, fuzzy, kde-format
-#| msgid "Show Corner Buttons"
+#, kde-format
 msgid "Show Tab Close Buttons"
-msgstr "Taispeáin Cnaipí Cúinne"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, tabBarVisibilityCheckBox)
 #: ui/oxygentabdemowidget.ui:136
@@ -974,243 +954,3 @@ msgstr "Folaigh barra na gcluaisíní"
 #, kde-format
 msgid "Preview"
 msgstr "Réamhamharc"
-
-#~ msgctxt "Flat frame. No frame is actually drawn."
-#~ msgid "Flat"
-#~ msgstr "Maol"
-
-#~ msgid "Dialog"
-#~ msgstr "Dialóg"
-
-#~ msgid "Text position:"
-#~ msgstr "Ionad an téacs:"
-
-#~ msgid "Busy"
-#~ msgstr "Gafa"
-
-#~ msgid "Oxygen Settings"
-#~ msgstr "Socruithe Oxygen"
-
-#~ msgid "Toolbar highlight"
-#~ msgstr "Aibhsiú an bharra uirlisí"
-
-#~ msgid "Menu bar highlight"
-#~ msgstr "Aibhsiú barra roghchláir"
-
-#~ msgid "Menu highlight"
-#~ msgstr "Aibhsiú roghchlár"
-
-#~ msgid "Progress bar animation"
-#~ msgstr "Beochan an bharra dul chun cinn"
-
-#~ msgid "Tab transitions"
-#~ msgstr "Trasdulta cluaisíní"
-
-#~ msgid "Label transitions"
-#~ msgstr "Trasdulta lipéad"
-
-#~ msgid "Text editor transitions"
-#~ msgstr "Trasdulta eagarthóra téacs"
-
-#~ msgid "Combo box transitions"
-#~ msgstr "Trasdulta boscaí teaglama"
-
-#~ msgid "Widget Style"
-#~ msgstr "Stíl na nGiuirléidí"
-
-#~ msgid "Modify the appearance of widgets"
-#~ msgstr "Athraigh an dealramh atá ar ghiuirléidí"
-
-#~ msgid "Window Decorations"
-#~ msgstr "Maisiúcháin Fhuinneog"
-
-#~ msgid "Modify the appearance of window decorations"
-#~ msgstr "Athraigh na maisiúcháin fhuinneog"
-
-#~ msgid "Unable to find oxygen style configuration plugin"
-#~ msgstr "Ní féidir breiseán cumraíochta stíl Oxygen a aimsiú"
-
-#~ msgid "Animations"
-#~ msgstr "Íomhánna Beo"
-
-#~ msgid "Animation type:"
-#~ msgstr "Cineál beochana:"
-
-#~ msgid "Fade"
-#~ msgstr "Céimnigh"
-
-#~ msgid "Follow Mouse"
-#~ msgstr "Lean an Luch"
-
-#, fuzzy
-#~| msgid "Follow Mouse"
-#~ msgid "Follow mouse duration:"
-#~ msgstr "Lean an Luch"
-
-#~ msgid "ms"
-#~ msgstr "ms"
-
-#~ msgid "General"
-#~ msgstr "Ginearálta"
-
-#~ msgid "Draw toolbar item separators"
-#~ msgstr "Dear deighilteoirí sa bharra uirlisí idir míreanna"
-
-#~ msgid "Use 'X' in checkboxes instead of check"
-#~ msgstr "Úsáid 'X' i dticbhoscaí in ionad tic"
-
-#~ msgid "Enable animations"
-#~ msgstr "Cumasaigh beochan"
-
-#~ msgid "Windows' drag mode:"
-#~ msgstr "Mód tarraingthe fuinneog::"
-
-#~ msgid "Drag windows from titlebar only"
-#~ msgstr "Tarraing fuinneoga ón bharra teidil amháin"
-
-#~ msgid "Drag windows from titlebar, menubar and toolbars"
-#~ msgstr ""
-#~ "Tarraing fuinneoga ón bharra teidil, ón bharra roghchlár, agus ó bharraí "
-#~ "uirlisí"
-
-#~ msgid "Drag windows from all empty areas"
-#~ msgstr "Tarraing fuinneoga ó gach limistéar folamh"
-
-#~ msgid "Use window manager to perform windows' drag"
-#~ msgstr "Úsáid bainisteoir na bhfuinneog chun fuinneoga a tharraingt"
-
-#~ msgid "Views"
-#~ msgstr "Amhairc"
-
-#~ msgid "Draw focus indicator"
-#~ msgstr "Dear táscaire fócais"
-
-#~ msgid "Draw tree branch lines"
-#~ msgstr "Dear craobhlínte crainn"
-
-#~ msgid "Use triangle tree expander instead of +/-"
-#~ msgstr "Úsáid triantán in ionad +/- chun an crann a leathnú"
-
-#~ msgid "Triangle size:"
-#~ msgstr "Méid an triantáin:"
-
-#~ msgctxt "triangle size"
-#~ msgid "Tiny"
-#~ msgstr "An-bheag"
-
-#~ msgctxt "triangle size"
-#~ msgid "Small"
-#~ msgstr "Beag"
-
-#~ msgctxt "triangle size"
-#~ msgid "Normal"
-#~ msgstr "Gnách"
-
-#~ msgctxt "Renders each inactive tab in a tabbar as separate darker slab"
-#~ msgid "Single"
-#~ msgstr "Singil"
-
-#~ msgctxt "Renders inactive tabs in a tabbar as a unique darker slab"
-#~ msgid "Plain"
-#~ msgstr "Simplí"
-
-#~ msgid "Inactive tabs style:"
-#~ msgstr "Stíl cluaisíní neamhghníomhacha:"
-
-#~ msgid "Scrollbars"
-#~ msgstr "Scrollbharraí"
-
-#~ msgid "Scrollbar width:"
-#~ msgstr "Leithead an scrollbharra"
-
-#~ msgid "px"
-#~ msgstr "pct"
-
-#~ msgid "No buttons"
-#~ msgstr "Gan cnaipí"
-
-#~ msgid "One button"
-#~ msgstr "Cnaipe amháin"
-
-#~ msgid "Two buttons"
-#~ msgstr "Dhá chnaipe"
-
-#~ msgid "No button"
-#~ msgstr "Gan cnaipe"
-
-#~ msgid "Menu Highlight"
-#~ msgstr "Aibhsiú Roghchlár"
-
-#~ msgid "Use dark color"
-#~ msgstr "Úsáid dath dorcha"
-
-#~ msgid "Use selection color (plain)"
-#~ msgstr "Úsáid dath roghnúcháin (simplí)"
-
-#~ msgid "Use selection color (subtle)"
-#~ msgstr "Úsáid dath roghnúcháin (caol)"
-
-#~ msgctxt "NAME OF TRANSLATORS"
-#~ msgid "Your names"
-#~ msgstr "Kevin Scannell"
-
-#~ msgctxt "EMAIL OF TRANSLATORS"
-#~ msgid "Your emails"
-#~ msgstr "kscanne@gmail.com"
-
-#~ msgid "Oxygen expert configuration tool"
-#~ msgstr "Uirlis chumraíochta Oxygen do shaineolaithe"
-
-#~ msgid "(c) 2010, Hugo Pereira Da Costa"
-#~ msgstr "© 2010, Hugo Pereira Da Costa"
-
-#~ msgid "Hugo Pereira Da Costa"
-#~ msgstr "Hugo Pereira Da Costa"
-
-#~ msgid "Oxygen style demonstration"
-#~ msgstr "Taispeántas stíl Oxygen"
-
-#~ msgid "Use wider lines"
-#~ msgstr "Úsáid línte níos leithne"
-
-#~ msgid "Web style plugin"
-#~ msgstr "Breiseán stíle Gréasáin"
-
-#~ msgid "modified"
-#~ msgstr "athraithe"
-
-#~ msgid "oxygen-settings - information"
-#~ msgstr "oxygen-settings - eolas"
-
-#~ msgid "CheckBox"
-#~ msgstr "Ticbhosca"
-
-#~ msgid "Duration (ms):"
-#~ msgstr "Fad ama (ms):"
-
-#~ msgid "Animate tab transitions"
-#~ msgstr "Beoigh gluaiseacht cluaisíní"
-
-#~ msgid "Draw scrollbar bevel"
-#~ msgstr "Dear beibheal scrollbharra"
-
-#~ msgid "Colorful hovered scrollbars"
-#~ msgstr "Scrollbharraí ildathacha ainlithe"
-
-#~ msgid "Plain"
-#~ msgstr "Simplí"
-
-#~ msgid "Width:"
-#~ msgstr "Leithead:"
-
-#~ msgid "Draw toolbar separator"
-#~ msgstr "Dear deighilteoir sa bharra uirlisí"
-
-#~ msgid "Highlight focused text input fields"
-#~ msgstr "Aibhsigh réimsí ionchurtha ina bhfuil an fócas"
-
-#~ msgid "Custom text input highlight color:"
-#~ msgstr "Dath saincheaptha aibhsithe do théacs ionchurtha:"
-
-#~ msgid "Custom checkmark color:"
-#~ msgstr "Dath saincheaptha ticeanna:"
