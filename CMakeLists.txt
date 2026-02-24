@@ -8,7 +8,7 @@ include(WriteBasicConfigVersionFile)
 include(FeatureSummary)
 
 ################# Qt/KDE #################
-set(PROJECT_DEP_VERSION "6.6.0")
+set(PROJECT_DEP_VERSION "6.6.1")
 set(QT5_MIN_VERSION "5.15.2")
 set(KF5_MIN_VERSION "5.102.0")
 set(QT_MIN_VERSION "6.10.0")
