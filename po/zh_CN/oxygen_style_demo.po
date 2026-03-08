@@ -88,7 +88,7 @@ msgstr "输入部件"
 #: oxygendemodialog.cpp:89
 #, kde-format
 msgid "Shows the appearance of text input widgets"
-msgstr "显示文字输入部件外观"
+msgstr "显示文本输入部件外观"
 
 #: oxygendemodialog.cpp:97
 #, kde-format
@@ -163,7 +163,7 @@ msgstr "模拟用户与部件的交互来进行基准测试"
 #: oxygeninputdemowidget.cpp:20
 #, kde-format
 msgid "Example text"
-msgstr "示例文字"
+msgstr "示例文本"
 
 #: oxygeninputdemowidget.cpp:21
 #, kde-format
@@ -208,7 +208,7 @@ msgstr "选择上一个窗口"
 #: oxygensimulator.h:72
 #, kde-format
 msgid "This is a sample text"
-msgstr "这是一段示例文字"
+msgstr "这是一段示例文本"
 
 #: oxygenstylechooser.cpp:39
 #, kde-format
@@ -303,7 +303,7 @@ msgstr "按钮"
 #: ui/oxygenbuttondemowidget.ui:132
 #, kde-format
 msgid "Text only:"
-msgstr "仅文字："
+msgstr "仅文本："
 
 #. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox)
 #: ui/oxygenbuttondemowidget.ui:142
@@ -327,7 +327,7 @@ msgstr "大"
 #: ui/oxygenbuttondemowidget.ui:180
 #, kde-format
 msgid "Text and icon:"
-msgstr "文字和图标："
+msgstr "文本和图标："
 
 #. i18n: ectx: property (text), widget (QCheckBox, flatButtonCheckBox)
 #: ui/oxygenbuttondemowidget.ui:190
@@ -421,7 +421,7 @@ msgstr "右箭头"
 #: ui/oxygenbuttondemowidget.ui:420 ui/oxygentabdemowidget.ui:81
 #, kde-format
 msgid "Te&xt position:"
-msgstr "文字位置(&X)："
+msgstr "文本位置(&X)："
 
 #. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
 #. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
@@ -435,20 +435,20 @@ msgstr "仅图标"
 #: ui/oxygenbuttondemowidget.ui:439 ui/oxygentabdemowidget.ui:100
 #, kde-format
 msgid "Text Only"
-msgstr "仅文字"
+msgstr "仅文本"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
 #. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
 #: ui/oxygenbuttondemowidget.ui:444 ui/oxygentabdemowidget.ui:105
 #, kde-format
 msgid "Text Alongside Icons"
-msgstr "文字在图标一侧"
+msgstr "文本在图标一侧"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
 #: ui/oxygenbuttondemowidget.ui:449
 #, kde-format
 msgid "Text Under Icons"
-msgstr "文字在图标下方"
+msgstr "文本在图标下方"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ui/oxygenbuttondemowidget.ui:470
@@ -558,7 +558,7 @@ msgstr "标签页部件"
 #: ui/oxygeninputdemowidget.ui:29
 #, kde-format
 msgid "Single line text editor:"
-msgstr "单行文字编辑器："
+msgstr "单行文本编辑器："
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ui/oxygeninputdemowidget.ui:65
@@ -600,13 +600,13 @@ msgstr "数值框："
 #: ui/oxygeninputdemowidget.ui:146
 #, kde-format
 msgid "Multi-line text editor:"
-msgstr "多行文字编辑器："
+msgstr "多行文本编辑器："
 
 #. i18n: ectx: property (text), widget (QCheckBox, wrapCheckBox)
 #: ui/oxygeninputdemowidget.ui:153
 #, kde-format
 msgid "Wrap words"
-msgstr "文字换行"
+msgstr "文本换行"
 
 #. i18n: ectx: property (text), widget (QCheckBox, flatCheckBox)
 #: ui/oxygeninputdemowidget.ui:160

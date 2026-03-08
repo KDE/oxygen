@@ -87,12 +87,12 @@ msgstr "配置标签页的切换渐显效果"
 #: oxygenanimationconfigwidget.cpp:56
 #, kde-format
 msgid "Label transitions"
-msgstr "标签文字过渡"
+msgstr "标签文本过渡"
 
 #: oxygenanimationconfigwidget.cpp:56
 #, kde-format
 msgid "Configure fading transition when a label's text is changed"
-msgstr "配置标签文字更改时的渐显过渡"
+msgstr "配置标签文本更改时的渐显过渡"
 
 #: oxygenanimationconfigwidget.cpp:60
 #, kde-format
@@ -102,7 +102,7 @@ msgstr "文本编辑器过渡"
 #: oxygenanimationconfigwidget.cpp:60
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
-msgstr "配置文本编辑器中文字更改时的渐显过渡"
+msgstr "配置文本编辑器中文本更改时的渐显过渡"
 
 #: oxygenanimationconfigwidget.cpp:64
 #, kde-format
