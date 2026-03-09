@@ -180,7 +180,7 @@ msgstr "حجم الزّ&رّ:"
 #: config/ui/oxygenconfigurationui.ui:117
 #, kde-format
 msgid "Add handle to resize windows with no border"
-msgstr "أضف مقبضًا لتغيير حجم النّافذة الّتي لا حدود لها"
+msgstr "أضف مقبضًا لتغيير حجم النّافذة التي لا حدود لها"
 
 #. i18n: ectx: property (text), widget (QCheckBox, drawBorderOnMaximizedWindows)
 #: config/ui/oxygenconfigurationui.ui:124
