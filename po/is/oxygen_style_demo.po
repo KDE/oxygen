@@ -1,19 +1,19 @@
 # translation of kstyle_config.po to Icelandic
 #
-# Sveinn í Felli <sveinki@nett.is>, 2009, 2010, 2011.
+# SPDX-FileCopyrightText: 2009, 2010, 2011, 2026 Sveinn í Felli <sveinki@nett.is>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:53+0000\n"
-"PO-Revision-Date: 2011-08-16 16:05+0000\n"
-"Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
-"Language-Team: Icelandic <kde-isl@molar.is>\n"
+"PO-Revision-Date: 2026-03-13 14:53+0000\n"
+"Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
+"Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 23.08.5\n"
 "Plural-Forms: Plural-Forms: nplurals=2; plural=n != 1;\n"
 "\n"
 "\n"
@@ -23,7 +23,7 @@ msgstr ""
 #: main.cpp:37 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
 msgid "Oxygen Demo"
-msgstr ""
+msgstr "Sýnisútgáfa Oxygen"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
 #. i18n: ectx: property (text), widget (QToolButton, toolButton)
@@ -41,153 +41,152 @@ msgstr ""
 #: ui/oxygenbuttondemowidget.ui:247 ui/oxygenbuttondemowidget.ui:257
 #: ui/oxygenbuttondemowidget.ui:285 ui/oxygenbuttondemowidget.ui:295
 #: ui/oxygenbuttondemowidget.ui:305
-#, fuzzy, kde-format
+#, kde-format
 msgid "Normal"
 msgstr "Venjulegt"
 
 #: oxygenbuttondemowidget.cpp:35 oxygenbuttondemowidget.cpp:54
 #: oxygenbuttondemowidget.cpp:229 oxygenbuttondemowidget.cpp:239
-#, fuzzy, kde-format
+#, kde-format
 msgid "New"
 msgstr "Nýtt"
 
 #: oxygenbuttondemowidget.cpp:36 oxygenbuttondemowidget.cpp:55
 #: oxygenbuttondemowidget.cpp:230 oxygenbuttondemowidget.cpp:240
-#, fuzzy, kde-format
+#, kde-format
 msgid "Open"
 msgstr "Opna"
 
 #: oxygenbuttondemowidget.cpp:37 oxygenbuttondemowidget.cpp:56
 #: oxygenbuttondemowidget.cpp:231 oxygenbuttondemowidget.cpp:241
-#, fuzzy, kde-format
+#, kde-format
 msgid "Save"
 msgstr "Vista"
 
 #: oxygenbuttondemowidget.cpp:57
 #, kde-format
 msgid "Toggle authentication"
-msgstr ""
+msgstr "Víxla auðkenningu af/á"
 
 #: oxygendemodialog.cpp:55
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enabled"
-msgstr "Virkt"
+msgstr "Virkjað"
 
 #: oxygendemodialog.cpp:60
 #, kde-format
 msgid "Right to left layout"
-msgstr ""
+msgstr "Hægri-til-vinstri framsetning"
 
 #: oxygendemodialog.cpp:66
 #, kde-format
 msgid "Style"
-msgstr ""
+msgstr "Stíll"
 
 #: oxygendemodialog.cpp:87
 #, kde-format
 msgid "Input Widgets"
-msgstr ""
+msgstr "Inntakshlutar"
 
 #: oxygendemodialog.cpp:89
 #, kde-format
 msgid "Shows the appearance of text input widgets"
-msgstr ""
+msgstr "Sýnir útlit á viðmótshlutum textainntaks"
 
 #: oxygendemodialog.cpp:97
 #, kde-format
 msgid "Tab Widgets"
-msgstr ""
+msgstr "Flipahlutar"
 
 #: oxygendemodialog.cpp:99
 #, kde-format
 msgid "Shows the appearance of tab widgets"
-msgstr ""
+msgstr "Sýnir útlit á viðmótshlutum flipa"
 
 #: oxygendemodialog.cpp:107
-#, fuzzy, kde-format
+#, kde-format
 msgid "Buttons"
-msgstr "Neðst"
+msgstr "Hnappar"
 
 #: oxygendemodialog.cpp:109
 #, kde-format
 msgid "Shows the appearance of buttons"
-msgstr ""
+msgstr "Sýnir útlit á hnöppum"
 
 #: oxygendemodialog.cpp:117
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lists"
 msgstr "Listar"
 
 #: oxygendemodialog.cpp:119
 #, kde-format
 msgid "Shows the appearance of lists, trees and tables"
-msgstr ""
+msgstr "Sýnir útlit á listum, greinum og töflum"
 
 #: oxygendemodialog.cpp:127
-#, fuzzy, kde-format
+#, kde-format
 msgid "Frames"
-msgstr "Rammi"
+msgstr "Rammar"
 
 #: oxygendemodialog.cpp:129
 #, kde-format
 msgid "Shows the appearance of various framed widgets"
-msgstr ""
+msgstr "Sýnir útlit á ýmsum innrömmuðum viðmótshlutum"
 
 #: oxygendemodialog.cpp:137
 #, kde-format
 msgid "MDI Windows"
-msgstr ""
+msgstr "MDI-gluggar"
 
 #: oxygendemodialog.cpp:139
 #, kde-format
 msgid "Shows the appearance of MDI windows"
-msgstr ""
+msgstr "Sýnir útlit á MDI-gluggum"
 
 #: oxygendemodialog.cpp:147
-#, fuzzy, kde-format
+#, kde-format
 msgid "Sliders"
 msgstr "Sleðar"
 
 #: oxygendemodialog.cpp:149
 #, kde-format
 msgid "Shows the appearance of sliders, progress bars and scrollbars"
-msgstr ""
+msgstr "Sýnir útlit á sleðum, framvindustikum og skrunslám"
 
 #: oxygendemodialog.cpp:158
-#, fuzzy, kde-format
+#, kde-format
 msgid "Benchmark"
 msgstr "Afkastaprófun"
 
 #: oxygendemodialog.cpp:160
 #, kde-format
 msgid "Emulates user interaction with widgets for benchmarking"
-msgstr ""
+msgstr "Hermir eftir gagnvirkni notenda í viðmótshlutum til að prófa afköst"
 
 #: oxygeninputdemowidget.cpp:20
 #, kde-format
 msgid "Example text"
-msgstr ""
+msgstr "Textadæmi"
 
 #: oxygeninputdemowidget.cpp:21
-#, fuzzy, kde-format
+#, kde-format
 msgid "password"
 msgstr "lykilorð"
 
 #: oxygenmdidemowidget.cpp:33
 #, kde-format
 msgid "Layout"
-msgstr ""
+msgstr "Framsetning"
 
 #: oxygenmdidemowidget.cpp:34
-#, fuzzy, kde-format
-#| msgid "Tabs"
+#, kde-format
 msgid "Tile"
-msgstr "Flipar"
+msgstr "Flísalagt"
 
 #: oxygenmdidemowidget.cpp:35
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cascade"
-msgstr "Stafla"
+msgstr "Staflað"
 
 #: oxygenmdidemowidget.cpp:36
 #, kde-format
@@ -195,33 +194,33 @@ msgid "Tabs"
 msgstr "Flipar"
 
 #: oxygenmdidemowidget.cpp:38
-#, fuzzy, kde-format
+#, kde-format
 msgid "Tools"
-msgstr "Áhaldakassi"
+msgstr "Verkfæri"
 
 #: oxygenmdidemowidget.cpp:40
 #, kde-format
 msgid "Select Next Window"
-msgstr ""
+msgstr "Velja næsta glugga"
 
 #: oxygenmdidemowidget.cpp:47
 #, kde-format
 msgid "Select Previous Window"
-msgstr ""
+msgstr "Velja fyrri glugga"
 
 #: oxygensimulator.h:72
 #, kde-format
 msgid "This is a sample text"
-msgstr ""
+msgstr "Þetta er textadæmi"
 
 #: oxygenstylechooser.cpp:39
 #, kde-format
 msgid "Select the application widget style"
-msgstr ""
+msgstr "Veldu stíl viðmótshluta forritsins"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygenbenchmarkwidget.ui:29
-#, fuzzy, kde-format
+#, kde-format
 msgid "Modules"
 msgstr "Einingar"
 
@@ -230,10 +229,11 @@ msgstr "Einingar"
 #, kde-format
 msgid "Select below the modules for which you want to run the simulation:"
 msgstr ""
+"Veldu hér fyrir neðan þær einingar sem þú vilt að hermunin sem keyrð fyrir:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ui/oxygenbenchmarkwidget.ui:48
-#, fuzzy, kde-format
+#, kde-format
 msgid "Options"
 msgstr "Valkostir"
 
@@ -241,284 +241,282 @@ msgstr "Valkostir"
 #: ui/oxygenbenchmarkwidget.ui:54
 #, kde-format
 msgid "Grab mouse"
-msgstr ""
+msgstr "Grípa músarbendil"
 
 #. i18n: ectx: property (text), widget (QPushButton, runButton)
 #: ui/oxygenbenchmarkwidget.ui:82
-#, fuzzy, kde-format
-#| msgid "Enable animations"
+#, kde-format
 msgid "Run Simulation"
-msgstr "Virkja hreyfingar"
+msgstr "Keyra hermun"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ui/oxygenbuttondemowidget.ui:20
 #, kde-format
 msgid "Checkboxes"
-msgstr ""
+msgstr "Gátreitir"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
 #: ui/oxygenbuttondemowidget.ui:28
-#, fuzzy, kde-format
+#, kde-format
 msgid "Off"
-msgstr "Af"
+msgstr "Slökkt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_2)
 #: ui/oxygenbuttondemowidget.ui:35
-#, fuzzy, kde-format
+#, kde-format
 msgid "Partial"
-msgstr "Hálfklárað"
+msgstr "Að hluta"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_3)
 #: ui/oxygenbuttondemowidget.ui:45
-#, fuzzy, kde-format
+#, kde-format
 msgid "On"
-msgstr "Á"
+msgstr "Kveikt"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ui/oxygenbuttondemowidget.ui:73
-#, fuzzy, kde-format
+#, kde-format
 msgid "Radiobuttons"
-msgstr "Neðst"
+msgstr "Fjölvalshnappar"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton)
 #: ui/oxygenbuttondemowidget.ui:84
-#, fuzzy, kde-format
+#, kde-format
 msgid "F&irst Choice"
-msgstr "Fyrsti hlutur"
+msgstr "F&yrsta val"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
 #: ui/oxygenbuttondemowidget.ui:94
-#, fuzzy, kde-format
+#, kde-format
 msgid "Seco&nd Choice"
-msgstr "Síða tvö"
+msgstr "A&nnað val"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton_3)
 #: ui/oxygenbuttondemowidget.ui:101
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Third Choice"
-msgstr "Fyrsti hlutur"
+msgstr "Þrið&ja val"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygenbuttondemowidget.ui:126
-#, fuzzy, kde-format
+#, kde-format
 msgid "Pushbuttons"
-msgstr "Neðst"
+msgstr "Ýtihnappar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ui/oxygenbuttondemowidget.ui:132
-#, fuzzy, kde-format
+#, kde-format
 msgid "Text only:"
-msgstr "Einungis texti"
+msgstr "Einungis texti:"
 
 #. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox)
 #: ui/oxygenbuttondemowidget.ui:142
 #, kde-format
 msgid "This is a normal, text only combo box"
-msgstr ""
+msgstr "Venjulegur fellivalreitur, einungis með texta"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
 #: ui/oxygenbuttondemowidget.ui:149
-#, fuzzy, kde-format
+#, kde-format
 msgid "Small"
-msgstr "Lítil"
+msgstr "Lítill"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
 #: ui/oxygenbuttondemowidget.ui:159
-#, fuzzy, kde-format
+#, kde-format
 msgid "Large"
 msgstr "Stór"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ui/oxygenbuttondemowidget.ui:180
-#, fuzzy, kde-format
+#, kde-format
 msgid "Text and icon:"
-msgstr "Texti undir táknmyndum"
+msgstr "Texti og táknmynd:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, flatButtonCheckBox)
 #: ui/oxygenbuttondemowidget.ui:190
-#, fuzzy, kde-format
+#, kde-format
 msgid "Use flat buttons"
-msgstr "Neðst"
+msgstr "Nota flata hnappa"
 
 #. i18n: ectx: property (toolTip), widget (KComboBox, kcombobox_2)
 #: ui/oxygenbuttondemowidget.ui:197
 #, kde-format
 msgid "This is a normal, text and icon combo box"
-msgstr ""
+msgstr "Þetta er venjulegur fellivalreitur, með texta og táknmynd"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, toolButton)
 #: ui/oxygenbuttondemowidget.ui:204
 #, kde-format
 msgid "This is a normal, text only tool button"
-msgstr ""
+msgstr "Þetta er venjulegur verkfærahnappur, einungis með texta"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, toolButton_2)
 #: ui/oxygenbuttondemowidget.ui:214
 #, kde-format
 msgid "This is a normal, text and icon tool button"
-msgstr ""
+msgstr "Þetta er venjulegur verkfærahnappur, með texta og táknmynd"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pushButton)
 #: ui/oxygenbuttondemowidget.ui:224
 #, kde-format
 msgid "This is a normal, text only button"
-msgstr ""
+msgstr "Þetta er venjulegur hnappur, einungis með texta"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_2)
 #: ui/oxygenbuttondemowidget.ui:234
 #, kde-format
 msgid "This is a normal, text only button with menu"
-msgstr ""
+msgstr "Þetta er venjulegur hnappur með valmynd, einungis með texta"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_3)
 #: ui/oxygenbuttondemowidget.ui:244
 #, kde-format
 msgid "This is a normal, text and icon button"
-msgstr ""
+msgstr "Þetta er venjulegur hnappur, með texta og táknmynd"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pushButton_4)
 #: ui/oxygenbuttondemowidget.ui:254
 #, kde-format
 msgid "This is a normal, text and icon button with menu"
-msgstr ""
+msgstr "Þetta er venjulegur hnappur með valmynd, með texta og táknmynd"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ui/oxygenbuttondemowidget.ui:267
-#, fuzzy, kde-format
+#, kde-format
 msgid "Toolbuttons"
-msgstr "Neðst"
+msgstr "Verkfærahnappar"
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_6)
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_7)
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_8)
 #: ui/oxygenbuttondemowidget.ui:335 ui/oxygenbuttondemowidget.ui:348
 #: ui/oxygenbuttondemowidget.ui:361
-#, fuzzy, kde-format
+#, kde-format
 msgid "Flat"
 msgstr "Flatt"
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_9)
 #: ui/oxygenbuttondemowidget.ui:374
-#, fuzzy, kde-format
+#, kde-format
 msgid "Up Arrow"
 msgstr "Ör upp"
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_10)
 #: ui/oxygenbuttondemowidget.ui:384
-#, fuzzy, kde-format
+#, kde-format
 msgid "Down Arrow"
 msgstr "Ör niður"
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_11)
 #: ui/oxygenbuttondemowidget.ui:397
-#, fuzzy, kde-format
+#, kde-format
 msgid "Left Arrow"
 msgstr "Vinstri ör"
 
 #. i18n: ectx: property (text), widget (QToolButton, toolButton_12)
 #: ui/oxygenbuttondemowidget.ui:407
-#, fuzzy, kde-format
+#, kde-format
 msgid "Right Arrow"
-msgstr "Hægri"
+msgstr "Hægri ör"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ui/oxygenbuttondemowidget.ui:420 ui/oxygentabdemowidget.ui:81
-#, fuzzy, kde-format
-#| msgid "Animate tab transitions"
+#, kde-format
 msgid "Te&xt position:"
-msgstr "Virkja hreyfingar flipa"
+msgstr "Te&xtastaðsetning:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
 #. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
 #: ui/oxygenbuttondemowidget.ui:434 ui/oxygentabdemowidget.ui:95
-#, fuzzy, kde-format
+#, kde-format
 msgid "Icons Only"
 msgstr "Einungis táknmyndir"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
 #. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
 #: ui/oxygenbuttondemowidget.ui:439 ui/oxygentabdemowidget.ui:100
-#, fuzzy, kde-format
+#, kde-format
 msgid "Text Only"
 msgstr "Einungis texti"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
 #. i18n: ectx: property (text), item, widget (KComboBox, textPositionComboBox)
 #: ui/oxygenbuttondemowidget.ui:444 ui/oxygentabdemowidget.ui:105
-#, fuzzy, kde-format
+#, kde-format
 msgid "Text Alongside Icons"
 msgstr "Texti við hlið táknmynda"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, textPosition)
 #: ui/oxygenbuttondemowidget.ui:449
-#, fuzzy, kde-format
+#, kde-format
 msgid "Text Under Icons"
 msgstr "Texti undir táknmyndum"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ui/oxygenbuttondemowidget.ui:470
-#, fuzzy, kde-format
+#, kde-format
 msgid "Icon si&ze:"
-msgstr "Táknmyndastærð:"
+msgstr "Stærð táknm&ynda:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
 #: ui/oxygenbuttondemowidget.ui:484
 #, kde-format
 msgid "Small (16x16)"
-msgstr ""
+msgstr "Lítið (16x16)"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
 #: ui/oxygenbuttondemowidget.ui:489
 #, kde-format
 msgid "Medium (22x22)"
-msgstr ""
+msgstr "Miðlungs (22x22)"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
 #: ui/oxygenbuttondemowidget.ui:494
 #, kde-format
 msgid "Large (32x32)"
-msgstr ""
+msgstr "Stórt (32x32)"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, iconSize)
 #: ui/oxygenbuttondemowidget.ui:499
 #, kde-format
 msgid "Huge (48x48)"
-msgstr ""
+msgstr "Risastórt (48x48)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygenframedemowidget.ui:31
 #, kde-format
 msgid "&Layout direction:"
-msgstr ""
+msgstr "Ste&fna framsetningar:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
 #: ui/oxygenframedemowidget.ui:45
-#, fuzzy, kde-format
+#, kde-format
 msgid "Left to Right"
 msgstr "Vinstri til hægri"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
 #: ui/oxygenframedemowidget.ui:50
-#, fuzzy, kde-format
+#, kde-format
 msgid "Right to Left"
 msgstr "Hægri til vinstri"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
 #: ui/oxygenframedemowidget.ui:55
-#, fuzzy, kde-format
+#, kde-format
 msgid "Top to Bottom"
 msgstr "Ofan og niður"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, directionComboBox)
 #: ui/oxygenframedemowidget.ui:60
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bottom to Top"
 msgstr "Neðan og upp"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ui/oxygenframedemowidget.ui:94
-#, fuzzy, kde-format
+#, kde-format
 msgid "Frame"
 msgstr "Rammi"
 
@@ -526,30 +524,30 @@ msgstr "Rammi"
 #: ui/oxygenframedemowidget.ui:104
 #, kde-format
 msgid "&Raised"
-msgstr ""
+msgstr "&Hækkað"
 
 #. i18n: ectx: property (text), widget (QRadioButton, plainFrameRadioButton)
 #: ui/oxygenframedemowidget.ui:117
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Flat frame. No frame is actually drawn."
 msgid "&Flat"
-msgstr "Flatt"
+msgstr "&Flatt"
 
 #. i18n: ectx: property (text), widget (QRadioButton, sunkenFrameRadioButton)
 #: ui/oxygenframedemowidget.ui:124
 #, kde-format
 msgid "S&unken"
-msgstr ""
+msgstr "S&okkið"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygenframedemowidget.ui:147
-#, fuzzy, kde-format
+#, kde-format
 msgid "GroupBox"
-msgstr "GroupBox"
+msgstr "ValreitaHópur"
 
 #. i18n: ectx: property (text), widget (QCheckBox, flatGroupBoxCheckBox)
 #: ui/oxygenframedemowidget.ui:153
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Flat group box. No frame is actually drawn"
 msgid "Flat"
 msgstr "Flatt"
@@ -558,315 +556,314 @@ msgstr "Flatt"
 #: ui/oxygenframedemowidget.ui:180
 #, kde-format
 msgid "Tab Widget"
-msgstr ""
+msgstr "Flipahluti"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygeninputdemowidget.ui:29
 #, kde-format
 msgid "Single line text editor:"
-msgstr ""
+msgstr "Einnar-línu textaritill:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ui/oxygeninputdemowidget.ui:65
 #, kde-format
 msgid "Password editor:"
-msgstr ""
+msgstr "Lykilorðaritill:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygeninputdemowidget.ui:88
 #, kde-format
 msgid "Editable combobox"
-msgstr ""
+msgstr "Breytanlegur fellivalreitur"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
 #: ui/oxygeninputdemowidget.ui:105
-#, fuzzy, kde-format
+#, kde-format
 msgid "First item"
-msgstr "Fyrsti hlutur"
+msgstr "Fyrsta atriði"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
 #: ui/oxygeninputdemowidget.ui:110
-#, fuzzy, kde-format
+#, kde-format
 msgid "Second item"
-msgstr "Síða tvö"
+msgstr "Annað atriði"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, kcombobox)
 #: ui/oxygeninputdemowidget.ui:115
-#, fuzzy, kde-format
+#, kde-format
 msgid "Third item"
-msgstr "Fyrsti hlutur"
+msgstr "Þriðja atriði"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ui/oxygeninputdemowidget.ui:123
 #, kde-format
 msgid "Spinbox:"
-msgstr ""
+msgstr "Snúningsreitur:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ui/oxygeninputdemowidget.ui:146
 #, kde-format
 msgid "Multi-line text editor:"
-msgstr ""
+msgstr "Marglínu textaritill:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, wrapCheckBox)
 #: ui/oxygeninputdemowidget.ui:153
 #, kde-format
 msgid "Wrap words"
-msgstr ""
+msgstr "Línuskipting orða"
 
 #. i18n: ectx: property (text), widget (QCheckBox, flatCheckBox)
 #: ui/oxygeninputdemowidget.ui:160
-#, fuzzy, kde-format
+#, kde-format
 msgid "Use flat widgets"
-msgstr "Neðst"
+msgstr "Nota flata viðmótshluta"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:40 ui/oxygenlistdemowidget.ui:119
-#, fuzzy, kde-format
+#, kde-format
 msgid "First Item"
-msgstr "Fyrsti hlutur"
+msgstr "Fyrsta atriði"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:48 ui/oxygenlistdemowidget.ui:95
-#, fuzzy, kde-format
+#, kde-format
 msgid "Second Item"
-msgstr "Síða tvö"
+msgstr "Annað atriði"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, listWidget)
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:56 ui/oxygenlistdemowidget.ui:79
-#, fuzzy, kde-format
+#, kde-format
 msgid "Third Item"
-msgstr "Fyrsti hlutur"
+msgstr "Þriðja atriði"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:69
-#, fuzzy, kde-format
+#, kde-format
 msgid "Title"
 msgstr "Titill"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:74
-#, fuzzy, kde-format
+#, kde-format
 msgid "Description"
 msgstr "Lýsing"
 
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:82
-#, fuzzy, kde-format
+#, kde-format
 msgid "Third Description"
-msgstr "Lýsing"
+msgstr "Þriðja lýsing"
 
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:86
-#, fuzzy, kde-format
+#, kde-format
 msgid "Third Subitem"
-msgstr "Fyrsti hlutur"
+msgstr "Þriðja undiratriði"
 
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:89
-#, fuzzy, kde-format
+#, kde-format
 msgid "Third Subitem Description"
-msgstr "Lýsing"
+msgstr "Lýsing á þriðja undiratriði"
 
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:98
-#, fuzzy, kde-format
+#, kde-format
 msgid "Second Description"
-msgstr "Lýsing"
+msgstr "Önnur lýsing"
 
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:102
-#, fuzzy, kde-format
+#, kde-format
 msgid "Second Subitem"
-msgstr "Síða tvö"
+msgstr "Anað undiratriði"
 
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:105
-#, fuzzy, kde-format
+#, kde-format
 msgid "Second Subitem Description"
-msgstr "Lýsing"
+msgstr "Lýsing á öðru undiratriði"
 
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:110
-#, fuzzy, kde-format
+#, kde-format
 msgid "First Subitem"
-msgstr "Fyrsti hlutur"
+msgstr "Fyrsta undiratriði"
 
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:113
-#, fuzzy, kde-format
+#, kde-format
 msgid "First Subitem Description"
-msgstr "Lýsing"
+msgstr "Lýsing á fyrsta undiratriði"
 
 #. i18n: ectx: property (text), item, widget (QTreeWidget, treeWidget)
 #: ui/oxygenlistdemowidget.ui:122
-#, fuzzy, kde-format
+#, kde-format
 msgid "First Description"
-msgstr "Lýsing"
+msgstr "Fyrsta lýsing"
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ui/oxygenlistdemowidget.ui:132
-#, fuzzy, kde-format
+#, kde-format
 msgid "New Row"
 msgstr "Ný röð"
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ui/oxygenlistdemowidget.ui:137
-#, fuzzy, kde-format
+#, kde-format
 msgid "First Row"
-msgstr "Fyrsti dálkur"
+msgstr "Fyrsta röð"
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ui/oxygenlistdemowidget.ui:142
-#, fuzzy, kde-format
+#, kde-format
 msgid "Third Row"
-msgstr "Fyrsti dálkur"
+msgstr "Þriðja röð"
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ui/oxygenlistdemowidget.ui:147
-#, fuzzy, kde-format
+#, kde-format
 msgid "First Column"
 msgstr "Fyrsti dálkur"
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ui/oxygenlistdemowidget.ui:152
-#, fuzzy, kde-format
+#, kde-format
 msgid "Second Column"
-msgstr "Síða tvö"
+msgstr "Annar dálkur"
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ui/oxygenlistdemowidget.ui:157
-#, fuzzy, kde-format
+#, kde-format
 msgid "Third Column"
-msgstr "Fyrsti dálkur"
+msgstr "Þriðji dálkur"
 
 #. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
 #: ui/oxygenlistdemowidget.ui:162
-#, fuzzy, kde-format
+#, kde-format
 msgid "Top-left"
-msgstr "Uppi-Vinstri"
+msgstr "Efst til vinstri"
 
 #. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
 #: ui/oxygenlistdemowidget.ui:167
-#, fuzzy, kde-format
+#, kde-format
 msgid "Top"
 msgstr "Efst"
 
 #. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
 #: ui/oxygenlistdemowidget.ui:172
-#, fuzzy, kde-format
+#, kde-format
 msgid "Top-right"
-msgstr "Uppi-Hægri"
+msgstr "Efst til hægri"
 
 #. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
 #: ui/oxygenlistdemowidget.ui:177
-#, fuzzy, kde-format
+#, kde-format
 msgid "Left "
-msgstr "Vinstri ör"
+msgstr "Vinstri "
 
 #. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
 #: ui/oxygenlistdemowidget.ui:182
-#, fuzzy, kde-format
-#| msgid "General"
+#, kde-format
 msgid "Center"
-msgstr "Almennt"
+msgstr "Miðjað"
 
 #. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
 #: ui/oxygenlistdemowidget.ui:187
-#, fuzzy, kde-format
+#, kde-format
 msgid "Right"
 msgstr "Hægri"
 
 #. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
 #: ui/oxygenlistdemowidget.ui:192
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bottom-left"
-msgstr "Botn-Vinstri"
+msgstr "Neðst til vinstri"
 
 #. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
 #: ui/oxygenlistdemowidget.ui:197
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bottom"
 msgstr "Neðst"
 
 #. i18n: ectx: property (text), item, widget (QTableWidget, tableWidget)
 #: ui/oxygenlistdemowidget.ui:202
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bottom-right"
-msgstr "Botn-Hægri"
+msgstr "Neðst til hægri"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Editors)
 #: ui/oxygenmdidemowidget.ui:45
-#, fuzzy, kde-format
+#, kde-format
 msgid "Editors"
 msgstr "Ritlar"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygenmdidemowidget.ui:51
-#, fuzzy, kde-format
+#, kde-format
 msgid "Title:"
 msgstr "Titill:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Toolbox)
 #: ui/oxygenmdidemowidget.ui:78
-#, fuzzy, kde-format
+#, kde-format
 msgid "Toolbox"
-msgstr "Áhaldakassi"
+msgstr "Verkfærasafn"
 
 #. i18n: ectx: attribute (label), widget (QWidget, page)
 #: ui/oxygenmdidemowidget.ui:96
-#, fuzzy, kde-format
+#, kde-format
 msgid "First Page"
 msgstr "Fyrsta síða"
 
 #. i18n: ectx: attribute (label), widget (QWidget, page_2)
 #: ui/oxygenmdidemowidget.ui:110
-#, fuzzy, kde-format
+#, kde-format
 msgid "Second Page"
-msgstr "Síða tvö"
+msgstr "Önnur síða"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ui/oxygenmdidemowidget.ui:116
-#, fuzzy, kde-format
+#, kde-format
 msgid "First Label"
-msgstr "Fyrsta síða"
+msgstr "Fyrsta skýring"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygenmdidemowidget.ui:123
-#, fuzzy, kde-format
+#, kde-format
 msgid "Second Label"
-msgstr "Síða tvö"
+msgstr "Önnur skýring"
 
 #. i18n: ectx: attribute (label), widget (QWidget, page_3)
 #: ui/oxygenmdidemowidget.ui:152
-#, fuzzy, kde-format
+#, kde-format
 msgid "Third Page"
-msgstr "Fyrsta síða"
+msgstr "Þriðja síða"
 
 #. i18n: ectx: property (text), widget (QCheckBox, animateProgressBarCheckBox)
 #: ui/oxygensliderdemowidget.ui:29
 #, kde-format
 msgid "Animate Progress Bars"
-msgstr ""
+msgstr "Hreyfa framvindustikur"
 
 #. i18n: ectx: property (text), widget (QCheckBox, invertProgressBarCheckBox)
 #: ui/oxygensliderdemowidget.ui:36
 #, kde-format
 msgid "Invert Progress Bars"
-msgstr ""
+msgstr "Snúa við framvindustikum"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygensliderdemowidget.ui:43
-#, fuzzy, kde-format
+#, kde-format
 msgid "Horizontal"
 msgstr "Lárétt"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ui/oxygensliderdemowidget.ui:120
-#, fuzzy, kde-format
+#, kde-format
 msgid "Vertical"
 msgstr "Lóðrétt"
 
@@ -874,92 +871,91 @@ msgstr "Lóðrétt"
 #: ui/oxygensliderdemowidget.ui:167
 #, kde-format
 msgid "Sliders tick marks position"
-msgstr ""
+msgstr "Staðsetning gripmerkja á sleðum"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:178
 #, kde-format
 msgid "No Tick Marks"
-msgstr ""
+msgstr "Engin gripmerki"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:183
 #, kde-format
 msgid "Tick Marks Above Slider"
-msgstr ""
+msgstr "Gripmerki fyrir ofan sleða"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:188
 #, kde-format
 msgid "Tick Marks Below Slider"
-msgstr ""
+msgstr "Gripmerki fyrir neðan sleða"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, tickPositionComboBox)
 #: ui/oxygensliderdemowidget.ui:193
 #, kde-format
 msgid "Tick Marks On Both Sides"
-msgstr ""
+msgstr "Gripmerki á báðum hliðum"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygentabdemowidget.ui:31
-#, fuzzy, kde-format
-#| msgid "Animate tab transitions"
+#, kde-format
 msgid "&Tab position:"
-msgstr "Virkja hreyfingar flipa"
+msgstr "S&taðsetning flipa:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
 #: ui/oxygentabdemowidget.ui:45
-#, fuzzy, kde-format
+#, kde-format
 msgid "North"
 msgstr "Norður"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
 #: ui/oxygentabdemowidget.ui:50
-#, fuzzy, kde-format
+#, kde-format
 msgid "South"
 msgstr "Suður"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
 #: ui/oxygentabdemowidget.ui:55
-#, fuzzy, kde-format
+#, kde-format
 msgid "West"
-msgstr "Vestan"
+msgstr "Vestur"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, tabPositionComboBox)
 #: ui/oxygentabdemowidget.ui:60
-#, fuzzy, kde-format
+#, kde-format
 msgid "East"
-msgstr "Austan"
+msgstr "Austur"
 
 #. i18n: ectx: property (text), widget (QCheckBox, documentModeCheckBox)
 #: ui/oxygentabdemowidget.ui:115
 #, kde-format
 msgid "Document mode"
-msgstr ""
+msgstr "Skjalhamur"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cornerWidgetsCheckBox)
 #: ui/oxygentabdemowidget.ui:122
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show Corner Buttons"
-msgstr "Neðst"
+msgstr "Sýna hnappa á hornum"
 
 #. i18n: ectx: property (text), widget (QCheckBox, tabCloseButtonsCheckBox)
 #: ui/oxygentabdemowidget.ui:129
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show Tab Close Buttons"
-msgstr "Neðst"
+msgstr "Sýna lokunarhnapp á flipum"
 
 #. i18n: ectx: property (text), widget (QCheckBox, tabBarVisibilityCheckBox)
 #: ui/oxygentabdemowidget.ui:136
 #, kde-format
 msgid "Hide tabbar"
-msgstr ""
+msgstr "Fela flipastiku"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygentabdemowidget.ui:143
-#, fuzzy, kde-format
+#, kde-format
 msgid "Preview"
-msgstr "Forsýn"
+msgstr "Forskoðun"
 
 #, fuzzy
 #~ msgctxt "Flat frame. No frame is actually drawn."
