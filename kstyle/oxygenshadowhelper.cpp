@@ -326,7 +326,8 @@ QMargins ShadowHelper::shadowMargins(QWidget *widget) const
 {
     // const qreal devicePixelRatio( _helper.devicePixelRatio( isDockWidget ?
     // _dockTiles.pixmap( 0 ):_tiles.pixmap( 0 ) ) );
-    const qreal devicePixelRatio(qApp->devicePixelRatio());
+    // On Wayland, the compositor will upscale the shadow tiles if necessary.
+    const qreal devicePixelRatio(KWindowSystem::isPlatformWayland() ? 1 : qApp->devicePixelRatio());
 
     // add padding
     /*
