@@ -13,6 +13,8 @@
 #include "oxygeninactiveshadowconfiguration.h"
 
 #include <KColorUtils>
+#include <KWindowSystem>
+#include <QGuiApplication>
 #include <QPainter>
 #include <QTextStream>
 
@@ -243,7 +245,9 @@ QPixmap ShadowCache::pixmap(const Key &key, bool active) const
     size += overlap;
     shadowSize += overlap;
 
-    QPixmap shadow(_helper.highDpiPixmap(size * 2));
+    const qreal dpiRatio(KWindowSystem::isPlatformWayland() ? 1 : qApp->devicePixelRatio());
+    QPixmap shadow(size * 2 * dpiRatio, size * 2 * dpiRatio);
+    shadow.setDevicePixelRatio(dpiRatio);
     shadow.fill(Qt::transparent);
 
     QPainter painter(&shadow);
