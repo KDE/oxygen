@@ -30,3 +30,6 @@ plasma_install_desktoptheme_svgs(air SUBPATH translucent/dialogs FILES ${translu
 
 FILE(GLOB solid_widgets solid/widgets/*.svg)
 plasma_install_desktoptheme_svgs(air SUBPATH solid/widgets FILES ${solid_widgets})
+
+FILE(GLOB solid_dialogs solid/dialogs/*.svg)
+plasma_install_desktoptheme_svgs(air SUBPATH solid/dialogs FILES ${solid_dialogs})
