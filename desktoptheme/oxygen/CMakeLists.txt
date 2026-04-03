@@ -22,5 +22,14 @@ plasma_install_desktoptheme_svgs(oxygen SUBPATH opaque/widgets FILES ${opaque})
 FILE(GLOB opaque opaque/dialogs/*.svg)
 plasma_install_desktoptheme_svgs(oxygen SUBPATH opaque/dialogs FILES ${opaque})
 
+FILE(GLOB translucent_widgets translucent/widgets/*.svg)
+plasma_install_desktoptheme_svgs(oxygen SUBPATH translucent/widgets FILES ${translucent_widgets})
+
+FILE(GLOB translucent_dialogs translucent/dialogs/*.svg)
+plasma_install_desktoptheme_svgs(oxygen SUBPATH translucent/dialogs FILES ${translucent_dialogs})
+
 FILE(GLOB solid_widgets solid/widgets/*.svg)
 plasma_install_desktoptheme_svgs(oxygen SUBPATH solid/widgets FILES ${solid_widgets})
+
+FILE(GLOB solid_dialogs solid/dialogs/*.svg)
+plasma_install_desktoptheme_svgs(oxygen SUBPATH solid/dialogs FILES ${solid_dialogs})

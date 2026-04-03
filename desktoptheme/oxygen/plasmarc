@@ -10,3 +10,5 @@ contrast=0.3
 intensity=0.5
 saturation=1.9
 
+[AdaptiveTransparency]
+enabled=true
