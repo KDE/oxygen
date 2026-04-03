@@ -1167,7 +1167,7 @@ bool StyleHelper::compositingActive(void) const
 //________________________________________________________________________________________________________
 bool StyleHelper::hasDecoration(const QWidget *widget) const
 {
-    if (!widget->isTopLevel())
+    if (!widget->isWindow())
         return false;
     if (widget->windowFlags() & (Qt::X11BypassWindowManagerHint | Qt::FramelessWindowHint)) {
         return false;
