@@ -3204,15 +3204,30 @@ bool Style::drawFrameFocusRectPrimitive(const QStyleOption *option, QPainter *pa
     }
 
     const State &state(option->state);
-    const QRect rect(option->rect.adjusted(0, 0, 0, 1));
+    const QRect rect(option->rect);
     const QPalette &palette(option->palette);
 
     if (rect.width() < 10)
         return true;
 
     const QColor outlineColor(state & State_Selected ? palette.color(QPalette::HighlightedText) : palette.color(QPalette::Highlight));
+
+    // Draw line with fading ends like in KDE 4
+    QLinearGradient gradient(rect.bottomLeft(), rect.bottomRight());
+    gradient.setColorAt(0.0, Qt::transparent);
+    gradient.setColorAt(0.2, outlineColor);
+    gradient.setColorAt(0.8, outlineColor);
+    gradient.setColorAt(1.0, Qt::transparent);
+
+    // Use 1 physical pixel width regardless of fractional scaling factor,
+    // to avoid the line appearing as 2px at certain y positions on screen.
+    const qreal lineWidth = 1.0 / painter->device()->devicePixelRatioF();
+
     painter->setRenderHint(QPainter::Antialiasing, false);
-    painter->setPen(outlineColor);
+    QPen pen(QBrush(gradient), lineWidth);
+    // False so that lineWidth is interpreted in logical pixels and scales correctly with DPR.
+    pen.setCosmetic(false);
+    painter->setPen(pen);
     painter->drawLine(rect.bottomLeft(), rect.bottomRight());
 
     return true;
