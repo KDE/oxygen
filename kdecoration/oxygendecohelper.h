@@ -28,7 +28,7 @@ public:
     void invalidateCaches() override;
 
     //* windeco buttons
-    QPixmap windecoButton(const QColor &color, const QColor &glow, bool sunken, int size = 21);
+    QPixmap windecoButton(const QColor &color, const QColor &glow, bool sunken, int size = 21, int physicalSize = 21);
 
 private:
     //* windeco buttons

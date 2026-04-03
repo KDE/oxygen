@@ -242,7 +242,9 @@ void Button::paint(QPainter *painter, const QRectF &repaintRegion)
     // draw button shape
     const bool sunken = isPressed() || (isToggleButton() && isChecked());
     const QRectF iconRect(geometry().topLeft(), m_iconSize);
-    painter->drawPixmap(iconRect.topLeft(), SettingsProvider::self()->helper()->windecoButton(base, glow, sunken, m_iconSize.width()));
+    const int physicalSize = qRound(m_iconSize.width() * painter->device()->devicePixelRatioF());
+    const QPixmap buttonPixmap = SettingsProvider::self()->helper()->windecoButton(base, glow, sunken, m_iconSize.width(), physicalSize);
+    painter->drawPixmap(iconRect, buttonPixmap, QRectF(0, 0, physicalSize, physicalSize));
 
     // Icon
     painter->setRenderHints(QPainter::Antialiasing);
