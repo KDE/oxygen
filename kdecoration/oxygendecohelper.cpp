@@ -34,17 +34,17 @@ void DecoHelper::invalidateCaches(void)
 }
 
 //______________________________________________________________________________
-QPixmap DecoHelper::windecoButton(const QColor &color, const QColor &glow, bool sunken, int size)
+QPixmap DecoHelper::windecoButton(const QColor &color, const QColor &glow, bool sunken, int size, int physicalSize)
 {
     Oxygen::Cache<QPixmap>::Value cache(_windecoButtonCache.get(color));
 
-    const quint64 key((colorKey(glow) << 32) | (sunken << 23) | size);
+    const quint64 key((colorKey(glow) << 32) | (sunken << 23) | (physicalSize << 8) | size);
 
     if (QPixmap *cachedPixmap = cache->object(key)) {
         return *cachedPixmap;
     }
 
-    QPixmap pixmap(size, size);
+    QPixmap pixmap(physicalSize, physicalSize);
     pixmap.fill(Qt::transparent);
 
     QPainter p(&pixmap);
