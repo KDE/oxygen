@@ -65,6 +65,7 @@
         "Description[pt_BR]": "Um pouco de ar fresco",
         "Description[ro]": "O gură de aer proaspăt",
         "Description[ru]": "Глоток свежего воздуха",
+        "Description[sk]": "Závan čerstvého vzduchu",
         "Description[sl]": "Vdih svežega zraka",
         "Description[tr]": "Temiz hava",
         "Description[uk]": "Ковток свіжого повітря",
