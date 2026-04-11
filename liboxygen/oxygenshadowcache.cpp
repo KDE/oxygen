@@ -198,7 +198,7 @@ QPixmap ShadowCache::animatedPixmap(const Key &key, qreal opacity)
     // create shadow and tileset otherwise
     const qreal size(shadowSize() + overlap);
 
-    QPixmap shadow(_helper.highDpiPixmap(size * 2));
+    QPixmap shadow = shadowHighDpiPixmap(size);
     shadow.fill(Qt::transparent);
     QPainter painter(&shadow);
     painter.setRenderHint(QPainter::Antialiasing);
@@ -245,9 +245,7 @@ QPixmap ShadowCache::pixmap(const Key &key, bool active) const
     size += overlap;
     shadowSize += overlap;
 
-    const qreal dpiRatio(KWindowSystem::isPlatformWayland() ? 1 : qApp->devicePixelRatio());
-    QPixmap shadow(size * 2 * dpiRatio, size * 2 * dpiRatio);
-    shadow.setDevicePixelRatio(dpiRatio);
+    QPixmap shadow = shadowHighDpiPixmap(size);
     shadow.fill(Qt::transparent);
 
     QPainter painter(&shadow);
@@ -376,6 +374,15 @@ QPixmap ShadowCache::pixmap(const Key &key, bool active) const
     painter.drawEllipse(QRectF(size - 3, size - 3, 6, 6));
 
     painter.end();
+    return shadow;
+}
+
+//_______________________________________________________
+QPixmap ShadowCache::shadowHighDpiPixmap(int size) const
+{
+    const qreal dpiRatio(KWindowSystem::isPlatformWayland() ? 1 : qApp->devicePixelRatio());
+    QPixmap shadow(size * 2 * dpiRatio, size * 2 * dpiRatio);
+    shadow.setDevicePixelRatio(dpiRatio);
     return shadow;
 }
 
