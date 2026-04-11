@@ -133,6 +133,9 @@ private:
     //* simple pixmap
     QPixmap pixmap(const Key &, bool active) const;
 
+    //* a pixmap with the correct dpi scaling for the shadow cache
+    QPixmap shadowHighDpiPixmap(int size) const;
+
     //* draw gradient into rect
     /*! a separate method is used in order to properly account for corners */
     void renderGradient(QPainter &, const QRectF &, const QRadialGradient &, bool hasBorder = true) const;
