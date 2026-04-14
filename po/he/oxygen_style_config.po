@@ -5,13 +5,13 @@
 # Diego Iastrubni <elcuco@kde.org>, 2005, 2007, 2012, 2013.
 # Meni Livne <livne@kde.org>, 2007.
 # Elkana Bardugo <ttv200@gmail.com>, 2017. #zanata
-# SPDX-FileCopyrightText: 2023, 2024 Yaron Shahrabani <sh.yaron@gmail.com>
+# SPDX-FileCopyrightText: 2023, 2024, 2026 Yaron Shahrabani <sh.yaron@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: oxygen_style_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:53+0000\n"
-"PO-Revision-Date: 2024-06-09 06:46+0300\n"
+"PO-Revision-Date: 2026-04-11 22:06+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #: main.cpp:24 main.cpp:28
 #, kde-format
@@ -239,7 +239,7 @@ msgstr "מצג &גרירה של חלונות:"
 #: ui/oxygenstyleconfig.ui:134
 #, kde-format
 msgid "Draw toolbar item separators"
-msgstr "הצג מפרידים בין פריטים בסרגלי כלים"
+msgstr "ציור מפרידי פריטים בסרגל הכלים"
 
 #. i18n: ectx: property (text), widget (QCheckBox, _splitterProxyEnabled)
 #: ui/oxygenstyleconfig.ui:141
