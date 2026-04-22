@@ -87,6 +87,15 @@ ForegroundVisited=100,74,155
 
 [General]
 Name=Steel
+Name[ca]=Steel
+Name[es]=Acero
+Name[ka]=ფოლადი
+Name[nl]=Staal
+Name[pt_BR]=Aço
+Name[sk]=Oceľ
+Name[sl]=Jeklo
+Name[tr]=Çelik
+Name[uk]=Сталь
 
 [WM]
 activeBackground=74,139,163

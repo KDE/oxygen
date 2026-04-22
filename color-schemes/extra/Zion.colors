@@ -88,6 +88,15 @@ ForegroundVisited=88,0,176
 
 [General]
 Name=Zion
+Name[ca]=Zion
+Name[es]=Sion
+Name[ka]=სიონი
+Name[nl]=Zion
+Name[pt_BR]=Zion
+Name[sk]=Zion
+Name[sl]=Sion
+Name[tr]=Siyon
+Name[uk]=Сіон
 
 [WM]
 activeBackground=176,193,255

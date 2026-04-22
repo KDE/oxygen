@@ -87,6 +87,15 @@ ForegroundVisited=142,121,165
 
 [General]
 Name=Obsidian Coast
+Name[ca]=Obsidian Coast
+Name[es]=Costa de obsidiana
+Name[ka]=ობსიდიანის სანაპირო
+Name[nl]=Obsidiaankust
+Name[pt_BR]=Costa de obsidiana
+Name[sk]=Obsidiánové pobrežie
+Name[sl]=Obsidianova obala
+Name[tr]=Kara Sahil
+Name[uk]=Обсидіановий берег
 
 [WM]
 activeBackground=19,47,80

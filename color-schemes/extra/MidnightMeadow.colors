@@ -88,6 +88,15 @@ ForegroundVisited=195,172,244
 
 [General]
 Name=Midnight Meadow
+Name[ca]=Midnight Meadow
+Name[es]=Pradera de medianoche
+Name[ka]=ჭალა შუაღამისას
+Name[nl]=Middernacht weiland
+Name[pt_BR]=Prado da meia-noite
+Name[sk]=Polnočná lúka
+Name[sl]=Polnočni travnik
+Name[tr]=Gece Yarısı Çayırı
+Name[uk]=Північна долина
 
 [WM]
 activeBackground=141,193,89

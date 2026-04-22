@@ -86,6 +86,15 @@ ForegroundVisited=64,128,255
 
 [General]
 Name=Wonton Soup
+Name[ca]=Wonton Soup
+Name[es]=Sopa de wantún
+Name[ka]=ვონტონის წვნიანი
+Name[nl]=Wontonsoep
+Name[pt_BR]=Sopa Wonton
+Name[sk]=Wonton polievka
+Name[sl]=Wonton juha
+Name[tr]=Wonton Çorbası
+Name[uk]=Суп із вонтонами
 
 [WM]
 activeBackground=138,151,166

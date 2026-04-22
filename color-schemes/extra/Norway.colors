@@ -88,6 +88,16 @@ ForegroundVisited=100,74,155
 
 [General]
 Name=Norway
+Name[ca]=Noruega
+Name[cs]=Norsko
+Name[es]=Noruega
+Name[ka]=ნორვეგია
+Name[nl]=Noorwegen
+Name[pt_BR]=Noruega
+Name[sk]=Nórsko
+Name[sl]=Norveška
+Name[tr]=Norveç
+Name[uk]=Норвегія
 
 [WM]
 activeBackground=29,135,205

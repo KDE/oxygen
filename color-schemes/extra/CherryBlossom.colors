@@ -86,6 +86,15 @@ ForegroundVisited=176,96,255
 
 [General]
 Name=Cherry Blossom
+Name[ca]=Cherry Blossom
+Name[es]=Flor de cerezo
+Name[ka]=ალუბლის ყვავილი
+Name[nl]=Kersenbloesem
+Name[pt_BR]=Flor de cerejeira
+Name[sk]=Čerešňový kvet
+Name[sl]=Češnjev cvet
+Name[tr]=Kiraz Çiçeği
+Name[uk]=Цвітіння вишні
 
 [WM]
 activeBackground=185,114,121

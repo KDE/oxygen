@@ -87,6 +87,15 @@ ForegroundVisited=125,108,144
 
 [General]
 Name=Highland Mist
+Name[ca]=Highland Mist
+Name[es]=Niebla de las tierras altas
+Name[ka]=მაღალმთიანი ნისლი
+Name[nl]=Highland mist
+Name[pt_BR]=Névoa das terras altas
+Name[sk]=Horská hmla
+Name[sl]=Visokogorska megla
+Name[tr]=Yayla Dumanı
+Name[uk]=Високогірний туман
 
 [WM]
 activeBackground=128,192,224

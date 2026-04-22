@@ -88,6 +88,15 @@ ForegroundVisited=100,74,155
 
 [General]
 Name=Honeycomb
+Name[ca]=Honeycomb
+Name[es]=Panal
+Name[ka]=ფიჭა
+Name[nl]=Honingraat
+Name[pt_BR]=Favo de mel
+Name[sk]=Plást medu
+Name[sl]=Satovje
+Name[tr]=Bal Peteği
+Name[uk]=Стільники
 
 [WM]
 activeBackground=227,170,0

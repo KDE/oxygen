@@ -88,6 +88,15 @@ ForegroundVisited=74,96,57
 
 [General]
 Name=Terra
+Name[ca]=Terra
+Name[es]=Terra
+Name[ka]=ტერა
+Name[nl]=Aarde
+Name[pt_BR]=Terra
+Name[sk]=Terra
+Name[sl]=Zemlja
+Name[tr]=Yeryüzü
+Name[uk]=Терра
 
 [WM]
 activeBackground=13,38,8

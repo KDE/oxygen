@@ -86,6 +86,15 @@ ForegroundVisited=223,191,255
 
 [General]
 Name=Blue Deep
+Name[ca]=Blue Deep
+Name[es]=Profundidad azul
+Name[ka]=ღრმა ლურჯი
+Name[nl]=Diepblauw
+Name[pt_BR]=Azul profundo
+Name[sk]=Hlboká modrá
+Name[sl]=Modra globina
+Name[tr]=Derin Mavi
+Name[uk]=Глибока синява
 
 [WM]
 activeBackground=17,42,71

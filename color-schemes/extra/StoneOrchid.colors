@@ -88,6 +88,15 @@ ForegroundVisited=69,40,134
 
 [General]
 Name=Stone Orchid
+Name[ca]=Stone Orchid
+Name[es]=Orquídea de piedra
+Name[ka]=ქვის ორქიდეა
+Name[nl]=Stenen orchidee
+Name[pt_BR]=Orquídea de pedra
+Name[sk]=Kamenná orchidea
+Name[sl]=Kamnita orhideja
+Name[tr]=Taş Orkidesi
+Name[uk]=Кам'яна орхідея
 
 [WM]
 activeBackground=177,77,122

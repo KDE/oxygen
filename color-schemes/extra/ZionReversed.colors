@@ -88,6 +88,15 @@ ForegroundVisited=192,128,255
 
 [General]
 Name=Zion (Reversed)
+Name[ca]=Zion (Invertit)
+Name[es]=Sion (invertido)
+Name[ka]=სიონი (შებრუნებული)
+Name[nl]=Zion (omgekeerd)
+Name[pt_BR]=Zion (Reverso)
+Name[sk]=Zion (obrátený)
+Name[sl]=Sion (obrnjen)
+Name[tr]=Siyon (Ters)
+Name[uk]=Сіон (інверсія)
 
 [WM]
 activeBackground=0,49,110
