@@ -88,9 +88,12 @@ ForegroundVisited=142,121,165
 [General]
 Name=Obsidian Coast
 Name[ca]=Obsidian Coast
+Name[ca@valencia]=Obsidian Coast
 Name[es]=Costa de obsidiana
+Name[ia]=Obsidian Coast
 Name[ka]=ობსიდიანის სანაპირო
 Name[nl]=Obsidiaankust
+Name[nn]=Obsidian-kyst
 Name[pt_BR]=Costa de obsidiana
 Name[sk]=Obsidiánové pobrežie
 Name[sl]=Obsidianova obala

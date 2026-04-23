@@ -88,9 +88,12 @@ ForegroundVisited=125,108,144
 [General]
 Name=Highland Mist
 Name[ca]=Highland Mist
+Name[ca@valencia]=Highland Mist
 Name[es]=Niebla de las tierras altas
+Name[ia]=Highland Mist
 Name[ka]=მაღალმთიანი ნისლი
 Name[nl]=Highland mist
+Name[nn]=Høglandsdis
 Name[pt_BR]=Névoa das terras altas
 Name[sk]=Horská hmla
 Name[sl]=Visokogorska megla

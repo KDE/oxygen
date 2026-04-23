@@ -87,9 +87,12 @@ ForegroundVisited=177,79,154
 [General]
 Name=Evening Lilac
 Name[ca]=Evening Lilac
+Name[ca@valencia]=Evening Lilac
 Name[es]=Lila vespertina
+Name[ia]=Evening Lilac
 Name[ka]=იასამნისფერი საღამოს
 Name[nl]=Avond-lila
+Name[nn]=Kveldssyrin
 Name[pt_BR]=Lilás da noite
 Name[sk]=Večerný orgován
 Name[sl]=Večerna lila

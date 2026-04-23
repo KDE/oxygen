@@ -87,9 +87,12 @@ ForegroundVisited=223,191,255
 [General]
 Name=Blue Deep
 Name[ca]=Blue Deep
+Name[ca@valencia]=Blue Deep
 Name[es]=Profundidad azul
+Name[ia]=Blue Deep
 Name[ka]=ღრმა ლურჯი
 Name[nl]=Diepblauw
+Name[nn]=Blådjup
 Name[pt_BR]=Azul profundo
 Name[sk]=Hlboká modrá
 Name[sl]=Modra globina

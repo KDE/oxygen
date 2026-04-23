@@ -89,9 +89,12 @@ ForegroundVisited=88,0,176
 [General]
 Name=Zion
 Name[ca]=Zion
+Name[ca@valencia]=Zion
 Name[es]=Sion
+Name[ia]=Zion
 Name[ka]=სიონი
 Name[nl]=Zion
+Name[nn]=Zion
 Name[pt_BR]=Zion
 Name[sk]=Zion
 Name[sl]=Sion

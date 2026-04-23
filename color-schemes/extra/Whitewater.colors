@@ -87,9 +87,12 @@ ForegroundVisited=147,87,211
 [General]
 Name=Whitewater
 Name[ca]=Whitewater
+Name[ca@valencia]=Whitewater
 Name[es]=Aguas bravas
+Name[ia]=Whitewater
 Name[ka]=თეთრი წყალი
 Name[nl]=Wit water
+Name[nn]=Elvestryk
 Name[pt_BR]=Águas bravas
 Name[sk]=Biela voda
 Name[sl]=Divja voda

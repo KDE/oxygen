@@ -87,9 +87,12 @@ ForegroundVisited=64,128,255
 [General]
 Name=Wonton Soup
 Name[ca]=Wonton Soup
+Name[ca@valencia]=Wonton Soup
 Name[es]=Sopa de wantún
+Name[ia]=Wonton Soup
 Name[ka]=ვონტონის წვნიანი
 Name[nl]=Wontonsoep
+Name[nn]=Wonton-suppe
 Name[pt_BR]=Sopa Wonton
 Name[sk]=Wonton polievka
 Name[sl]=Wonton juha

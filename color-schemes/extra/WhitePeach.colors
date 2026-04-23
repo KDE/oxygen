@@ -89,9 +89,12 @@ ForegroundVisited=100,74,155
 [General]
 Name=White Peach
 Name[ca]=White Peach
+Name[ca@valencia]=White Peach
 Name[es]=Melocotón blanco
+Name[ia]=White Peach
 Name[ka]=თეთრი ატამი
 Name[nl]=Witte perzik
+Name[nn]=Kvit fersken
 Name[pt_BR]=Pêssego branco
 Name[sk]=Biela broskyňa
 Name[sl]=Bela breskev

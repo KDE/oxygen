@@ -89,9 +89,12 @@ ForegroundVisited=100,74,155
 [General]
 Name=Honeycomb
 Name[ca]=Honeycomb
+Name[ca@valencia]=Honeycomb
 Name[es]=Panal
+Name[ia]=Honeycomb
 Name[ka]=ფიჭა
 Name[nl]=Honingraat
+Name[nn]=Bikube
 Name[pt_BR]=Favo de mel
 Name[sk]=Plást medu
 Name[sl]=Satovje

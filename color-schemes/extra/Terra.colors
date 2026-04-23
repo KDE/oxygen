@@ -89,9 +89,12 @@ ForegroundVisited=74,96,57
 [General]
 Name=Terra
 Name[ca]=Terra
+Name[ca@valencia]=Terra
 Name[es]=Terra
+Name[ia]=Terra
 Name[ka]=ტერა
 Name[nl]=Aarde
+Name[nn]=Terra
 Name[pt_BR]=Terra
 Name[sk]=Terra
 Name[sl]=Zemlja
