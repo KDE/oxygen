@@ -88,9 +88,12 @@ ForegroundVisited=69,40,134
 
 [General]
 Name=Stone Orchid
+Name[ar]=الأوركيد الحجري
 Name[ca]=Stone Orchid
 Name[ca@valencia]=Stone Orchid
 Name[es]=Orquídea de piedra
+Name[fr]=Orchidée de pierre
+Name[he]=סחלב סלעים
 Name[ia]=Stone Orchid
 Name[ka]=ქვის ორქიდეა
 Name[nl]=Stenen orchidee

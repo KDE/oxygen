@@ -88,9 +88,12 @@ ForegroundVisited=117,87,182
 
 [General]
 Name=Desert
+Name[ar]=صحراء
 Name[ca]=Desert
 Name[ca@valencia]=Desert
 Name[es]=Desierto
+Name[fr]=Désert
+Name[he]=מדבר
 Name[ia]=Desert
 Name[ka]=უდაბნო
 Name[nl]=Woestijn

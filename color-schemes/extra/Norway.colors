@@ -88,10 +88,13 @@ ForegroundVisited=100,74,155
 
 [General]
 Name=Norway
+Name[ar]=النرويج
 Name[ca]=Noruega
 Name[ca@valencia]=Noruega
 Name[cs]=Norsko
 Name[es]=Noruega
+Name[fr]=Norvège
+Name[he]=נורבגיה
 Name[ia]=Norvegia
 Name[ka]=ნორვეგია
 Name[nl]=Noorwegen

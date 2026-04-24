@@ -88,9 +88,12 @@ ForegroundVisited=100,74,155
 
 [General]
 Name=Honeycomb
+Name[ar]=قرص عسل
 Name[ca]=Honeycomb
 Name[ca@valencia]=Honeycomb
 Name[es]=Panal
+Name[fr]=Rayon de miel
+Name[he]=חלת דבש
 Name[ia]=Honeycomb
 Name[ka]=ფიჭა
 Name[nl]=Honingraat

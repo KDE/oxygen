@@ -86,9 +86,12 @@ ForegroundVisited=176,96,255
 
 [General]
 Name=Cherry Blossom
+Name[ar]=ساكورا
 Name[ca]=Cherry Blossom
 Name[ca@valencia]=Cherry Blossom
 Name[es]=Flor de cerezo
+Name[fr]=Fleur de cerisier
+Name[he]=פריחת דובדבן
 Name[ia]=Cherry Blossom
 Name[ka]=ალუბლის ყვავილი
 Name[nl]=Kersenbloesem

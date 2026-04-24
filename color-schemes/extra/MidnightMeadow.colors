@@ -88,9 +88,12 @@ ForegroundVisited=195,172,244
 
 [General]
 Name=Midnight Meadow
+Name[ar]=مرج منتصف الليل
 Name[ca]=Midnight Meadow
 Name[ca@valencia]=Midnight Meadow
 Name[es]=Pradera de medianoche
+Name[fr]=Prairie de minuit
+Name[he]=אחו של חצות
 Name[ia]=Midnight Meadow
 Name[ka]=ჭალა შუაღამისას
 Name[nl]=Middernacht weiland

@@ -87,9 +87,12 @@ ForegroundVisited=100,74,155
 
 [General]
 Name=Steel
+Name[ar]=ستيل
 Name[ca]=Steel
 Name[ca@valencia]=Steel
 Name[es]=Acero
+Name[fr]=Acier
+Name[he]=מתכת
 Name[ia]=Steel
 Name[ka]=ფოლადი
 Name[nl]=Staal

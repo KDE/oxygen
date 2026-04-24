@@ -87,9 +87,12 @@ ForegroundVisited=142,121,165
 
 [General]
 Name=Obsidian Coast
+Name[ar]=ساحل أوبسيديان
 Name[ca]=Obsidian Coast
 Name[ca@valencia]=Obsidian Coast
 Name[es]=Costa de obsidiana
+Name[fr]=Côte d'Obsidienne
+Name[he]=חוף זכוכית געשית
 Name[ia]=Obsidian Coast
 Name[ka]=ობსიდიანის სანაპირო
 Name[nl]=Obsidiaankust

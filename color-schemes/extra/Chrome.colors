@@ -88,10 +88,13 @@ ForegroundVisited=100,74,155
 
 [General]
 Name=Chrome
+Name[ar]=كروم
 Name[ca]=Chrome
 Name[ca@valencia]=Chrome
 Name[cs]=Chrome
 Name[es]=Cromo
+Name[fr]=Chrome
+Name[he]=כרום
 Name[ia]=Chrome
 Name[ka]=ქრომი
 Name[nl]=Chrome
