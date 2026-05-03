@@ -127,6 +127,7 @@ block(SCOPE_FOR VARIABLES)
     add_subdirectory(desktoptheme)
     add_subdirectory(kdecoration)
     add_subdirectory(lookandfeel)
+    add_subdirectory(wallpapers)
 
     ki18n_install(po)
 endblock()

@@ -15,3 +15,6 @@ cursorTheme=Oxygen_Black
 
 [kwinrc][org.kde.kdecoration2]
 library=org.kde.oxygen
+
+[Wallpaper]
+Image=Horos

@@ -15,3 +15,6 @@ cursorTheme=Oxygen_White
 
 [kwinrc][org.kde.kdecoration2]
 library=org.kde.oxygen
+
+[Wallpaper]
+Image=Air

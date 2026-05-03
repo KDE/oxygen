@@ -1,0 +1,53 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "nuno@oxygen-icons.org",
+                "Name": "Nuno Pinheiro"
+            }
+        ],
+        "Id": "Air",
+        "License": "LGPLv3",
+        "Name": "Air",
+        "Name[bs]": "Vazduh",
+        "Name[ca@valencia]": "Air",
+        "Name[ca]": "Air",
+        "Name[cs]": "Vzduch",
+        "Name[da]": "Air",
+        "Name[de]": "Air",
+        "Name[en_GB]": "Air",
+        "Name[es]": "Aire",
+        "Name[et]": "Air",
+        "Name[fi]": "Air",
+        "Name[fr]": "Air",
+        "Name[ga]": "Air",
+        "Name[gl]": "Aire",
+        "Name[hu]": "Levegő",
+        "Name[it]": "Aria",
+        "Name[kk]": "Air",
+        "Name[ko]": "Air",
+        "Name[lt]": "Oras",
+        "Name[mr]": "एअर",
+        "Name[nb]": "Air",
+        "Name[nds]": "Luft",
+        "Name[nl]": "Air",
+        "Name[nn]": "Luft",
+        "Name[pl]": "Powietrze",
+        "Name[pt]": "Air",
+        "Name[pt_BR]": "Air",
+        "Name[ru]": "Воздух",
+        "Name[sk]": "Vzduch",
+        "Name[sl]": "Zrak",
+        "Name[sr@ijekavian]": "Ваздух",
+        "Name[sr@ijekavianlatin]": "Vazduh",
+        "Name[sr@latin]": "Vazduh",
+        "Name[sr]": "Ваздух",
+        "Name[sv]": "Luft",
+        "Name[tr]": "Hava",
+        "Name[ug]": "ھاۋا",
+        "Name[uk]": "Повітря",
+        "Name[x-test]": "xxAirxx",
+        "Name[zh_CN]": "大气",
+        "Name[zh_TW]": "Air"
+    }
+}
