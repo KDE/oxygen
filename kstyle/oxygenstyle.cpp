@@ -3930,7 +3930,8 @@ bool Style::drawPanelMenuPrimitive(const QStyleOption *option, QPainter *painter
         _helper->roundCorner(color).render(rect, painter);
 
         painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
-        painter->setClipPath(_helper->roundedPath(insideMargin(rect, 1)), Qt::IntersectClip);
+        painter->setRenderHint(QPainter::Antialiasing);
+        painter->setClipPath(_helper->roundedPath(rect, AllCorners, 5.0), Qt::IntersectClip);
     }
 
     _helper->renderMenuBackground(painter, rect, widget, menuItemOption->palette);
