@@ -3,7 +3,18 @@
         "Authors": [
             {
                 "Email": "nuno@oxygen-icons.org",
-                "Name": "Nuno Pinheiro"
+                "Name": "Nuno Pinheiro",
+                "Name[ca@valencia]": "Nuno Pinheiro",
+                "Name[ca]": "Nuno Pinheiro",
+                "Name[cs]": "Nuno Pinheiro",
+                "Name[es]": "Nuno Pinheiro",
+                "Name[ka]": "Nuno Pinheiro",
+                "Name[nl]": "Nuno Pinheiro",
+                "Name[pt_BR]": "Nuno Pinheiro",
+                "Name[sk]": "Nuno Pinheiro",
+                "Name[sl]": "Nuno Pinheiro",
+                "Name[tr]": "Nuno Pinheiro",
+                "Name[uk]": "Нуно Пінейро"
             }
         ],
         "Id": "Air",

@@ -104,6 +104,14 @@ ForegroundVisited=100,74,155
 
 [General]
 Name=Oxygen Dark
+Name[ca]=Oxygen Dark
+Name[es]=Oxígeno oscuro
+Name[ka]=Oxygen მუქი
+Name[nl]=Oxygen donker
+Name[pt_BR]=Oxygen Dark
+Name[sl]=Kisik temna
+Name[tr]=Oksijen Koyu
+Name[uk]=Темна Oxygen
 TintFactor=0.15
 shadeSortColumn=true
 
