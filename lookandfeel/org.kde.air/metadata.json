@@ -62,6 +62,7 @@
         "Description[sl]": "Air Desktop Design Language",
         "Description[tr]": "Hava Masaüstü Tasarım Dili",
         "Description[uk]": "Мова компонування стільниці Air",
+        "Description[zh_CN]": "Air 净空桌面设计语言",
         "Id": "org.kde.air",
         "License": "GPLv2+",
         "Name": "Air",

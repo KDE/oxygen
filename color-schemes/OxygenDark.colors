@@ -105,7 +105,10 @@ ForegroundVisited=100,74,155
 [General]
 Name=Oxygen Dark
 Name[ca]=Oxygen Dark
+Name[ca@valencia]=Oxygen Dark
 Name[es]=Oxígeno oscuro
+Name[he]=חמצן כהה
+Name[ia]=Oxygen Obscur
 Name[ka]=Oxygen მუქი
 Name[nl]=Oxygen donker
 Name[pt_BR]=Oxygen Dark
