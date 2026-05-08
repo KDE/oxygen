@@ -2,14 +2,8 @@
 
 Oxygen is a classic style for [KDE Plasma](https://kde.org/plasma-desktop/). Once the default style in KDE 4, it is now offered as an optional package.
 
-<div style="margin: 16px 0">
-<table>
-<tr>
-<td><a href="lookandfeel/org.kde.air/contents/previews/fullscreenpreview.jpg"><img src="lookandfeel/org.kde.air/contents/previews/fullscreenpreview.jpg" height="200"/></a></td>
-<td><a href="lookandfeel/org.kde.oxygen/contents/previews/fullscreenpreview.jpg"><img src="lookandfeel/org.kde.oxygen/contents/previews/fullscreenpreview.jpg" height="200"/></a></td>
-</tr>
-</table>
-</div>
+<a href="lookandfeel/org.kde.air/contents/previews/fullscreenpreview.jpg"><img src="lookandfeel/org.kde.air/contents/previews/fullscreenpreview.jpg" width="360"/></a>
+<a href="lookandfeel/org.kde.oxygen/contents/previews/fullscreenpreview.jpg"><img src="lookandfeel/org.kde.oxygen/contents/previews/fullscreenpreview.jpg" width="360"/></a>
 
 ## Components
 
