@@ -9,15 +9,18 @@
                 "Name[ca]": "Nuno Pinheiro",
                 "Name[cs]": "Nuno Pinheiro",
                 "Name[es]": "Nuno Pinheiro",
+                "Name[fr]": "Nuno Pinheiro",
                 "Name[he]": "נונו פיניירו",
                 "Name[ia]": "Nuno Pinheiro",
+                "Name[it]": "Nuno Pinheiro",
                 "Name[ka]": "Nuno Pinheiro",
                 "Name[nl]": "Nuno Pinheiro",
                 "Name[pt_BR]": "Nuno Pinheiro",
                 "Name[sk]": "Nuno Pinheiro",
                 "Name[sl]": "Nuno Pinheiro",
                 "Name[tr]": "Nuno Pinheiro",
-                "Name[uk]": "Нуно Пінейро"
+                "Name[uk]": "Нуно Пінейро",
+                "Name[zh_CN]": "Nuno Pinheiro"
             }
         ],
         "Id": "Horos",
@@ -27,14 +30,17 @@
         "Name[ca@valencia]": "Horos",
         "Name[ca]": "Horos",
         "Name[es]": "Horos",
+        "Name[fr]": "Horos",
         "Name[he]": "הורוס",
         "Name[ia]": "Horos",
+        "Name[it]": "Horos",
         "Name[ka]": "Horos",
         "Name[nl]": "Horos",
         "Name[pt_BR]": "Horos",
         "Name[sk]": "Horos",
         "Name[sl]": "Horos",
         "Name[tr]": "Horos",
-        "Name[uk]": "Horos"
+        "Name[uk]": "Horos",
+        "Name[zh_CN]": "Horos 星象"
     }
 }
