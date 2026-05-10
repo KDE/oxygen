@@ -8,24 +8,25 @@ msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:53+0000\n"
-"PO-Revision-Date: 2013-09-08 07:05+0900\n"
-"Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
+"PO-Revision-Date: 2026-04-30 18:11-0400\n"
+"Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
 "Language: ug\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.9\n"
 
 #: main.cpp:24 main.cpp:28
 #, kde-format
 msgid "Oxygen Settings"
-msgstr "Oxygen تەڭشىكى"
+msgstr "ئوكسىگېن تەڭشىكى"
 
 #: oxygenanimationconfigwidget.cpp:33
 #, kde-format
 msgid "Focus, mouseover and widget state transition"
-msgstr ""
+msgstr "فوكۇس، چاشقىنەكتە نىشانلاش ۋە ئەپچە ھالىتى ئالمىشىشى"
 
 #: oxygenanimationconfigwidget.cpp:34
 #, kde-format
@@ -33,6 +34,8 @@ msgid ""
 "Configure widgets' focus and mouseover highlight animation, as well as "
 "widget enabled/disabled state transition"
 msgstr ""
+"ئەپچە فوكۇسى ۋە چاشقىنەكتە نىشانلاشنى يورۇتۇش جانلاندۇرۇمىنى سەپلەيدۇ "
+"شۇنداقلا ئەپچە قوزغىتىش/چەكلەش ھالىتىنىڭ ئالمىشىشى"
 
 #: oxygenanimationconfigwidget.cpp:38
 #, kde-format
@@ -43,6 +46,7 @@ msgstr "قورال بالداقنى يورۇتۇش"
 #, kde-format
 msgid "Configure toolbars' mouseover highlight animation"
 msgstr ""
+"قورال بالداق چاشقىنەكتە نىشانلانغاندىكى يورۇتۇش جانلاندۇرۇمىنى سەپلەيدۇ"
 
 #: oxygenanimationconfigwidget.cpp:43
 #, kde-format
@@ -53,6 +57,7 @@ msgstr "تىزىملىك بالدىقىنى يورۇتۇش"
 #, kde-format
 msgid "Configure menu bars' mouseover highlight animation"
 msgstr ""
+"تىزىملىك بالداق چاشقىنەكتە نىشانلانغاندىكى يورۇتۇش جانلاندۇرۇمىنى سەپلەيدۇ"
 
 #: oxygenanimationconfigwidget.cpp:46
 #, kde-format
@@ -62,68 +67,69 @@ msgstr "تىزىملىكنى يورۇتۇش"
 #: oxygenanimationconfigwidget.cpp:46
 #, kde-format
 msgid "Configure menus' mouseover highlight animation"
-msgstr ""
+msgstr "تىزىملىك چاشقىنەكتە نىشانلانغاندىكى يورۇتۇش جانلاندۇرۇمىنى سەپلەيدۇ"
 
 #: oxygenanimationconfigwidget.cpp:49
 #, kde-format
 msgid "Progress bar animation"
-msgstr ""
+msgstr "ئىلگىرىلەش بالداق جانلاندۇرۇمى"
 
 #: oxygenanimationconfigwidget.cpp:49
 #, kde-format
 msgid "Configure progress bars' steps animation"
-msgstr ""
+msgstr "ئىلگىرىلەش بالداق قەدەم باسقۇچىنىڭ جانلاندۇرۇمىنى سەپلەيدۇ"
 
 #: oxygenanimationconfigwidget.cpp:52
 #, kde-format
 msgid "Tab transitions"
-msgstr ""
+msgstr "بەتكۈچ ئالمىشىشى"
 
 #: oxygenanimationconfigwidget.cpp:52
 #, kde-format
 msgid "Configure fading transition between tabs"
-msgstr ""
+msgstr "بەتكۈچ ئارا سۇسلىشىپ ئالمىشىش ئۈنۈمىنى سەپلەيدۇ"
 
 #: oxygenanimationconfigwidget.cpp:56
 #, kde-format
 msgid "Label transitions"
-msgstr ""
+msgstr "بەلگە ئالمىشىشى"
 
 #: oxygenanimationconfigwidget.cpp:56
 #, kde-format
 msgid "Configure fading transition when a label's text is changed"
-msgstr ""
+msgstr "بەلگە تېكىستى ئۆزگەرگەندە سۇسلىشىپ ئالمىشىش ئۈنۈمىنى سەپلەيدۇ"
 
 #: oxygenanimationconfigwidget.cpp:60
 #, kde-format
 msgid "Text editor transitions"
-msgstr ""
+msgstr "تېكىست تەھرىرلىگۈچ ئالمىشىشى"
 
 #: oxygenanimationconfigwidget.cpp:60
 #, kde-format
 msgid "Configure fading transition when an editor's text is changed"
-msgstr ""
+msgstr "تەھرىرلىگۈچنىڭ تېكىستى ئۆزگەرگەندە سۇسلىشىپ ئالمىشىش ئۈنۈمىنى سەپلەيدۇ"
 
 #: oxygenanimationconfigwidget.cpp:64
 #, kde-format
 msgid "Combo box transitions"
-msgstr ""
+msgstr "بىرىكمە رامكا ئالمىشىشى"
 
 #: oxygenanimationconfigwidget.cpp:65
 #, kde-format
 msgid ""
 "Configure fading transition when a combo box's selected choice is changed"
 msgstr ""
+"بىرىكمە رامكا تاللىنىشى ئۆزگەرگەندە سۇسلىشىپ ئالمىشىش ئۈنۈمىنى سەپلەيدۇ"
 
 #: oxygenanimationconfigwidget.cpp:76
 #, kde-format
 msgid "Progress bar busy indicator"
-msgstr ""
+msgstr "ئىلگىرىلەش بالداق ئالدىراش كۆرسەتكۈچى"
 
 #: oxygenanimationconfigwidget.cpp:76
 #, kde-format
 msgid "Configure progress bars' busy indicator animation"
-msgstr ""
+msgstr "ئىلگىرىلەش بالداق ئالدىراش كۆرسەتكۈچىنىڭ جانلاندۇرۇمىنى سەپلەيدۇ"
 
 #. i18n: ectx: property (windowTitle), widget (QFrame, FollowMouseAnimationConfigBox)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:20
@@ -135,7 +141,7 @@ msgstr "كاندۇك"
 #: ui/oxygenfollowmouseanimationconfigbox.ui:32
 #, kde-format
 msgid "Animation type:"
-msgstr "جانلاندۇرۇم تىپى:"
+msgstr "جانلاندۇرۇم تۈرى:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, typeComboBox)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:46
@@ -147,28 +153,27 @@ msgstr "سۇسلاشتۇر"
 #: ui/oxygenfollowmouseanimationconfigbox.ui:51
 #, kde-format
 msgid "Follow Mouse"
-msgstr ""
+msgstr "چاشقىنەككە ئەگەش"
 
 #. i18n: ectx: property (text), widget (QLabel, durationLabel)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:59
 #, kde-format
 msgid "Fade duration:"
-msgstr ""
+msgstr "سۇسلاشتۇرۇش ۋاقتى:"
 
 #. i18n: ectx: property (text), widget (QLabel, followMouseDurationLabel)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:72
 #, kde-format
 msgid "Follow mouse duration:"
-msgstr ""
+msgstr "چاشقىنەككە ئەگىشىش ۋاقتى:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, durationSpinBox)
 #. i18n: ectx: property (suffix), widget (QSpinBox, followMouseDurationSpinBox)
 #: ui/oxygenfollowmouseanimationconfigbox.ui:98
 #: ui/oxygenfollowmouseanimationconfigbox.ui:114
-#, fuzzy, kde-format
-#| msgid "ms"
+#, kde-format
 msgid " ms"
-msgstr "ms"
+msgstr " ms"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
 #: ui/oxygenstyleconfig.ui:26
@@ -204,32 +209,31 @@ msgstr "كۆزنەكنى بارلىق بوش رايوندىن سۆرە"
 #: ui/oxygenstyleconfig.ui:70
 #, kde-format
 msgid "Keyboard accelerators visibility:"
-msgstr ""
+msgstr "ھەرپتاختا تېزلەتمىسىنىڭ كۆرۈنۈشچانلىقى:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
 #: ui/oxygenstyleconfig.ui:84
 #, kde-format
 msgid "Always hide"
-msgstr ""
+msgstr "ھەمىشە يوشۇر"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
 #: ui/oxygenstyleconfig.ui:89
 #, kde-format
 msgid "Show when Alt key is pressed"
-msgstr ""
+msgstr "Alt كۇنۇپكىسى بېسىلغاندا كۆرسەت"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
 #: ui/oxygenstyleconfig.ui:94
 #, kde-format
 msgid "Always show"
-msgstr ""
+msgstr "ھەمىشە كۆرسەت"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygenstyleconfig.ui:108
-#, fuzzy, kde-format
-#| msgid "Windows' drag mode:"
+#, kde-format
 msgid "Windows' &drag mode:"
-msgstr "كۆزنەكنىڭ سۆرەش ھالىتى:"
+msgstr "كۆزنەكنىڭ سۆرەش ھالىتى(&D):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, _toolBarDrawItemSeparator)
 #: ui/oxygenstyleconfig.ui:134
@@ -241,25 +245,25 @@ msgstr "قورال بالداق تۈرلىرىنى ئايرىغۇچنى سىز"
 #: ui/oxygenstyleconfig.ui:141
 #, kde-format
 msgid "Enable extended resize handles"
-msgstr ""
+msgstr "كېڭەيتىلگەن چوڭلۇقىنى ئۆزگەرتىپ بىر تەرەپ قىلىشنى قوزغىتىدۇ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, _useBackgroundGradient)
 #: ui/oxygenstyleconfig.ui:148
 #, kde-format
 msgid "Draw window background gradient"
-msgstr ""
+msgstr "كۆزنەك تەگلىك رەڭ ئۆزگىرىشىنى سىز"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: ui/oxygenstyleconfig.ui:169
 #, kde-format
 msgid "Animations"
-msgstr "جانلاندۇرۇملار"
+msgstr "جانلاندۇرۇم"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ui/oxygenstyleconfig.ui:179
 #, kde-format
 msgid "Views"
-msgstr "كۆرۈنۈشلەر"
+msgstr "كۆرۈنۈش"
 
 #. i18n: ectx: property (text), widget (QCheckBox, _viewDrawTreeBranchLines)
 #: ui/oxygenstyleconfig.ui:185
@@ -271,14 +275,14 @@ msgstr "3 دانە تارماق سىزىق سىز"
 #: ui/oxygenstyleconfig.ui:198
 #, kde-format
 msgid "&Tree expander size:"
-msgstr ""
+msgstr "شاخ كېڭەيتكۈچ چوڭلۇقى(&T):"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
 #: ui/oxygenstyleconfig.ui:209
 #, kde-format
 msgctxt "triangle size"
 msgid "Tiny"
-msgstr "كىچىك"
+msgstr "بەك كىچىك"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
 #: ui/oxygenstyleconfig.ui:214
@@ -292,26 +296,25 @@ msgstr "كىچىك"
 #, kde-format
 msgctxt "triangle size"
 msgid "Normal"
-msgstr "نورمال"
+msgstr "ئادەتتىكى"
 
 #. i18n: ectx: property (text), widget (QCheckBox, _viewDrawFocusIndicator)
 #: ui/oxygenstyleconfig.ui:256
 #, kde-format
 msgid "Draw focus indicator in lists"
-msgstr ""
+msgstr "تىزىمدا فوكۇس كۆرسەتكۈچ سىز"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: ui/oxygenstyleconfig.ui:264
 #, kde-format
 msgid "Scrollbars"
-msgstr "سىيرىغۇچ بالداقلار"
+msgstr "سىيرىغۇچ بالداق"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygenstyleconfig.ui:272
-#, fuzzy, kde-format
-#| msgid "Scrollbar width:"
+#, kde-format
 msgid "Scrollbar wi&dth:"
-msgstr "سىيرىغۇچ بالداق كەڭلىكى:"
+msgstr "سىيرىغۇچ بالداق كەڭلىكى(&D):"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, _scrollBarWidth)
 #: ui/oxygenstyleconfig.ui:310
@@ -323,39 +326,39 @@ msgstr "px"
 #: ui/oxygenstyleconfig.ui:340
 #, kde-format
 msgid "Top arrow button type:"
-msgstr "ئۈستى يا ئوق توپچىسىنىڭ تىپى:"
+msgstr "ئۈستى يا ئوق توپچىسىنىڭ تۈرى:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ui/oxygenstyleconfig.ui:350
 #, kde-format
 msgid "Bottom arrow button type:"
-msgstr "ئاستى يا ئوق توپچىسىنىڭ تىپى:"
+msgstr "ئاستى يا ئوق توپچىسىنىڭ تۈرى:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
 #: ui/oxygenstyleconfig.ui:361
 #, kde-format
 msgid "No buttons"
-msgstr "توپچىسىز"
+msgstr "توپچە يوق"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
 #. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
 #: ui/oxygenstyleconfig.ui:366 ui/oxygenstyleconfig.ui:398
 #, kde-format
 msgid "One button"
-msgstr "بىر توپچا"
+msgstr "بىر توپچە"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarSubLineButtons)
 #. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
 #: ui/oxygenstyleconfig.ui:371 ui/oxygenstyleconfig.ui:403
 #, kde-format
 msgid "Two buttons"
-msgstr "ئىككى توپچا"
+msgstr "ئىككى توپچە"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _scrollBarAddLineButtons)
 #: ui/oxygenstyleconfig.ui:393
 #, kde-format
 msgid "No button"
-msgstr "توپچىسىز"
+msgstr "توپچە يوق"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: ui/oxygenstyleconfig.ui:427
@@ -365,24 +368,21 @@ msgstr "تىزىملىكنى يورۇت"
 
 #. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightDark)
 #: ui/oxygenstyleconfig.ui:433
-#, fuzzy, kde-format
-#| msgid "Use dark color"
+#, kde-format
 msgid "Use dar&k color"
-msgstr "قارا رەڭ ئىشلەت"
+msgstr "قارا رەڭ ئىشلەت(&K)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
 #: ui/oxygenstyleconfig.ui:440
-#, fuzzy, kde-format
-#| msgid "Use selection color (plain)"
+#, kde-format
 msgid "&Use selection color (plain)"
-msgstr "تاللىغان رەڭنى ئىشلەت(تەكشى)"
+msgstr "تاللىغان رەڭنى ئىشلەت(ساپ)(&U)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
 #: ui/oxygenstyleconfig.ui:447
-#, fuzzy, kde-format
-#| msgid "Use selection color (subtle)"
+#, kde-format
 msgid "Use selec&tion color (subtle)"
-msgstr "تاللىغان رەڭنى ئىشلەت(ئازراق)"
+msgstr "تاللىغان رەڭنى ئىشلەت(ئازراق)(&T)"
 
 #~ msgid "Widget Style"
 #~ msgstr "ۋىجېت ئۇسلۇبى"
@@ -414,7 +414,6 @@ msgstr "تاللىغان رەڭنى ئىشلەت(ئازراق)"
 #~ msgid "Use 'X' in checkboxes instead of check"
 #~ msgstr "تاللاش كۆزنەكچىسىدە 'X' نى ئىشلەت"
 
-#, fuzzy
 #~| msgid "Triangle size:"
 #~ msgid "Triangle si&ze:"
 #~ msgstr "ئۈچبۇلۇڭ چوڭلۇقى:"
@@ -481,7 +480,6 @@ msgstr "تاللىغان رەڭنى ئىشلەت(ئازراق)"
 #~ msgid "Shows the appearance of various framed widgets"
 #~ msgstr "ھەر خىل كاندۇكلۇق ۋىجېتلارنىڭ قىياپىتىنى كۆرسەت"
 
-#, fuzzy
 #~| msgid "Shows the appearance of tab widgets"
 #~ msgid "Shows the appearance of MDI windows"
 #~ msgstr "بەتكۈچ ۋىجېتىنىڭ قىياپىتىنى كۆرسىتىدۇ"
@@ -501,7 +499,6 @@ msgstr "تاللىغان رەڭنى ئىشلەت(ئازراق)"
 #~ msgid "Cascade"
 #~ msgstr "دەستىلە"
 
-#, fuzzy
 #~| msgid "Toolbox"
 #~ msgid "Tools"
 #~ msgstr "قورال ئىستونى"
