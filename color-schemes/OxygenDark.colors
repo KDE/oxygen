@@ -120,6 +120,7 @@ Name[sl]=Kisik temna
 Name[tr]=Oksijen Koyu
 Name[uk]=Темна Oxygen
 Name[zh_CN]=Oxygen 轻氧深色
+Name[zh_TW]=Oxygen 深色
 TintFactor=0.15
 shadeSortColumn=true
 
