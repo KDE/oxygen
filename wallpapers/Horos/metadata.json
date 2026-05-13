@@ -20,7 +20,8 @@
                 "Name[sl]": "Nuno Pinheiro",
                 "Name[tr]": "Nuno Pinheiro",
                 "Name[uk]": "Нуно Пінейро",
-                "Name[zh_CN]": "Nuno Pinheiro"
+                "Name[zh_CN]": "Nuno Pinheiro",
+                "Name[zh_TW]": "Nuno Pinheiro"
             }
         ],
         "Id": "Horos",
@@ -41,6 +42,7 @@
         "Name[sl]": "Horos",
         "Name[tr]": "Horos",
         "Name[uk]": "Horos",
-        "Name[zh_CN]": "Horos 星象"
+        "Name[zh_CN]": "Horos 星象",
+        "Name[zh_TW]": "Horos"
     }
 }
