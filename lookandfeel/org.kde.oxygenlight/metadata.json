@@ -81,9 +81,9 @@
         "Description[uk]": "Мова компонування стільниці Oxygen",
         "Description[zh_CN]": "Oxygen 轻氧桌面设计语言",
         "Description[zh_TW]": "Oxygen 桌面設計語言",
-        "Id": "org.kde.oxygen",
+        "Id": "org.kde.oxygenlight",
         "License": "GPLv2+",
-        "Name": "Oxygen Dark",
+        "Name": "Oxygen Light",
         "Website": "http://www.kde.org"
     },
     "Keywords": "Desktop;Workspace;Appearance;Look and Feel;Logout;Lock;Suspend;Shutdown;Hibernate;",
