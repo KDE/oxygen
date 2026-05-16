@@ -84,6 +84,8 @@
         "Id": "org.kde.oxygenlight",
         "License": "GPLv2+",
         "Name": "Oxygen Light",
+        "Name[ka]": "Oxygen ღია",
+        "Name[sl]": "Kisik svetel",
         "Website": "http://www.kde.org"
     },
     "Keywords": "Desktop;Workspace;Appearance;Look and Feel;Logout;Lock;Suspend;Shutdown;Hibernate;",
