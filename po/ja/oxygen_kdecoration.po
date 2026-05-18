@@ -1,4 +1,5 @@
 # Translation of kwin_clients into Japanese.
+# SPDX-FileCopyrightText: 2026 Mint <5602mint@gmail.com>
 # This file is distributed under the same license as the kdebase package.
 # Fumiaki Okushi <okushi@kde.gr.jp>, 2004, 2005, 2010.
 # Shinichi Tsunoda <tsuno@ngy.1st.ne.jp>, 2005.
@@ -10,14 +11,14 @@ msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:53+0000\n"
-"PO-Revision-Date: 2010-06-12 23:54+0900\n"
-"Last-Translator: Taiki Komoda <kom@kde.gr.jp>\n"
-"Language-Team: Japanese <kde-jp@kde.org>\n"
+"PO-Revision-Date: 2026-05-10 12:49+0900\n"
+"Last-Translator: Mint <5602mint@gmail.com>\n"
+"Language-Team: Japanese <kde-i18n-doc@kde.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Lokalize 26.04.1\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -25,17 +26,19 @@ msgstr ""
 #: config/oxygenanimationconfigwidget.cpp:30
 #, kde-format
 msgid "Button mouseover transition"
-msgstr ""
+msgstr "ボタンのマウスオーバーアニメーション"
 
 #: config/oxygenanimationconfigwidget.cpp:30
 #, kde-format
 msgid "Configure window buttons' mouseover highlight animation"
 msgstr ""
+"ウィンドウ内のボタンにマウスポインタを合わせたときの強調アニメーションを設定"
+"できます。"
 
 #: config/oxygenanimationconfigwidget.cpp:35
 #, kde-format
 msgid "Window active state change transitions"
-msgstr ""
+msgstr "ウィンドウのアクティブ状態切り替えアニメーション"
 
 #: config/oxygenanimationconfigwidget.cpp:36
 #, kde-format
@@ -43,21 +46,23 @@ msgid ""
 "Configure fading between window shadow and glow when window's active state "
 "is changed"
 msgstr ""
+"ウィンドウのアクティブ状態が変化したときのウィンドウのシャドーとグローの"
+"フェードを設定できます。"
 
 #: config/oxygenexceptionlistwidget.cpp:87
 #, kde-format
 msgid "New Exception - Oxygen Settings"
-msgstr ""
+msgstr "新しい例外 - Oxygen 設定"
 
 #: config/oxygenexceptionlistwidget.cpp:134
 #, kde-format
 msgid "Edit Exception - Oxygen Settings"
-msgstr ""
+msgstr "例外の編集 - Oxygen 設定"
 
 #: config/oxygenexceptionlistwidget.cpp:166
 #, kde-format
 msgid "Question - Oxygen Settings"
-msgstr ""
+msgstr "質問 - Oxygen 設定"
 
 #: config/oxygenexceptionlistwidget.cpp:167
 #, kde-format
@@ -74,7 +79,7 @@ msgstr "削除"
 #: config/oxygenexceptionlistwidget.cpp:301
 #, kde-format
 msgid "Warning - Oxygen Settings"
-msgstr ""
+msgstr "警告 - Oxygen 設定"
 
 #: config/oxygenexceptionlistwidget.cpp:301
 #, kde-format
@@ -146,7 +151,7 @@ msgstr "より大"
 #: config/ui/oxygenconfigurationui.ui:67
 #, kde-format
 msgid "Tit&le alignment:"
-msgstr ""
+msgstr "タイトルの位置(&L):"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
 #: config/ui/oxygenconfigurationui.ui:81
@@ -164,7 +169,7 @@ msgstr "中央"
 #: config/ui/oxygenconfigurationui.ui:91
 #, kde-format
 msgid "Center (Full Width)"
-msgstr ""
+msgstr "中央 (全幅)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
 #: config/ui/oxygenconfigurationui.ui:96
@@ -176,43 +181,43 @@ msgstr "右"
 #: config/ui/oxygenconfigurationui.ui:104
 #, kde-format
 msgid "B&utton size:"
-msgstr ""
+msgstr "ボタンのサイズ(&B):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, drawBorderOnMaximizedWindows)
 #: config/ui/oxygenconfigurationui.ui:117
 #, kde-format
 msgid "Allow resizing maximized windows from window edges"
-msgstr ""
+msgstr "全画面ウィンドウでも画面の端でリサイズ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useWindowColors)
 #: config/ui/oxygenconfigurationui.ui:137
 #, kde-format
 msgid "Use the same colors for title bar and window content"
-msgstr ""
+msgstr "タイトルバーとウィンドウの内容にも同じ色を使用"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: config/ui/oxygenconfigurationui.ui:145
 #, kde-format
 msgid "Animations"
-msgstr ""
+msgstr "アニメーション"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: config/ui/oxygenconfigurationui.ui:158
 #, kde-format
 msgid "Shadows"
-msgstr ""
+msgstr "シャドー"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, activeShadowConfiguration)
 #: config/ui/oxygenconfigurationui.ui:164
 #, kde-format
 msgid "Active Window Glow"
-msgstr ""
+msgstr "アクティブ時のグロー"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, inactiveShadowConfiguration)
 #: config/ui/oxygenconfigurationui.ui:174
 #, kde-format
 msgid "Window Drop-Down Shadow"
-msgstr ""
+msgstr "ドロップダウンのシャドー"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: config/ui/oxygenconfigurationui.ui:198
@@ -225,7 +230,7 @@ msgstr "ウィンドウ固有の設定"
 #: config/ui/oxygendetectwidget.ui:14 config/ui/oxygenexceptiondialog.ui:14
 #, kde-format
 msgid "Dialog"
-msgstr ""
+msgstr "ダイアログ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: config/ui/oxygendetectwidget.ui:20
@@ -271,17 +276,15 @@ msgstr "ウィンドウの識別"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: config/ui/oxygenexceptiondialog.ui:26
-#, fuzzy, kde-format
-#| msgid "Matching window property: "
+#, kde-format
 msgid "&Matching window property: "
-msgstr "識別に用いるウィンドウのプロパティ: "
+msgstr "識別するウィンドウプロパティ(&M): "
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: config/ui/oxygenexceptiondialog.ui:39
-#, fuzzy, kde-format
-#| msgid "Regular expression to match: "
+#, kde-format
 msgid "Regular expression &to match: "
-msgstr "マッチさせる正規表現: "
+msgstr "マッチさせる正規表現(&T): "
 
 #. i18n: ectx: property (text), widget (QPushButton, detectDialogButton)
 #: config/ui/oxygenexceptiondialog.ui:52
@@ -319,7 +322,7 @@ msgstr "枠なし"
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
-msgstr ""
+msgstr "横枠なし"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:117
