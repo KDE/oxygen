@@ -2,20 +2,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Freek de Kruijf <freekdekruijf@kde.nl>, 2014, 2015, 2016, 2017.
+# SPDX-FileCopyrightText: 2026 pieter <pieterkristensen@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:53+0000\n"
-"PO-Revision-Date: 2017-12-13 22:38+0100\n"
-"Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
+"PO-Revision-Date: 2026-05-18 16:22+0200\n"
+"Last-Translator: pieter <pieterkristensen@gmail.com>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 26.04.1\n"
 
 #: config/oxygenanimationconfigwidget.cpp:30
 #, kde-format
@@ -197,7 +198,7 @@ msgstr "Animaties"
 #: config/ui/oxygenconfigurationui.ui:158
 #, kde-format
 msgid "Shadows"
-msgstr "Verduistering"
+msgstr "Schaduw"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, activeShadowConfiguration)
 #: config/ui/oxygenconfigurationui.ui:164
