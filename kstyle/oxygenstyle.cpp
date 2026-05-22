@@ -5484,6 +5484,11 @@ bool Style::drawShapedFrameControl(const QStyleOption *option, QPainter *painter
     }
 
     case QFrame::HLine: {
+        // KPageView adds a QFrame::HLine separator below its title widget.
+        // Skip drawing because it does not fit Oxygen's visual style.
+        if (widget && widget->parent() && widget->parent()->inherits("KPageView")) {
+            return true;
+        }
         const QColor color(_helper->backgroundColor(option->palette.color(QPalette::Window), widget, option->rect.center()));
         _helper->drawSeparator(painter, option->rect, color, Qt::Horizontal);
         return true;
