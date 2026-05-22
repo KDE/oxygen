@@ -19,6 +19,14 @@ set(KDE_COMPILERSETTINGS_LEVEL "5.82")
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# We need this because we can't include KDECMakeSettings here, because that
+# would need KDEInstallDirs, which we can only include in the qt{5,6} builds
+# to get the correct installation dirs for each Qt version.
+option(BUILD_TESTING "Build the testing tree." ON)
+if(BUILD_TESTING)
+    enable_testing()
+endif()
+
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} )
 
