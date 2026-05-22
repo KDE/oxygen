@@ -38,3 +38,4 @@ Dependencies:
 
 Options:
  require-passing-tests-on: ['@all']
+ enable-lsan: True
