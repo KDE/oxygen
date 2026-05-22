@@ -41,3 +41,13 @@ if(OXYGEN_HAVE_X11)
 endif()
 
 kcmutils_generate_desktop_file(kcm_oxygendecoration)
+
+# kcmshell6 < 6.27.0 doesn't know the --smoke-test param, so skip this test for
+# now.
+# TODO: Drop this when KF6_MIN_VERSION >= 6.27.0
+if(KF6KCMUtils_VERSION VERSION_GREATER_EQUAL "6.27.0")
+    add_test(NAME kcm_oxygendecoration_smoketest COMMAND kcmshell6 -style Oxygen --smoke-test ${KDECORATION_KCM_PLUGIN_DIR}/kcm_oxygendecoration)
+    set_tests_properties(kcm_oxygendecoration_smoketest PROPERTIES
+        ENVIRONMENT_MODIFICATION QT_PLUGIN_PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin
+    )
+endif()

@@ -95,3 +95,13 @@ if(QT_MAJOR_VERSION EQUAL 6)
     add_subdirectory(config)
 endif()
 add_subdirectory(demo)
+
+# kcmshell6 < 6.27.0 doesn't know the --smoke-test param, so skip this test for
+# now.
+# TODO: Drop this when KF6_MIN_VERSION >= 6.27.0
+if(KF6KCMUtils_VERSION VERSION_GREATER_EQUAL "6.27.0")
+    add_test(NAME oxygenstyleconfig_smoketest COMMAND kcmshell6 -style Oxygen --smoke-test kstyle_config/kstyle_oxygen_config)
+    set_tests_properties(oxygenstyleconfig_smoketest PROPERTIES
+        ENVIRONMENT_MODIFICATION QT_PLUGIN_PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin
+    )
+endif()
