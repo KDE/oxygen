@@ -52,3 +52,8 @@ endif()
 
 ########### install files ###############
 install(TARGETS oxygen-demo${QT_MAJOR_VERSION} ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+
+add_test(NAME oxygen_demo_smoketest COMMAND oxygen-demo6 -style Oxygen --smoke-test)
+set_tests_properties(oxygen_demo_smoketest PROPERTIES
+    ENVIRONMENT_MODIFICATION QT_PLUGIN_PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin
+)

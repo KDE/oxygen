@@ -16,6 +16,7 @@
 #include <QCommandLineOption>
 #include <QCommandLineParser>
 #include <QIcon>
+#include <QTimer>
 
 #include <KLocalizedString>
 
@@ -30,6 +31,10 @@ int run(int argc, char *argv[])
     QCommandLineOption enableHighDpi(QStringLiteral("highdpi"), QStringLiteral("Enable High DPI pixmaps"));
     commandLine.addOption(enableHighDpi);
 #endif
+    QCommandLineOption smokeTest("smoke-test", "Internal, for testing");
+    smokeTest.setFlags(QCommandLineOption::HiddenFromHelp);
+    commandLine.addOption(smokeTest);
+
     commandLine.process(app);
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     app.setAttribute(Qt::AA_UseHighDpiPixmaps, commandLine.isSet(enableHighDpi));
@@ -38,6 +43,13 @@ int run(int argc, char *argv[])
     app.setWindowIcon(QIcon::fromTheme(QStringLiteral("oxygen")));
     DemoDialog dialog;
     dialog.show();
+
+    if (commandLine.isSet(smokeTest)) {
+        QTimer::singleShot(std::chrono::milliseconds(250), &app, [] {
+            qApp->quit();
+        });
+    }
+
     bool result = app.exec();
     return result;
 }
