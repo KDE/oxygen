@@ -86,6 +86,7 @@
         "Id": "org.kde.oxygen",
         "License": "GPLv2+",
         "Name": "Oxygen Dark",
+        "Name[ar]": "أكسجين مظلم",
         "Name[ca@valencia]": "Oxygen Dark",
         "Name[ca]": "Oxygen Dark",
         "Name[es]": "Oxígeno oscuro",
@@ -104,6 +105,7 @@
         "Name[tr]": "Oksijen Koyu",
         "Name[uk]": "Темна Oxygen",
         "Name[zh_CN]": "Oxygen 轻氧深色",
+        "Name[zh_TW]": "Oxygen Dark",
         "Website": "http://www.kde.org"
     },
     "Keywords": "Desktop;Workspace;Appearance;Look and Feel;Logout;Lock;Suspend;Shutdown;Hibernate;",
