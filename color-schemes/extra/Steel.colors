@@ -88,6 +88,7 @@ ForegroundVisited=100,74,155
 [General]
 Name=Steel
 Name[ar]=ستيل
+Name[bg]=Steel
 Name[ca]=Steel
 Name[ca@valencia]=Steel
 Name[de]=Stahl

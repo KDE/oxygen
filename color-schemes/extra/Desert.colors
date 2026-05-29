@@ -89,6 +89,7 @@ ForegroundVisited=117,87,182
 [General]
 Name=Desert
 Name[ar]=صحراء
+Name[bg]=Desert
 Name[ca]=Desert
 Name[ca@valencia]=Desert
 Name[de]=Wüste
