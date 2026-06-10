@@ -136,14 +136,14 @@ private:
     //* true if button if of menu type
     bool isMenuButton(void) const
     {
-        return type() == KDecoration3::DecorationButtonType::Menu || type() == KDecoration3::DecorationButtonType::ApplicationMenu;
+        return type() == KDecoration3::DecorationButtonType::Menu;
     }
 
     //* true if button is of toggle type
     bool isToggleButton(void) const
     {
         return type() == KDecoration3::DecorationButtonType::OnAllDesktops || type() == KDecoration3::DecorationButtonType::KeepAbove
-            || type() == KDecoration3::DecorationButtonType::KeepBelow;
+            || type() == KDecoration3::DecorationButtonType::KeepBelow || type() == KDecoration3::DecorationButtonType::ExcludeFromCapture;
     }
 
     //* true if button if of close type
