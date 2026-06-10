@@ -3099,6 +3099,30 @@ QSize Style::itemViewItemSizeFromContents(const QStyleOption *option, const QSiz
 //___________________________________________________________________________________
 bool Style::drawFramePrimitive(const QStyleOption *option, QPainter *painter, const QWidget *widget) const
 {
+    // WORKAROUND: to make Oxygen look somewhat decent with Dolphin's small mode statusbar
+    // first we make the background use the Oxygen gradient
+    if (widget && widget->inherits("DolphinStatusBar")) {
+        painter->save();
+        painter->setRenderHint(QPainter::Antialiasing);
+        const qreal penWidth = 1.0;
+        const qreal adjustment = 0.5 * penWidth;
+        QPainterPath path;
+        path.addRoundedRect(QRectF(option->rect).adjusted(adjustment, adjustment, -adjustment, -adjustment), Frame_FrameRadius, Frame_FrameRadius);
+        painter->setClipPath(path);
+        _helper->renderWindowBackground(painter, option->rect, widget, widget->window(), option->palette.color(QPalette::Window));
+
+        // then we draw a frame border clipped to same path
+        const QColor color(_helper->backgroundColor(option->palette.color(QPalette::Window), widget, option->rect.center()));
+        const QColor dark(_helper->calcDarkColor(color));
+        QPen pen(dark, penWidth);
+        pen.setCosmetic(true);
+        painter->setPen(pen);
+        painter->setBrush(Qt::NoBrush);
+        painter->drawPath(path);
+        painter->restore();
+        return true;
+    }
+
     // copy rect and palette
     const QRect &rect(option->rect);
     const QPalette &palette(option->palette);
