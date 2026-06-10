@@ -333,6 +333,22 @@ void Button::drawIcon(QPainter *painter)
         break;
     }
 
+    case KDecoration3::DecorationButtonType::ExcludeFromCapture:
+        painter->drawPolyline(QPolygonF() << QPointF(7.5, 9) << QPointF(7.5, 7.5) << QPointF(9, 7.5));
+        painter->drawPolyline(QPolygonF() << QPointF(12, 13.5) << QPointF(13.5, 13.5) << QPointF(13.5, 12));
+
+        if (!isChecked()) {
+            painter->drawPolyline(QPolygonF() << QPointF(12, 7.5) << QPointF(13.5, 7.5) << QPointF(13.5, 9));
+            painter->drawPolyline(QPolygonF() << QPointF(7.5, 12) << QPointF(7.5, 13.5) << QPointF(9, 13.5));
+        } else {
+            QPen redPen(painter->pen());
+            redPen.setColor(SettingsProvider::self()->helper()->negativeTextColor(decoration()->window()->palette()));
+            redPen.setWidthF(0.8);
+            painter->setPen(redPen);
+            painter->drawLine(QPointF(7.5, 13.5), QPointF(13.5, 7.5));
+        }
+        break;
+
     case KDecoration3::DecorationButtonType::Shade:
         if (!isChecked()) {
             // shade button
