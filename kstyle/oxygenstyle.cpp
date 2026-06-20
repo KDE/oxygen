@@ -4512,6 +4512,11 @@ bool Style::drawIndicatorBranchPrimitive(const QStyleOption *option, QPainter *p
     int expanderAdjust = 0;
     if (state & State_Children) {
         int sizeLimit = qMin(rect.width(), rect.height());
+        // Clamp to the expander size so the clearance kept free around the
+        // expander does not swallow the tree branch lines. Without this the
+        // adjustment would be half the (often tall) item, drawing the branch
+        // lines far too short, which is most noticeable on collapsed items.
+        sizeLimit = qMin(sizeLimit, 10);
         const bool expanderOpen(state & State_Open);
 
         // make sure size limit is odd
