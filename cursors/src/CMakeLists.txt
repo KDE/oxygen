@@ -1,3 +1,6 @@
+cmake_minimum_required(VERSION 3.16)
+project(oxygen-cursors-svg)
+
 include(cursors.cmake)
 include(config.cmake)
 include(setup.cmake)
