@@ -19,7 +19,8 @@ macro(add_cursor cursor color theme dpi)
     foreach(resolution ${resolutions})
         add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/oxy-${theme}/png/${resolution}/${cursor}.png
                            DEPENDS ${CMAKE_BINARY_DIR}/oxy-${theme}/svg/${cursor}.svg
-                           COMMAND ${INKSCAPE} --without-gui --export-dpi=${resolution}
+                           # Export page bounds explicitly to avoid per-frame trimming/cropping drift.
+                           COMMAND ${INKSCAPE} --without-gui --export-area-page --export-dpi=${resolution}
                                                --export-png=${CMAKE_BINARY_DIR}/oxy-${theme}/png/${resolution}/${cursor}.png
                                                ${CMAKE_BINARY_DIR}/oxy-${theme}/svg/${cursor}.svg
                           )
