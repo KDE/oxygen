@@ -29,7 +29,7 @@
        id="path-effect6"
        is_visible="true"
        lpeversion="1"
-       nodesatellites_param="F,0,0,1,0,0,0,1 @ F,0,0,1,0,1.9943999,0,1 @ F,0,0,1,0,1.9943999,0,1 @ F,0,0,1,0,1.3238265,0,1 @ F,0,1,1,0,1.3238265,0,1 @ F,0,1,1,0,0,0,1"
+       nodesatellites_param="F,0,0,1,0,0,0,1 @ F,0,0,1,0,1.9943999,0,1 @ F,0,0,1,0,1.9943999,0,1 @ F,0,0,1,0,1.3238265,0,1 @ F,0,1,1,0,1.3238265,0,1 @ F,0,0,1,0,0,0,1"
        radius="0"
        unit="px"
        method="auto"
@@ -234,9 +234,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="35.5155"
-     inkscape:cx="13.881263"
-     inkscape:cy="14.542946"
+     inkscape:zoom="32.485335"
+     inkscape:cx="10.15843"
+     inkscape:cy="24.118575"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
@@ -325,17 +325,11 @@
        d="m 20.460834,17.194846 c 0,-1.365963 -2.480837,-1.684012 -4.956928,-1.684012 -2.476091,0 -4.956928,0.318049 -4.956928,1.684012 0,1.365963 2.480837,3.262576 4.956928,3.262576 2.476091,0 4.956928,-1.896613 4.956928,-3.262576 z"
        sodipodi:nodetypes="sssss" />
     <path
-       style="opacity:1;fill:none;fill-opacity:0;fill-rule:evenodd;stroke:#e3ad00;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
-       d="M 13.473114,11.473114 A 2.0110926,2.0110926 135.69095 0 1 15.4944,9.5 h 0.0112 A 1.9943999,1.9943999 45 0 1 17.5,11.4944 2.5251279,2.5251279 117.71077 0 1 16.415479,13.559165 2.3467279,2.3467279 114.98424 0 0 15.5,15.523827 V 16.2"
        id="path6"
-       sodipodi:nodetypes="cccccc"
-       inkscape:path-effect="#path-effect6"
-       inkscape:original-d="M 13.473114,11.473114 13.5,9.5 h 4 v 3.3 l -2,1.4 v 2" />
-    <circle
-       style="opacity:1;fill:#e3ad00;fill-opacity:1;fill-rule:evenodd;stroke:#e3ad00;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;fill:#0d0d0d;fill-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;paint-order:fill markers stroke;enable-background:accumulate;stop-color:#000000;stop-opacity:1;opacity:1;fill-opacity:1"
+       d="M 15.494141 9 C 14.127215 8.99388 12.998456 10.095963 12.972656 11.462891 A 0.5 0.5 0 0 0 13.462891 11.972656 A 0.5 0.5 0 0 0 13.972656 11.482422 C 13.988361 10.650371 14.659999 9.9956338 15.492188 10 A 0.50005 0.50005 0 0 0 15.494141 10 L 15.505859 10 C 16.337067 10 17 10.662884 17 11.494141 C 16.997 12.154791 16.67352 12.771486 16.130859 13.148438 A 0.50005 0.50005 0 0 0 16.111328 13.162109 C 15.37489 13.727439 14.959184 14.617414 15 15.544922 L 15 16.199219 A 0.5 0.5 0 0 0 15.5 16.699219 A 0.5 0.5 0 0 0 16 16.199219 L 16 15.523438 A 0.50005 0.50005 0 0 0 16 15.501953 C 15.973849 14.907794 16.235186 14.338578 16.701172 13.970703 L 16.716797 13.958984 C 16.718261 13.957853 16.719235 13.956205 16.720703 13.955078 C 17.518608 13.390907 17.996469 12.474308 18 11.496094 A 0.50005 0.50005 0 0 0 18 11.494141 C 18 10.122491 16.877556 9 15.505859 9 L 15.496094 9 L 15.494141 9 z M 15.5 17.640625 C 15.030932 17.640624 14.640624 18.030932 14.640625 18.5 C 14.640624 18.969067 15.030932 19.359375 15.5 19.359375 C 15.969067 19.359375 16.361328 18.969067 16.361328 18.5 C 16.361328 18.030932 15.969067 17.640624 15.5 17.640625 z " />
+    <g
        id="path7"
-       cx="15.539956"
-       cy="18.260044"
-       r="0.36004362" />
+       style="opacity:1" />
   </g>
 </svg>
