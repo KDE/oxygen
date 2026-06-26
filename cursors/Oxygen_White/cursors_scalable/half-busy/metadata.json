@@ -1,126 +1,420 @@
 [
     {
-        "filename": "half-busy17.svg",
-        "delay": 40,
-        "hotspot_x": 0,
-        "hotspot_y": 0,
-        "nominal_size": 24
-    },
-    {
-        "filename": "half-busy16.svg",
-        "delay": 40,
-        "hotspot_x": 0,
-        "hotspot_y": 0,
-        "nominal_size": 24
-    },
-    {
-        "filename": "half-busy15.svg",
-        "delay": 40,
-        "hotspot_x": 0,
-        "hotspot_y": 0,
-        "nominal_size": 24
-    },
-    {
-        "filename": "half-busy14.svg",
-        "delay": 40,
-        "hotspot_x": 0,
-        "hotspot_y": 0,
-        "nominal_size": 24
-    },
-    {
-        "filename": "half-busy13.svg",
-        "delay": 40,
-        "hotspot_x": 0,
-        "hotspot_y": 0,
-        "nominal_size": 24
-    },
-    {
-        "filename": "half-busy12.svg",
-        "delay": 40,
-        "hotspot_x": 0,
-        "hotspot_y": 0,
-        "nominal_size": 24
-    },
-    {
-        "filename": "half-busy11.svg",
-        "delay": 40,
-        "hotspot_x": 0,
-        "hotspot_y": 0,
-        "nominal_size": 24
-    },
-    {
-        "filename": "half-busy10.svg",
-        "delay": 40,
-        "hotspot_x": 0,
-        "hotspot_y": 0,
-        "nominal_size": 24
-    },
-    {
-        "filename": "half-busy9.svg",
-        "delay": 40,
-        "hotspot_x": 0,
-        "hotspot_y": 0,
-        "nominal_size": 24
-    },
-    {
-        "filename": "half-busy8.svg",
-        "delay": 40,
-        "hotspot_x": 0,
-        "hotspot_y": 0,
-        "nominal_size": 24
-    },
-    {
-        "filename": "half-busy7.svg",
-        "delay": 40,
-        "hotspot_x": 0,
-        "hotspot_y": 0,
-        "nominal_size": 24
-    },
-    {
-        "filename": "half-busy6.svg",
-        "delay": 40,
-        "hotspot_x": 0,
-        "hotspot_y": 0,
-        "nominal_size": 24
-    },
-    {
-        "filename": "half-busy5.svg",
-        "delay": 40,
+        "filename": "half-busy3.svg",
+        "delay": 30,
         "hotspot_x": 0,
         "hotspot_y": 0,
         "nominal_size": 24
     },
     {
         "filename": "half-busy4.svg",
-        "delay": 40,
+        "delay": 30,
         "hotspot_x": 0,
         "hotspot_y": 0,
         "nominal_size": 24
     },
     {
-        "filename": "half-busy3.svg",
-        "delay": 40,
+        "filename": "half-busy5.svg",
+        "delay": 30,
         "hotspot_x": 0,
         "hotspot_y": 0,
         "nominal_size": 24
     },
     {
-        "filename": "half-busy2.svg",
-        "delay": 40,
+        "filename": "half-busy6.svg",
+        "delay": 30,
         "hotspot_x": 0,
         "hotspot_y": 0,
         "nominal_size": 24
     },
     {
-        "filename": "half-busy1.svg",
-        "delay": 40,
+        "filename": "half-busy7.svg",
+        "delay": 30,
         "hotspot_x": 0,
         "hotspot_y": 0,
         "nominal_size": 24
     },
     {
-        "filename": "half-busy.svg",
-        "delay": 40,
+        "filename": "half-busy8.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy9.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy10.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy11.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy12.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy13.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy14.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy15.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy16.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy17.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy18.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy19.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy20.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy21.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy22.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy23.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy24.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy25.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy26.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy27.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy28.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy29.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy30.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy31.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy32.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy33.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy34.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy35.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy36.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy37.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy38.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy39.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy40.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy41.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy42.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy43.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy44.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy45.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy46.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy47.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy48.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy49.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy50.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy51.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy52.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy53.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy54.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy55.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy56.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy57.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy58.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy59.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy60.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy61.svg",
+        "delay": 30,
+        "hotspot_x": 0,
+        "hotspot_y": 0,
+        "nominal_size": 24
+    },
+    {
+        "filename": "half-busy62.svg",
+        "delay": 30,
         "hotspot_x": 0,
         "hotspot_y": 0,
         "nominal_size": 24
