@@ -387,7 +387,7 @@ msgstr "Utilitza un color &fosc"
 #: ui/oxygenstyleconfig.ui:440
 #, kde-format
 msgid "&Use selection color (plain)"
-msgstr "Utilit&za una selecció de color (senzill)"
+msgstr "&Utilitza una selecció de color (senzill)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightSubtle)
 #: ui/oxygenstyleconfig.ui:447
