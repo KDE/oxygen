@@ -41,6 +41,7 @@ ConfigWidget::ConfigWidget(QObject *parent, const KPluginMetaData &metaData, con
     // track ui changes
     connect(m_ui.titleAlignment, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()));
     connect(m_ui.buttonSize, SIGNAL(currentIndexChanged(int)), SLOT(updateChanged()));
+    connect(m_ui.drawBackgroundGradient, SIGNAL(clicked()), SLOT(updateChanged()));
     connect(m_ui.drawBorderOnMaximizedWindows, SIGNAL(clicked()), SLOT(updateChanged()));
     connect(m_ui.useWindowColors, SIGNAL(clicked()), SLOT(updateChanged()));
     connect(m_ui.animationConfigWidget, SIGNAL(changed(bool)), SLOT(updateChanged()));
@@ -63,6 +64,7 @@ void ConfigWidget::load(void)
     // assign to ui
     m_ui.titleAlignment->setCurrentIndex(m_internalSettings->titleAlignment());
     m_ui.buttonSize->setCurrentIndex(m_internalSettings->buttonSize());
+    m_ui.drawBackgroundGradient->setChecked(m_internalSettings->drawBackgroundGradient());
     m_ui.drawBorderOnMaximizedWindows->setChecked(m_internalSettings->drawBorderOnMaximizedWindows());
     m_ui.useWindowColors->setChecked(m_internalSettings->useWindowColors());
 
@@ -92,6 +94,7 @@ void ConfigWidget::save(void)
     // apply modifications from ui
     m_internalSettings->setTitleAlignment(m_ui.titleAlignment->currentIndex());
     m_internalSettings->setButtonSize(m_ui.buttonSize->currentIndex());
+    m_internalSettings->setDrawBackgroundGradient(m_ui.drawBackgroundGradient->isChecked());
     m_internalSettings->setDrawBorderOnMaximizedWindows(m_ui.drawBorderOnMaximizedWindows->isChecked());
     m_internalSettings->setUseWindowColors(m_ui.useWindowColors->isChecked());
 
@@ -139,6 +142,7 @@ void ConfigWidget::defaults(void)
     // assign to ui
     m_ui.titleAlignment->setCurrentIndex(m_internalSettings->titleAlignment());
     m_ui.buttonSize->setCurrentIndex(m_internalSettings->buttonSize());
+    m_ui.drawBackgroundGradient->setChecked(m_internalSettings->drawBackgroundGradient());
     m_ui.drawBorderOnMaximizedWindows->setChecked(m_internalSettings->drawBorderOnMaximizedWindows());
     m_ui.useWindowColors->setChecked(m_internalSettings->useWindowColors());
 
@@ -166,6 +170,8 @@ void ConfigWidget::updateChanged(void)
     if (m_ui.titleAlignment->currentIndex() != m_internalSettings->titleAlignment())
         modified = true;
     else if (m_ui.buttonSize->currentIndex() != m_internalSettings->buttonSize())
+        modified = true;
+    else if (m_ui.drawBackgroundGradient->isChecked() != m_internalSettings->drawBackgroundGradient())
         modified = true;
     else if (m_ui.drawBorderOnMaximizedWindows->isChecked() != m_internalSettings->drawBorderOnMaximizedWindows())
         modified = true;

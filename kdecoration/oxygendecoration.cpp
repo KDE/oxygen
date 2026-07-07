@@ -570,7 +570,14 @@ void Decoration::renderWindowBackground(QPainter *painter, const QRectF &clipRec
         innerClientRect.adjust(1, 1, -1, -1);
     }
 
-    SettingsProvider::self()->helper()->renderWindowBackground(painter, clipRect, innerClientRect, titleBarColor(palette), borderTop() - 24);
+    if (m_internalSettings->drawBackgroundGradient())
+    {
+        SettingsProvider::self()->helper()->renderWindowBackground(painter, clipRect, innerClientRect, titleBarColor(palette), borderTop() - 24);
+    }
+    else
+    {
+        painter->fillRect(innerClientRect, titleBarColor(palette));
+    }
 }
 
 //_________________________________________________________
