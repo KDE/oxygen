@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:53+0000\n"
+"POT-Creation-Date: 2026-07-08 00:46+0000\n"
 "PO-Revision-Date: 2024-12-20 21:53+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -189,32 +189,38 @@ msgstr "विण्डो-प्रान्तेभ्यः अधिकत�
 msgid "Use the same colors for title bar and window content"
 msgstr "शीर्षकपट्टिकायाः विण्डोसामग्रीणां च कृते समानवर्णानां उपयोगं कुर्वन्तु"
 
+#. i18n: ectx: property (text), widget (QCheckBox, drawBackgroundGradient)
+#: config/ui/oxygenconfigurationui.ui:144
+#, kde-format
+msgid "Draw titlebar background gradient"
+msgstr ""
+
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: config/ui/oxygenconfigurationui.ui:145
+#: config/ui/oxygenconfigurationui.ui:152
 #, kde-format
 msgid "Animations"
 msgstr "एनिमेशन"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: config/ui/oxygenconfigurationui.ui:158
+#: config/ui/oxygenconfigurationui.ui:165
 #, kde-format
 msgid "Shadows"
 msgstr "छायाः"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, activeShadowConfiguration)
-#: config/ui/oxygenconfigurationui.ui:164
+#: config/ui/oxygenconfigurationui.ui:171
 #, kde-format
 msgid "Active Window Glow"
 msgstr "सक्रिय खिडकी चमक"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, inactiveShadowConfiguration)
-#: config/ui/oxygenconfigurationui.ui:174
+#: config/ui/oxygenconfigurationui.ui:181
 #, kde-format
 msgid "Window Drop-Down Shadow"
 msgstr "विण्डो ड्रॉप-डाउन छाया"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: config/ui/oxygenconfigurationui.ui:198
+#: config/ui/oxygenconfigurationui.ui:205
 #, kde-format
 msgid "Window-Specific Overrides"
 msgstr "विण्डो-विशिष्टं अधिलिखितम्"

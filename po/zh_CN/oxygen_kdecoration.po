@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:53+0000\n"
+"POT-Creation-Date: 2026-07-08 00:46+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -185,32 +185,38 @@ msgstr "允许通过窗口边缘调整最大化窗口的大小"
 msgid "Use the same colors for title bar and window content"
 msgstr "标题栏和窗口内容使用同一颜色"
 
+#. i18n: ectx: property (text), widget (QCheckBox, drawBackgroundGradient)
+#: config/ui/oxygenconfigurationui.ui:144
+#, kde-format
+msgid "Draw titlebar background gradient"
+msgstr ""
+
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: config/ui/oxygenconfigurationui.ui:145
+#: config/ui/oxygenconfigurationui.ui:152
 #, kde-format
 msgid "Animations"
 msgstr "动画"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: config/ui/oxygenconfigurationui.ui:158
+#: config/ui/oxygenconfigurationui.ui:165
 #, kde-format
 msgid "Shadows"
 msgstr "阴影"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, activeShadowConfiguration)
-#: config/ui/oxygenconfigurationui.ui:164
+#: config/ui/oxygenconfigurationui.ui:171
 #, kde-format
 msgid "Active Window Glow"
 msgstr "活动窗口高亮"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, inactiveShadowConfiguration)
-#: config/ui/oxygenconfigurationui.ui:174
+#: config/ui/oxygenconfigurationui.ui:181
 #, kde-format
 msgid "Window Drop-Down Shadow"
 msgstr "窗口投影"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: config/ui/oxygenconfigurationui.ui:198
+#: config/ui/oxygenconfigurationui.ui:205
 #, kde-format
 msgid "Window-Specific Overrides"
 msgstr "特定窗口规则覆盖"

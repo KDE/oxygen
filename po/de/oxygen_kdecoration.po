@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oxygen_kdecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:53+0000\n"
+"POT-Creation-Date: 2026-07-08 00:46+0000\n"
 "PO-Revision-Date: 2026-05-21 15:47+0200\n"
 "Last-Translator: Philipp Kiemle <l10n.daphipz@fastmail.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -187,32 +187,39 @@ msgstr ""
 msgid "Use the same colors for title bar and window content"
 msgstr "Dieselben Farben für Titelleiste und Fensterinhalt verwenden"
 
+#. i18n: ectx: property (text), widget (QCheckBox, drawBackgroundGradient)
+#: config/ui/oxygenconfigurationui.ui:144
+#, fuzzy, kde-format
+#| msgid "Draw window background"
+msgid "Draw titlebar background gradient"
+msgstr "Fensterhintergrund zeichnen"
+
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: config/ui/oxygenconfigurationui.ui:145
+#: config/ui/oxygenconfigurationui.ui:152
 #, kde-format
 msgid "Animations"
 msgstr "Animationen"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: config/ui/oxygenconfigurationui.ui:158
+#: config/ui/oxygenconfigurationui.ui:165
 #, kde-format
 msgid "Shadows"
 msgstr "Schatten"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, activeShadowConfiguration)
-#: config/ui/oxygenconfigurationui.ui:164
+#: config/ui/oxygenconfigurationui.ui:171
 #, kde-format
 msgid "Active Window Glow"
 msgstr "Glühen für aktives Fenster"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, inactiveShadowConfiguration)
-#: config/ui/oxygenconfigurationui.ui:174
+#: config/ui/oxygenconfigurationui.ui:181
 #, kde-format
 msgid "Window Drop-Down Shadow"
 msgstr "Schattenwurf für Fenster"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: config/ui/oxygenconfigurationui.ui:198
+#: config/ui/oxygenconfigurationui.ui:205
 #, kde-format
 msgid "Window-Specific Overrides"
 msgstr "Fensterspezifische Einstellungen"
@@ -513,9 +520,6 @@ msgstr "Bearbeiten"
 
 #~ msgid "Oxygen Shadow Demo"
 #~ msgstr "Oxygen-Schatten-Demo"
-
-#~ msgid "Draw window background"
-#~ msgstr "Fensterhintergrund zeichnen"
 
 #~ msgid "Inactive Windows"
 #~ msgstr "Inaktive Fenster"
