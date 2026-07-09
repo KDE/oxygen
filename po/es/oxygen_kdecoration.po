@@ -1,15 +1,15 @@
 # Spanish translations for oxygen_kdecoration.po package.
-# Copyright (C) 2014-2025 This file is copyright:
+# Copyright (C) 2014-2026 This file is copyright:
 # This file is distributed under the same license as the oxygen package.
 # Automatically generated, 2014.
 #
-# SPDX-FileCopyrightText: 2014, 2015, 2016, 2017, 2025 Eloy Cuadra <ecuadra@eloihr.net>
+# SPDX-FileCopyrightText: 2014-2017, 2025-2026 Eloy Cuadra <ecuadra@eloihr.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: oxygen_kdecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-08 00:46+0000\n"
-"PO-Revision-Date: 2025-05-20 02:30+0100\n"
+"PO-Revision-Date: 2026-07-08 21:45+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 26.04.3\n"
 
 #: config/oxygenanimationconfigwidget.cpp:30
 #, kde-format
@@ -198,7 +198,7 @@ msgstr ""
 #: config/ui/oxygenconfigurationui.ui:144
 #, kde-format
 msgid "Draw titlebar background gradient"
-msgstr ""
+msgstr "Dibujar gradiente del fondo de la barra de título"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: config/ui/oxygenconfigurationui.ui:152
