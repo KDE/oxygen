@@ -1,10 +1,10 @@
 # oxygen_kwin_deco.po
 # Copyright (C) 2014 This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
+# Safa Alfulaij <safa1996alfulaij@gmail.com>, 2015.
+# SPDX-FileCopyrightText: 2021, 2026 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
 #
 # Abd_Allatif, 2014.
-# Safa Alfulaij <safa1996alfulaij@gmail.com>, 2015.
-# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
@@ -19,6 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #: config/oxygenanimationconfigwidget.cpp:31
 #, kde-format
