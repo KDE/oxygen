@@ -1,16 +1,16 @@
 # oxygen_kwin_deco.po
 # Copyright (C) 2014 This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
+# Safa Alfulaij <safa1996alfulaij@gmail.com>, 2015.
+# SPDX-FileCopyrightText: 2021, 2026 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
 #
 # Abd_Allatif, 2014.
-# Safa Alfulaij <safa1996alfulaij@gmail.com>, 2015.
-# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-08 00:46+0000\n"
-"PO-Revision-Date: 2021-06-27 22:29+0400\n"
+"PO-Revision-Date: 2026-07-09 10:47+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -19,6 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #: config/oxygenanimationconfigwidget.cpp:30
 #, kde-format
@@ -190,10 +191,9 @@ msgstr "استخدم نفس الألوان لشريط العنوان ومحتو�
 
 #. i18n: ectx: property (text), widget (QCheckBox, drawBackgroundGradient)
 #: config/ui/oxygenconfigurationui.ui:144
-#, fuzzy, kde-format
-#| msgid "Draw window background"
+#, kde-format
 msgid "Draw titlebar background gradient"
-msgstr "عرض خلفية النافذة"
+msgstr "ارسم تدرّج خلفيّة لشريط العنوان"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: config/ui/oxygenconfigurationui.ui:152
