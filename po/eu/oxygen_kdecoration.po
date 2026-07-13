@@ -1,25 +1,26 @@
 # Translation of oxygen_kdecoration.po to Euskara/Basque (eu).
 # Copyright (C) 2017-2018, Free Software Foundation, Inc.
-# This file is distributed under the same license as the kde-workspace package.
-# KDE Euskaratzeko proiektuaren arduraduna <xalba@euskalnet.net>.
+# Copyright (C) 2019-2026 This file is copyright:
+# This file is distributed under the same license as the oxygen package.
+# SPDX-FileCopyrightText: 2026 KDE euskaratzeko proiektuaren arduraduna <xalba@ni.eus>
 #
 # Translators:
 # Ander Elortondo <ander.elor@gmail.com>, 2017.
-# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2018.
+# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2018, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: oxygen_kdecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-08 00:46+0000\n"
-"PO-Revision-Date: 2018-07-20 22:07+0100\n"
-"Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
-"Language-Team: Basque <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2026-07-12 20:44+0200\n"
+"Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
+"Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 26.04.2\n"
 
 #: config/oxygenanimationconfigwidget.cpp:30
 #, kde-format
@@ -197,7 +198,7 @@ msgstr "Erabili kolore berdina titulu barran eta leiho edukian"
 #: config/ui/oxygenconfigurationui.ui:144
 #, kde-format
 msgid "Draw titlebar background gradient"
-msgstr ""
+msgstr "Marraztu titulu-barrako atzeko planoaren gradientea"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: config/ui/oxygenconfigurationui.ui:152
