@@ -368,7 +368,7 @@ msgstr "إبراز القائمة"
 #: ui/oxygenstyleconfig.ui:433
 #, kde-format
 msgid "Use dar&k color"
-msgstr "ا&ستخدم لونًا داكناً"
+msgstr "ا&ستخدم لونًا داكنًا"
 
 #. i18n: ectx: property (text), widget (QRadioButton, _menuHighlightStrong)
 #: ui/oxygenstyleconfig.ui:440
