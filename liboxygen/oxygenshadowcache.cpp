@@ -26,6 +26,17 @@ static qreal square(qreal x)
     return x * x;
 }
 
+// accent color for window glow
+// with fallback for Qt < 6.6 where QPalette::Accent doesn't exist
+static QColor accentColor()
+{
+#if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
+    return QGuiApplication::palette().color(QPalette::Active, QPalette::Accent);
+#else
+    return QGuiApplication::palette().color(QPalette::Active, QPalette::Highlight);
+#endif
+}
+
 //* functions used to draw shadows
 class Parabolic
 {
@@ -267,11 +278,16 @@ QPixmap ShadowCache::pixmap(const Key &key, bool active) const
             // gaussian shadow is used
             int nPoints((10 * gradientSize) / fixedSize);
             Gaussian f(0.85, 0.17);
-            QColor c = ActiveShadowConfiguration::innerColor();
+            QColor innerC;
+            if (ActiveShadowConfiguration::useAccentColor()) {
+                innerC = KColorUtils::lighten(accentColor(), 0.4);
+            } else {
+                innerC = ActiveShadowConfiguration::innerColor();
+            }
             for (int i = 0; i < nPoints; i++) {
                 qreal x = qreal(i) / nPoints;
-                c.setAlphaF(f(x));
-                radialGradient.setColorAt(x, c);
+                innerC.setAlphaF(f(x));
+                radialGradient.setColorAt(x, innerC);
             }
 
             painter.setBrush(radialGradient);
@@ -289,11 +305,16 @@ QPixmap ShadowCache::pixmap(const Key &key, bool active) const
             // gaussian shadow is used
             int nPoints((10 * gradientSize) / fixedSize);
             Gaussian f(0.46, 0.34);
-            QColor c = ActiveShadowConfiguration::useOuterColor() ? ActiveShadowConfiguration::outerColor() : ActiveShadowConfiguration::innerColor();
+            QColor outerC;
+            if (ActiveShadowConfiguration::useAccentColor()) {
+                outerC = accentColor();
+            } else {
+                outerC = ActiveShadowConfiguration::useOuterColor() ? ActiveShadowConfiguration::outerColor() : ActiveShadowConfiguration::innerColor();
+            }
             for (int i = 0; i < nPoints; i++) {
                 qreal x = qreal(i) / nPoints;
-                c.setAlphaF(f(x));
-                radialGradient.setColorAt(x, c);
+                outerC.setAlphaF(f(x));
+                radialGradient.setColorAt(x, outerC);
             }
 
             painter.setBrush(radialGradient);

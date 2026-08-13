@@ -33,10 +33,7 @@ public:
     ~ShadowConfigWidget(void) override;
 
     //* group
-    void setGroup(QPalette::ColorGroup group)
-    {
-        _group = group;
-    }
+    void setGroup(QPalette::ColorGroup group);
 
     //* read defaults
     void setDefaults(void)

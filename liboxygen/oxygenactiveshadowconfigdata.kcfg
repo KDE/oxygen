@@ -29,6 +29,10 @@
        <default>true</default>
     </entry>
 
+    <entry name="UseAccentColor" type="Bool">
+      <default>true</default>
+    </entry>
+
   </group>
 
 </kcfg>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>180</width>
-    <height>112</height>
+    <width>217</width>
+    <height>181</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -17,72 +17,13 @@
    </sizepolicy>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Inner Color:</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-     <property name="buddy">
-      <cstring>innerColor</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="KColorButton" name="innerColor"/>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_4">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="text">
-      <string>Outer Color:</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-     <property name="buddy">
-      <cstring>outerColor</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="KColorButton" name="outerColor">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="2">
-    <widget class="QCheckBox" name="useOuterColor">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Vertical Offset:</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-     <property name="buddy">
-      <cstring>verticalOffset</cstring>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
       <string>Size: </string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
      </property>
      <property name="buddy">
       <cstring>shadowSize</cstring>
@@ -96,10 +37,76 @@
      </property>
     </widget>
    </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Vertical Offset:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>verticalOffset</cstring>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="1">
     <widget class="QSpinBox" name="verticalOffset">
      <property name="suffix">
       <string>px</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="3" alignment="Qt::AlignmentFlag::AlignHCenter">
+    <widget class="QCheckBox" name="useAccentColor">
+     <property name="text">
+      <string>Follow accent color</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Inner Color:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>innerColor</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="KColorButton" name="innerColor"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="text">
+      <string>Outer Color:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>outerColor</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="KColorButton" name="outerColor">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2">
+    <widget class="QCheckBox" name="useOuterColor">
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </item>
@@ -115,6 +122,7 @@
  <tabstops>
   <tabstop>shadowSize</tabstop>
   <tabstop>verticalOffset</tabstop>
+  <tabstop>useAccentColor</tabstop>
   <tabstop>innerColor</tabstop>
   <tabstop>outerColor</tabstop>
   <tabstop>useOuterColor</tabstop>
@@ -129,11 +137,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>165</x>
-     <y>92</y>
+     <y>112</y>
     </hint>
     <hint type="destinationlabel">
      <x>110</x>
-     <y>106</y>
+     <y>126</y>
     </hint>
    </hints>
   </connection>

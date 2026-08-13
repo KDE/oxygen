@@ -22,6 +22,8 @@
 #include <KPluginFactory>
 #include <KSharedConfig>
 
+#include <QEvent>
+#include <QGuiApplication>
 #include <QPainter>
 #include <QTextStream>
 #include <QTimer>
@@ -171,6 +173,9 @@ bool Decoration::init()
     connect(cl, &KDecoration3::DecoratedWindow::activeChanged, this, &Decoration::updateAnimationState);
     connect(cl, &KDecoration3::DecoratedWindow::activeChanged, this, &Decoration::updateShadow);
 
+    // monitor accent color change
+    qGuiApp->installEventFilter(this);
+
     // decoration has an overloaded update function, force the compiler to choose the right one
     connect(cl, &KDecoration3::DecoratedWindow::paletteChanged, this, static_cast<void (Decoration::*)()>(&Decoration::update));
     connect(this, &KDecoration3::Decoration::bordersChanged, this, &Decoration::updateTitleBar);
@@ -187,6 +192,17 @@ bool Decoration::init()
     createButtons();
     updateShadow();
     return true;
+}
+
+//________________________________________________________________
+bool Decoration::eventFilter(QObject *watched, QEvent *event)
+{
+    if (watched == qGuiApp && event->type() == QEvent::ApplicationPaletteChange) {
+        g_sShadows.clear();
+        SettingsProvider::self()->shadowCache()->invalidateCaches();
+        updateShadow();
+    }
+    return KDecoration3::Decoration::eventFilter(watched, event);
 }
 
 //________________________________________________________________

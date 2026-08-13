@@ -91,6 +91,9 @@ public:
 public Q_SLOTS:
     bool init() override;
 
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
 private Q_SLOTS:
     void reconfigure();
     void recalculateBorders();

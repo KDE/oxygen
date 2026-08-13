@@ -34,13 +34,31 @@ ShadowConfigWidget::ShadowConfigWidget(QWidget *parent)
     connect(ui->innerColor, SIGNAL(changed(QColor)), SLOT(updateChanged()));
     connect(ui->outerColor, SIGNAL(changed(QColor)), SLOT(updateChanged()));
     connect(ui->useOuterColor, SIGNAL(toggled(bool)), SLOT(updateChanged()));
+    connect(ui->useAccentColor, &QCheckBox::toggled, this, &ShadowConfigWidget::updateChanged);
     connect(this, SIGNAL(toggled(bool)), SLOT(updateChanged()));
+
+    // disable color controls when following accent color
+    connect(ui->useAccentColor, &QCheckBox::toggled, ui->innerColor, &QWidget::setDisabled);
+    connect(ui->useAccentColor, &QCheckBox::toggled, this, [this](bool accent) {
+        ui->outerColor->setEnabled(!accent && ui->useOuterColor->isChecked());
+    });
+    connect(ui->useAccentColor, &QCheckBox::toggled, ui->useOuterColor, &QWidget::setDisabled);
+    connect(ui->useAccentColor, &QCheckBox::toggled, ui->label_3, &QWidget::setDisabled);
+    connect(ui->useAccentColor, &QCheckBox::toggled, ui->label_4, &QWidget::setDisabled);
 }
 
 //_________________________________________________________
 ShadowConfigWidget::~ShadowConfigWidget(void)
 {
     delete ui;
+}
+
+//_________________________________________________________
+void ShadowConfigWidget::setGroup(QPalette::ColorGroup group)
+{
+    _group = group;
+    // accent color option only applies to active window glow, not inactive shadow
+    ui->useAccentColor->setVisible(group == QPalette::Active);
 }
 
 //_________________________________________________________
@@ -52,6 +70,7 @@ void ShadowConfigWidget::save(void) const
         ActiveShadowConfiguration::setInnerColor(ui->innerColor->color());
         ActiveShadowConfiguration::setOuterColor(ui->outerColor->color());
         ActiveShadowConfiguration::setUseOuterColor(ui->useOuterColor->isChecked());
+        ActiveShadowConfiguration::setUseAccentColor(ui->useAccentColor->isChecked());
 
         ActiveShadowConfiguration::setEnabled(isChecked());
         ActiveShadowConfiguration::self()->save();
@@ -76,7 +95,9 @@ void ShadowConfigWidget::updateChanged(void)
                    || (ui->verticalOffset->value() != 10 * ActiveShadowConfiguration::verticalOffset())
                    || (ui->innerColor->color() != ActiveShadowConfiguration::innerColor())
                    || (ui->useOuterColor->isChecked() != ActiveShadowConfiguration::useOuterColor())
-                   || (ui->outerColor->color() != ActiveShadowConfiguration::outerColor()) || (isChecked() != ActiveShadowConfiguration::enabled()));
+                   || (ui->outerColor->color() != ActiveShadowConfiguration::outerColor())
+                   || (ui->useAccentColor->isChecked() != ActiveShadowConfiguration::useAccentColor())
+                   || (isChecked() != ActiveShadowConfiguration::enabled()));
 
     } else if (_group == QPalette::Inactive) {
         setChanged((ui->shadowSize->value() != InactiveShadowConfiguration::shadowSize())
@@ -102,6 +123,15 @@ void ShadowConfigWidget::load(bool defaults)
         ui->innerColor->setColor(ActiveShadowConfiguration::innerColor());
         ui->outerColor->setColor(ActiveShadowConfiguration::outerColor());
         ui->useOuterColor->setChecked(ActiveShadowConfiguration::useOuterColor());
+        ui->useAccentColor->setChecked(ActiveShadowConfiguration::useAccentColor());
+
+        // disable color controls if following accent color
+        const bool customColor = !ActiveShadowConfiguration::useAccentColor();
+        ui->innerColor->setEnabled(customColor);
+        ui->outerColor->setEnabled(customColor && ActiveShadowConfiguration::useOuterColor());
+        ui->useOuterColor->setEnabled(customColor);
+        ui->label_3->setEnabled(customColor);
+        ui->label_4->setEnabled(customColor);
 
         setChecked(ActiveShadowConfiguration::enabled());
 
