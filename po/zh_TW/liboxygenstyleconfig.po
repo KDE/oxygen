@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:53+0000\n"
+"POT-Creation-Date: 2026-08-14 00:47+0000\n"
 "PO-Revision-Date: 2018-03-25 12:08+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -60,33 +60,39 @@ msgstr "期間："
 msgid " ms"
 msgstr " 毫秒"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ui/oxygenshadowconfigurationui.ui:23
-#, kde-format
-msgid "Inner Color:"
-msgstr "內顏色："
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ui/oxygenshadowconfigurationui.ui:42
-#, kde-format
-msgid "Outer Color:"
-msgstr "外顏色："
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ui/oxygenshadowconfigurationui.ui:69
-#, kde-format
-msgid "Vertical Offset:"
-msgstr "垂直位移："
-
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ui/oxygenshadowconfigurationui.ui:82
+#: ui/oxygenshadowconfigurationui.ui:23
 #, kde-format
 msgid "Size: "
 msgstr "大小："
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, verticalOffset)
-#: ui/oxygenshadowconfigurationui.ui:95 ui/oxygenshadowconfigurationui.ui:102
+#: ui/oxygenshadowconfigurationui.ui:36 ui/oxygenshadowconfigurationui.ui:56
 #, kde-format
 msgid "px"
 msgstr "像素"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ui/oxygenshadowconfigurationui.ui:43
+#, kde-format
+msgid "Vertical Offset:"
+msgstr "垂直位移："
+
+#. i18n: ectx: property (text), widget (QCheckBox, useAccentColor)
+#: ui/oxygenshadowconfigurationui.ui:63
+#, kde-format
+msgid "Follow accent color"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: ui/oxygenshadowconfigurationui.ui:70
+#, kde-format
+msgid "Inner Color:"
+msgstr "內顏色："
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ui/oxygenshadowconfigurationui.ui:89
+#, kde-format
+msgid "Outer Color:"
+msgstr "外顏色："
