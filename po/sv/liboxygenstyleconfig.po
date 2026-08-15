@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Stefan Asserhäll <stefan.asserhall@gmail.com>, 2012, 2013, 2017.
+# SPDX-FileCopyrightText: 2012-2013, 2017, 2026 Stefan Asserhäll <stefan.asserhall@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-14 00:47+0000\n"
-"PO-Revision-Date: 2017-10-18 21:55+0100\n"
+"PO-Revision-Date: 2026-08-14 18:26+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 26.04.3\n"
 
 #: oxygenanimationconfigitem.cpp:97
 #, kde-format
@@ -82,7 +82,7 @@ msgstr "Vertikal position:"
 #: ui/oxygenshadowconfigurationui.ui:63
 #, kde-format
 msgid "Follow accent color"
-msgstr ""
+msgstr "Följ accentfärg"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygenshadowconfigurationui.ui:70

@@ -82,7 +82,7 @@ msgstr "Svislý odstup:"
 #: ui/oxygenshadowconfigurationui.ui:63
 #, kde-format
 msgid "Follow accent color"
-msgstr ""
+msgstr "Následovat barvu nádechu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygenshadowconfigurationui.ui:70

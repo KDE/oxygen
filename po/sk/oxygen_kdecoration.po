@@ -189,7 +189,7 @@ msgstr "Použiť rovnaké farby pre titulný pruh aj obsah okna"
 #: config/ui/oxygenconfigurationui.ui:144
 #, kde-format
 msgid "Draw titlebar background gradient"
-msgstr ""
+msgstr "Kresliť prechod pozadia záhlavia"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: config/ui/oxygenconfigurationui.ui:152

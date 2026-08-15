@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-14 00:47+0000\n"
-"PO-Revision-Date: 2022-02-09 12:14+0100\n"
+"PO-Revision-Date: 2026-08-14 07:13+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.9\n"
 
 #: oxygenanimationconfigitem.cpp:97
 #, kde-format
@@ -84,7 +84,7 @@ msgstr "Navpični odmik:"
 #: ui/oxygenshadowconfigurationui.ui:63
 #, kde-format
 msgid "Follow accent color"
-msgstr ""
+msgstr "Sledi poudarjeni barvi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygenshadowconfigurationui.ui:70
