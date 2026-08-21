@@ -6,9 +6,9 @@
    height="128"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
    version="1.0"
-   sodipodi:docname="actionbutton.svg"
+   sodipodi:docname="actionbutton.svgz"
    inkscape:output_extension="org.inkscape.output.svgz.inkscape"
    inkscape:export-filename="arrow-up.png"
    inkscape:export-xdpi="11.25"
@@ -31,16 +31,16 @@
      objecttolerance="10"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="113"
-     inkscape:cy="194.5"
+     inkscape:zoom="4"
+     inkscape:cx="59.25"
+     inkscape:cy="53"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      width="128px"
      height="128px"
      showgrid="true"
-     inkscape:window-width="1110"
-     inkscape:window-height="711"
+     inkscape:window-width="1033"
+     inkscape:window-height="1040"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:snap-nodes="true"
@@ -65,6 +65,14 @@
        id="GridFromPre046Settings"
        units="px" />
   </sodipodi:namedview>
+  <style
+     id="current-color-scheme"
+     type="text/css">.ColorScheme-Text { color:#232629; }
+.ColorScheme-ViewBackground { color:#fcfcfc; }
+.ColorScheme-ButtonHover { color:#3daee9; }
+.ColorScheme-ButtonFocus { color:#3daee9; }
+
+</style>
   <defs
      id="defs4">
     <linearGradient
@@ -96,25 +104,30 @@
     <linearGradient
        id="linearGradient4254">
       <stop
-         style="stop-color:#29d7f5;stop-opacity:1;"
+         style="stop-color:currentColor;stop-opacity:1"
          offset="0"
-         id="stop4256" />
+         id="stop4256"
+         class="ColorScheme-ButtonFocus" />
       <stop
          id="stop4272"
          offset="0.6937564"
-         style="stop-color:#29d7f5;stop-opacity:1;" />
+         style="stop-color:currentColor;stop-opacity:1"
+         class="ColorScheme-ButtonFocus" />
       <stop
          id="stop4270"
          offset="0.77537483"
-         style="stop-color:#38c2e9;stop-opacity:0.45614034;" />
+         style="stop-color:currentColor;stop-opacity:0.45614034"
+         class="ColorScheme-ButtonFocus" />
       <stop
-         style="stop-color:#31a7f2;stop-opacity:0.13157895;"
+         style="stop-color:currentColor;stop-opacity:0.13157895"
          offset="0.88768744"
-         id="stop3222" />
+         id="stop3222"
+         class="ColorScheme-ButtonFocus" />
       <stop
-         style="stop-color:#2a8dfc;stop-opacity:0;"
+         style="stop-color:currentColor;stop-opacity:0"
          offset="1"
-         id="stop4258" />
+         id="stop4258"
+         class="ColorScheme-ButtonFocus" />
     </linearGradient>
     <linearGradient
        id="linearGradient3610">

@@ -2,22 +2,22 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg11324"
    sodipodi:version="0.32"
-   inkscape:version="0.91 r13725"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
    width="50"
    height="50"
    version="1.0"
    sodipodi:docname="pager.svgz"
-   inkscape:output_extension="org.inkscape.output.svgz.inkscape">
+   inkscape:output_extension="org.inkscape.output.svgz.inkscape"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <metadata
      id="metadata11329">
     <rdf:RDF>
@@ -47,18 +47,28 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
+  <style
+     id="current-color-scheme"
+     type="text/css">.ColorScheme-Text { color:#232629; }
+.ColorScheme-ViewBackground { color:#fcfcfc; }
+.ColorScheme-ButtonHover { color:#3daee9; }
+.ColorScheme-ButtonFocus { color:#3daee9; }
+
+</style>
   <defs
      id="defs11327">
     <linearGradient
        id="linearGradient3253">
       <stop
          offset="0"
-         style="stop-color:#57daff;stop-opacity:1;"
-         id="stop3255" />
+         style="stop-color:currentColor;stop-opacity:1"
+         id="stop3255"
+         class="ColorScheme-ButtonFocus" />
       <stop
          offset="1"
-         style="stop-color:#1a00ff;stop-opacity:0.15686275;"
-         id="stop3257" />
+         style="stop-color:currentColor;stop-opacity:0.15686275"
+         id="stop3257"
+         class="ColorScheme-ButtonFocus" />
     </linearGradient>
     <linearGradient
        id="linearGradient4261">
@@ -487,8 +497,8 @@
        gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
-     inkscape:window-height="768"
-     inkscape:window-width="986"
+     inkscape:window-height="1040"
+     inkscape:window-width="1033"
      inkscape:pageshadow="2"
      inkscape:pageopacity="1"
      guidetolerance="10.0"
@@ -499,21 +509,29 @@
      pagecolor="#989898"
      id="base"
      showgrid="true"
-     inkscape:zoom="9.9337155"
-     inkscape:cx="44.584826"
-     inkscape:cy="45.633818"
-     inkscape:window-x="432"
-     inkscape:window-y="185"
+     inkscape:zoom="28.09679"
+     inkscape:cx="25.83925"
+     inkscape:cy="18.258313"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:current-layer="svg11324"
      width="50px"
      height="50px"
      inkscape:grid-points="true"
-     inkscape:window-maximized="0">
+     inkscape:window-maximized="0"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1">
     <inkscape:grid
        type="xygrid"
        id="grid3261"
        visible="true"
-       enabled="true" />
+       enabled="true"
+       originx="0"
+       originy="0"
+       spacingy="1"
+       spacingx="1"
+       units="px" />
   </sodipodi:namedview>
   <path
      id="left"
