@@ -2,26 +2,25 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="128"
    height="128"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.48.1 r9760"
+   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
    version="1.0"
    sodipodi:docname="actionbutton.svgz"
    inkscape:output_extension="org.inkscape.output.svgz.inkscape"
    inkscape:export-filename="arrow-up.png"
    inkscape:export-xdpi="11.25"
-   inkscape:export-ydpi="11.25">
+   inkscape:export-ydpi="11.25"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <sodipodi:namedview
      id="base"
      pagecolor="#d9d9d9"
@@ -32,21 +31,24 @@
      objecttolerance="10"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6568542"
-     inkscape:cx="51.507332"
-     inkscape:cy="73.664596"
+     inkscape:zoom="4"
+     inkscape:cx="64.500001"
+     inkscape:cy="83.875001"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      width="128px"
      height="128px"
      showgrid="true"
-     inkscape:window-width="1110"
-     inkscape:window-height="711"
-     inkscape:window-x="103"
-     inkscape:window-y="118"
+     inkscape:window-width="1021"
+     inkscape:window-height="1040"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:snap-nodes="true"
      inkscape:snap-global="true"
-     inkscape:window-maximized="0">
+     inkscape:window-maximized="0"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1">
     <inkscape:grid
        enabled="true"
        visible="true"
@@ -61,8 +63,17 @@
        originx="0px"
        type="xygrid"
        id="GridFromPre046Settings"
-       snapvisiblegridlinesonly="true" />
+       snapvisiblegridlinesonly="true"
+       units="px" />
   </sodipodi:namedview>
+  <style
+     id="current-color-scheme"
+     type="text/css">.ColorScheme-Text { color:#232629; }
+.ColorScheme-ViewBackground { color:#fcfcfc; }
+.ColorScheme-ButtonHover { color:#3daee9; }
+.ColorScheme-ButtonFocus { color:#3daee9; }
+
+</style>
   <defs
      id="defs4">
     <linearGradient
@@ -94,25 +105,30 @@
     <linearGradient
        id="linearGradient4254">
       <stop
-         style="stop-color:#29d7f5;stop-opacity:1;"
+         style="stop-color:currentColor;stop-opacity:1"
          offset="0"
-         id="stop4256" />
+         id="stop4256"
+         class="ColorScheme-ButtonHover" />
       <stop
          id="stop4272"
          offset="0.75999999"
-         style="stop-color:#29d7f5;stop-opacity:1;" />
+         style="stop-color:currentColor;stop-opacity:1"
+         class="ColorScheme-ButtonHover" />
       <stop
          id="stop4270"
          offset="0.85537487"
-         style="stop-color:#38c2e9;stop-opacity:0.45614034;" />
+         style="stop-color:currentColor;stop-opacity:0.45614034"
+         class="ColorScheme-ButtonHover" />
       <stop
-         style="stop-color:#31a7f2;stop-opacity:0.13157895;"
+         style="stop-color:currentColor;stop-opacity:0.13157895"
          offset="0.93000001"
-         id="stop3222" />
+         id="stop3222"
+         class="ColorScheme-ButtonHover" />
       <stop
-         style="stop-color:#2a8dfc;stop-opacity:0;"
+         style="stop-color:currentColor;stop-opacity:0"
          offset="1"
-         id="stop4258" />
+         id="stop4258"
+         class="ColorScheme-ButtonHover" />
     </linearGradient>
     <linearGradient
        id="linearGradient3610">
@@ -220,8 +236,8 @@
        x2="36"
        y2="121" />
     <linearGradient
-       osb:paint="solid"
-       id="linearGradient6476">
+       id="linearGradient6476"
+       inkscape:swatch="solid">
       <stop
          id="stop6478"
          offset="0"

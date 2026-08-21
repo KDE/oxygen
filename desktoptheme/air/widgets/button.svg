@@ -2,18 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.91 r13725"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
    width="60"
    height="90"
    sodipodi:docname="button.svgz"
@@ -21,10 +12,18 @@
    inkscape:export-filename="/home/diau/svn/playground-plasma/desktoptheme/air/widgets/button.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90"
-   version="1.0">
+   version="1.0"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <sodipodi:namedview
-     inkscape:window-height="957"
-     inkscape:window-width="1390"
+     inkscape:window-height="1040"
+     inkscape:window-width="954"
      inkscape:pageshadow="2"
      inkscape:pageopacity="1"
      guidetolerance="10.0"
@@ -34,12 +33,12 @@
      bordercolor="#666666"
      pagecolor="#6191af"
      id="base"
-     inkscape:zoom="16"
-     inkscape:cx="106.62455"
-     inkscape:cy="61.357124"
-     inkscape:window-x="170"
+     inkscape:zoom="1"
+     inkscape:cx="-74"
+     inkscape:cy="144"
+     inkscape:window-x="0"
      inkscape:window-y="0"
-     inkscape:current-layer="svg2"
+     inkscape:current-layer="hover-bottomright"
      showgrid="true"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -47,15 +46,31 @@
      height="27px"
      inkscape:snap-bbox="true"
      inkscape:object-nodes="false"
-     inkscape:window-maximized="0">
+     inkscape:window-maximized="0"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1">
     <inkscape:grid
        snapvisiblegridlinesonly="true"
        empspacing="5"
        type="xygrid"
        id="grid5592"
        visible="true"
-       enabled="true" />
+       enabled="true"
+       originx="0"
+       originy="0"
+       spacingy="1"
+       spacingx="1"
+       units="px" />
   </sodipodi:namedview>
+  <style
+     id="current-color-scheme"
+     type="text/css">.ColorScheme-Text { color:#232629; }
+.ColorScheme-ViewBackground { color:#fcfcfc; }
+.ColorScheme-ButtonHover { color:#3daee9; }
+.ColorScheme-ButtonFocus { color:#3daee9; }
+
+</style>
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -64,7 +79,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
       </cc:Work>
       <cc:Work
          rdf:about="">
@@ -95,7 +109,7 @@
     </linearGradient>
     <linearGradient
        id="linearGradient6476"
-       osb:paint="solid">
+       inkscape:swatch="solid">
       <stop
          style="stop-color:#ffffff;stop-opacity:1;"
          offset="0"
@@ -103,7 +117,7 @@
     </linearGradient>
     <linearGradient
        id="linearGradient6476-4"
-       osb:paint="solid">
+       inkscape:swatch="solid">
       <stop
          style="stop-color:#ffffff;stop-opacity:1;"
          offset="0"
@@ -1435,8 +1449,9 @@
        height="7"
        width="1"
        id="rect9203"
-       style="fill:#5fd5ed;fill-opacity:0.6745098;stroke:none"
-       transform="scale(-1,1)" />
+       style="fill:currentColor;fill-opacity:0.6745098;stroke:none"
+       transform="scale(-1,1)"
+       class="ColorScheme-ButtonHover" />
   </g>
   <g
      id="hover-top"
@@ -1453,14 +1468,15 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <rect
        transform="matrix(0,-1,-1,0,0,0)"
-       style="fill:#5fd5ed;fill-opacity:0.67450982;stroke:none"
+       style="fill:currentColor;fill-opacity:0.67450982;stroke:none"
        id="rect9209"
        width="1"
        height="7"
        x="180"
        y="95"
        rx="0.5"
-       ry="0" />
+       ry="0"
+       class="ColorScheme-ButtonHover" />
   </g>
   <g
      id="hover-bottom"
@@ -1483,8 +1499,9 @@
        height="7"
        width="1"
        id="rect9215"
-       style="fill:#5fd5ed;fill-opacity:0.67450982;stroke:none"
-       transform="matrix(0,1,1,0,0,0)" />
+       style="fill:currentColor;fill-opacity:0.67450982;stroke:none"
+       transform="matrix(0,1,1,0,0,0)"
+       class="ColorScheme-ButtonHover" />
   </g>
   <rect
      style="fill:#000000;fill-opacity:0;stroke:none"
@@ -1509,14 +1526,15 @@
        rx="3"
        ry="0" />
     <rect
-       style="fill:#5fd5ed;fill-opacity:0.6745098;stroke:none"
+       style="fill:currentColor;fill-opacity:0.6745098;stroke:none"
        id="rect9235"
        width="1"
        height="14"
        x="91"
        y="90"
        rx="0.5"
-       ry="0" />
+       ry="0"
+       class="ColorScheme-ButtonHover" />
   </g>
   <path
      inkscape:connector-curvature="0"
@@ -1941,9 +1959,10 @@
     <path
        sodipodi:nodetypes="ssccssccs"
        inkscape:connector-curvature="0"
-       style="fill:#5fd5ed;fill-opacity:0.6745098;fill-rule:nonzero;stroke:none"
+       style="fill:currentColor;fill-opacity:0.6745098;fill-rule:nonzero;stroke:none"
        d="m 102,106.46879 c 0,1.94821 -1.58938,3.46927 -3.53125,3.53125 l -1.46875,0 0,-1 1.46875,0 c 1.40502,0 2.53125,-1.11588 2.53125,-2.53125 l 0,-1.46875 1,-4e-5 z"
-       id="path3335" />
+       id="path3335"
+       class="ColorScheme-ButtonHover" />
   </g>
   <g
      transform="matrix(0,-1,1,0,-18.00004,186.00004)"
@@ -1956,9 +1975,10 @@
     <path
        id="path3348"
        d="m 102,106.46879 c 0,1.94821 -1.58938,3.46927 -3.53125,3.53125 l -1.46875,0 0,-1 1.46875,0 c 1.40502,0 2.53125,-1.11588 2.53125,-2.53125 l 0,-1.46875 1,-4e-5 z"
-       style="fill:#5fd5ed;fill-opacity:0.6745098;fill-rule:nonzero;stroke:none"
+       style="fill:currentColor;fill-opacity:0.6745098;fill-rule:nonzero;stroke:none"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ssccssccs" />
+       sodipodi:nodetypes="ssccssccs"
+       class="ColorScheme-ButtonHover" />
   </g>
   <g
      id="hover-topleft"
@@ -1971,9 +1991,10 @@
     <path
        sodipodi:nodetypes="ssccssccs"
        inkscape:connector-curvature="0"
-       style="fill:#5fd5ed;fill-opacity:0.6745098;fill-rule:nonzero;stroke:none"
+       style="fill:currentColor;fill-opacity:0.6745098;fill-rule:nonzero;stroke:none"
        d="m 102,106.46879 c 0,1.94821 -1.58938,3.46927 -3.53125,3.53125 l -1.46875,0 0,-1 1.46875,0 c 1.40502,0 2.53125,-1.11588 2.53125,-2.53125 l 0,-1.46875 1,-4e-5 z"
-       id="path3354" />
+       id="path3354"
+       class="ColorScheme-ButtonHover" />
   </g>
   <g
      transform="matrix(0,1,-1,0,181.00004,7.99996)"
@@ -1986,9 +2007,10 @@
     <path
        id="path3360"
        d="m 102,106.46879 c 0,1.94821 -1.58938,3.46927 -3.53125,3.53125 l -1.46875,0 0,-1 1.46875,0 c 1.40502,0 2.53125,-1.11588 2.53125,-2.53125 l 0,-1.46875 1,-4e-5 z"
-       style="fill:#5fd5ed;fill-opacity:0.6745098;fill-rule:nonzero;stroke:none"
+       style="fill:currentColor;fill-opacity:0.6745098;fill-rule:nonzero;stroke:none"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ssccssccs" />
+       sodipodi:nodetypes="ssccssccs"
+       class="ColorScheme-ButtonHover" />
   </g>
   <g
      transform="matrix(1,0,0,2,83,429.00001)"
@@ -2004,14 +2026,15 @@
        ry="0" />
     <rect
        transform="scale(-1,1)"
-       style="fill:#001ef1;fill-opacity:0.42745098;stroke:none"
+       style="fill:currentColor;fill-opacity:0.42745098;stroke:none"
        id="rect4074"
        width="1"
        height="7"
        x="108"
        y="-174"
        rx="0.5"
-       ry="0" />
+       ry="0"
+       class="ColorScheme-ButtonFocus" />
   </g>
   <g
      transform="translate(83,256.00001)"
@@ -2034,8 +2057,9 @@
        height="7"
        width="1"
        id="rect4080"
-       style="fill:#001ef1;fill-opacity:0.42745098;stroke:none"
-       transform="matrix(0,-1,-1,0,0,0)" />
+       style="fill:currentColor;fill-opacity:0.42745098;stroke:none"
+       transform="matrix(0,-1,-1,0,0,0)"
+       class="ColorScheme-ButtonFocus" />
   </g>
   <g
      transform="translate(83,256.00001)"
@@ -2052,14 +2076,15 @@
        transform="matrix(0,-1,1,0,0,0)" />
     <rect
        transform="matrix(0,1,1,0,0,0)"
-       style="fill:#001ef1;fill-opacity:0.42745098;stroke:none"
+       style="fill:currentColor;fill-opacity:0.42745098;stroke:none"
        id="rect4086"
        width="1"
        height="7"
        x="-156"
        y="-102"
        rx="0.5"
-       ry="0" />
+       ry="0"
+       class="ColorScheme-ButtonFocus" />
   </g>
   <rect
      transform="matrix(0,1,-1,0,0,0)"
@@ -2092,7 +2117,8 @@
        height="7"
        width="1"
        id="rect4094"
-       style="fill:#001ef1;fill-opacity:0.42745098;stroke:none" />
+       style="fill:currentColor;fill-opacity:0.42745098;stroke:none"
+       class="ColorScheme-ButtonFocus" />
   </g>
   <g
      transform="translate(-107.00004,-8.9999968)"
@@ -2105,9 +2131,10 @@
     <path
        id="path4100"
        d="m 102,106.46879 c 0,1.94821 -1.58938,3.46927 -3.53125,3.53125 l -1.46875,0 0,-1 1.46875,0 c 1.40502,0 2.53125,-1.11588 2.53125,-2.53125 l 0,-1.46875 1,-4e-5 z"
-       style="fill:#001ef1;fill-opacity:0.42745307;fill-rule:nonzero;stroke:none"
+       style="fill:currentColor;fill-opacity:0.42745307;fill-rule:nonzero;stroke:none"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ssccssccs" />
+       sodipodi:nodetypes="ssccssccs"
+       class="ColorScheme-ButtonFocus" />
   </g>
   <g
      id="focus-topright"
@@ -2120,9 +2147,10 @@
     <path
        sodipodi:nodetypes="ssccssccs"
        inkscape:connector-curvature="0"
-       style="fill:#001ef1;fill-opacity:0.42745098;fill-rule:nonzero;stroke:none"
+       style="fill:currentColor;fill-opacity:0.42745098;fill-rule:nonzero;stroke:none"
        d="m 102,106.46879 c 0,1.94821 -1.58938,3.46927 -3.53125,3.53125 l -1.46875,0 0,-1 1.46875,0 c 1.40502,0 2.53125,-1.11588 2.53125,-2.53125 l 0,-1.46875 1,-4e-5 z"
-       id="path4106" />
+       id="path4106"
+       class="ColorScheme-ButtonFocus" />
   </g>
   <g
      transform="matrix(-1,0,0,-1,76.00004,185.00005)"
@@ -2135,9 +2163,10 @@
     <path
        id="path4112"
        d="m 102,106.46879 c 0,1.94821 -1.58938,3.46927 -3.53125,3.53125 l -1.46875,0 0,-1 1.46875,0 c 1.40502,0 2.53125,-1.11588 2.53125,-2.53125 l 0,-1.46875 1,-4e-5 z"
-       style="fill:#001ef1;fill-opacity:0.42745098;fill-rule:nonzero;stroke:none"
+       style="fill:currentColor;fill-opacity:0.42745098;fill-rule:nonzero;stroke:none"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ssccssccs" />
+       sodipodi:nodetypes="ssccssccs"
+       class="ColorScheme-ButtonFocus" />
   </g>
   <g
      id="focus-bottomleft"
@@ -2150,8 +2179,9 @@
     <path
        sodipodi:nodetypes="ssccssccs"
        inkscape:connector-curvature="0"
-       style="fill:#001ef1;fill-opacity:0.42745098;fill-rule:nonzero;stroke:none"
+       style="fill:currentColor;fill-opacity:0.42745098;fill-rule:nonzero;stroke:none"
        d="m 102,106.46879 c 0,1.94821 -1.58938,3.46927 -3.53125,3.53125 l -1.46875,0 0,-1 1.46875,0 c 1.40502,0 2.53125,-1.11588 2.53125,-2.53125 l 0,-1.46875 1,-4e-5 z"
-       id="path4118" />
+       id="path4118"
+       class="ColorScheme-ButtonFocus" />
   </g>
 </svg>

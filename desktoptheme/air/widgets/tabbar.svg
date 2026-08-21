@@ -6,8 +6,8 @@
    height="100.001"
    id="svg2"
    version="1.1"
-   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
-   sodipodi:docname="tabbar.svg"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   sodipodi:docname="tabbar.svgz"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -23,18 +23,18 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="45.279912"
-     inkscape:cx="33.723564"
-     inkscape:cy="47.372"
+     inkscape:zoom="5.659989"
+     inkscape:cx="49.470061"
+     inkscape:cy="54.417067"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="north-active-tab-bottom"
      showgrid="true"
      inkscape:snap-global="true"
-     inkscape:window-width="2560"
-     inkscape:window-height="1352"
+     inkscape:window-width="1033"
+     inkscape:window-height="1040"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     inkscape:window-maximized="1"
+     inkscape:window-maximized="0"
      inkscape:showpageshadow="2"
      inkscape:pagecheckerboard="false"
      inkscape:deskcolor="#ffffff"
@@ -78,30 +78,43 @@
        id="guide335"
        inkscape:locked="false" />
   </sodipodi:namedview>
+  <style
+     id="current-color-scheme"
+     type="text/css">.ColorScheme-Text { color:#232629; }
+.ColorScheme-ViewBackground { color:#fcfcfc; }
+.ColorScheme-ButtonHover { color:#3daee9; }
+.ColorScheme-ButtonFocus { color:#3daee9; }
+
+</style>
   <defs
      id="defs4">
     <linearGradient
        id="linearGradient20">
       <stop
          offset="0"
-         style="stop-color:#4ee3fd;stop-opacity:1;"
-         id="stop16" />
+         style="stop-color:currentColor;stop-opacity:1"
+         id="stop16"
+         class="ColorScheme-ButtonFocus" />
       <stop
          id="stop17"
-         style="stop-color:#4ee3fd;stop-opacity:0.74901962;"
-         offset="0.49243662" />
+         style="stop-color:currentColor;stop-opacity:0.74901962"
+         offset="0.49243662"
+         class="ColorScheme-ButtonFocus" />
       <stop
          id="stop18"
-         style="stop-color:#4ee3fd;stop-opacity:0.49803922;"
-         offset="0.69101065" />
+         style="stop-color:currentColor;stop-opacity:0.49803922"
+         offset="0.69101065"
+         class="ColorScheme-ButtonFocus" />
       <stop
          offset="0.84550536"
-         style="stop-color:#4ee3fd;stop-opacity:0.24705882;"
-         id="stop19" />
+         style="stop-color:currentColor;stop-opacity:0.24705882"
+         id="stop19"
+         class="ColorScheme-ButtonFocus" />
       <stop
          offset="1"
-         style="stop-color:#4ee3fd;stop-opacity:0;"
-         id="stop20" />
+         style="stop-color:currentColor;stop-opacity:0"
+         id="stop20"
+         class="ColorScheme-ButtonFocus" />
     </linearGradient>
     <linearGradient
        id="linearGradient5">
@@ -242,7 +255,7 @@
          id="stop37" />
     </linearGradient>
     <style
-       id="current-color-scheme"
+       id="style1"
        type="text/css">
       .ColorScheme-Text {
         color:#31363b;
@@ -299,7 +312,7 @@
     </linearGradient>
     <radialGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient48"
+       xlink:href="#linearGradient20"
        id="radialGradient11208"
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(0.0344796,0,0,0.04549353,6.1038093,-19.739153)"
@@ -333,7 +346,7 @@
     </linearGradient>
     <radialGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient43"
+       xlink:href="#linearGradient20"
        id="radialGradient11208-0"
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(0.0344796,0,0,0.04549353,6.1038093,-19.739153)"
@@ -355,7 +368,7 @@
        r="2.5000048" />
     <radialGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient5"
+       xlink:href="#linearGradient20"
        id="radialGradient11208-0-1"
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(0.0344796,0,0,0.04549353,6.1038093,-19.739153)"
