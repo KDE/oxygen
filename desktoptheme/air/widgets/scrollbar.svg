@@ -2,21 +2,21 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="48"
    height="98"
    id="svg3642"
    sodipodi:version="0.32"
-   inkscape:version="0.48.1 r9760"
+   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
    sodipodi:docname="scrollbar.svgz"
    inkscape:output_extension="org.inkscape.output.svgz.inkscape"
-   version="1.0">
+   version="1.0"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <sodipodi:namedview
      id="base"
      pagecolor="#a8a8a8"
@@ -24,30 +24,46 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.8557283"
-     inkscape:cx="-1.5148237"
-     inkscape:cy="99.807389"
-     inkscape:current-layer="layer1"
+     inkscape:zoom="16.562501"
+     inkscape:cx="16.845282"
+     inkscape:cy="9.8113203"
+     inkscape:current-layer="sunken-slider-left"
      showgrid="true"
      inkscape:grid-bbox="true"
      inkscape:document-units="px"
-     inkscape:window-width="1116"
-     inkscape:window-height="708"
+     inkscape:window-width="1021"
+     inkscape:window-height="1040"
      inkscape:window-x="0"
-     inkscape:window-y="83"
+     inkscape:window-y="0"
      width="48px"
      height="48px"
      showguides="true"
      inkscape:guide-bbox="true"
      objecttolerance="9"
      gridtolerance="13"
-     inkscape:window-maximized="0">
+     inkscape:window-maximized="0"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1">
     <inkscape:grid
        visible="true"
        enabled="true"
        id="grid2555"
-       type="xygrid" />
+       type="xygrid"
+       originx="0"
+       originy="0"
+       spacingy="1"
+       spacingx="1"
+       units="px" />
   </sodipodi:namedview>
+  <style
+     id="current-color-scheme"
+     type="text/css">.ColorScheme-Text { color:#232629; }
+.ColorScheme-ViewBackground { color:#fcfcfc; }
+.ColorScheme-ViewHover { color:#3daee9; }
+.ColorScheme-ViewFocus { color:#3daee9; }
+
+</style>
   <defs
      id="defs3644">
     <linearGradient
@@ -246,9 +262,10 @@
        id="mouseover-slider-right">
       <path
          inkscape:connector-curvature="0"
-         style="fill:#04d0ff;fill-opacity:0.49714284;fill-rule:evenodd;stroke:none"
+         style="fill:currentColor;fill-opacity:0.49714284;fill-rule:evenodd;stroke:none"
          d="m 13,7 0,10 1,0 0,-10 -1,0 z"
-         id="path3510" />
+         id="path3510"
+         class="ColorScheme-ViewHover" />
       <path
          inkscape:connector-curvature="0"
          style="fill:#ffffff;fill-opacity:0.27450982;fill-rule:evenodd;stroke:none"
@@ -265,9 +282,10 @@
          id="path3516" />
       <path
          inkscape:connector-curvature="0"
-         style="fill:#04d0ff;fill-opacity:0.49714284;fill-rule:evenodd;stroke:none"
+         style="fill:currentColor;fill-opacity:0.49714284;fill-rule:evenodd;stroke:none"
          d="m 9,2 0,1 c 2.216,0 4,1.784 4,4 l 1,0 C 14,4.23 11.77,2 9,2 z"
-         id="path3518" />
+         id="path3518"
+         class="ColorScheme-ViewHover" />
     </g>
     <g
        transform="translate(17,38)"
@@ -280,8 +298,9 @@
       <path
          id="path3524"
          d="m 9,22 0,-1 c 2.216,0 4,-1.784 4,-4 l 1,0 c 0,2.77 -2.23,5 -5,5 z"
-         style="fill:#04d0ff;fill-opacity:0.49714284;fill-rule:evenodd;stroke:none"
-         inkscape:connector-curvature="0" />
+         style="fill:currentColor;fill-opacity:0.49714284;fill-rule:evenodd;stroke:none"
+         inkscape:connector-curvature="0"
+         class="ColorScheme-ViewHover" />
     </g>
     <g
        transform="matrix(-1,0,0,1,32,37)"
@@ -290,7 +309,8 @@
          inkscape:connector-curvature="0"
          id="path3528"
          d="m 13,7 0,10 1,0 0,-10 -1,0 z"
-         style="fill:#04d0ff;fill-opacity:0.49714284;fill-rule:evenodd;stroke:none" />
+         style="fill:currentColor;fill-opacity:0.49714284;fill-rule:evenodd;stroke:none"
+         class="ColorScheme-ViewHover" />
       <path
          inkscape:connector-curvature="0"
          id="path3530"
@@ -309,7 +329,8 @@
          inkscape:connector-curvature="0"
          id="path3536"
          d="m 9,2 0,1 c 2.216,0 4,1.784 4,4 l 1,0 C 14,4.23 11.77,2 9,2 z"
-         style="fill:#04d0ff;fill-opacity:0.49714284;fill-rule:evenodd;stroke:none" />
+         style="fill:currentColor;fill-opacity:0.49714284;fill-rule:evenodd;stroke:none"
+         class="ColorScheme-ViewHover" />
     </g>
     <g
        transform="matrix(-1,0,0,1,32,38)"
@@ -321,18 +342,20 @@
          id="path3540" />
       <path
          inkscape:connector-curvature="0"
-         style="fill:#04d0ff;fill-opacity:0.49714284;fill-rule:evenodd;stroke:none"
+         style="fill:currentColor;fill-opacity:0.49714284;fill-rule:evenodd;stroke:none"
          d="m 9,22 0,-1 c 2.216,0 4,-1.784 4,-4 l 1,0 c 0,2.77 -2.23,5 -5,5 z"
-         id="path3542" />
+         id="path3542"
+         class="ColorScheme-ViewHover" />
     </g>
     <g
        id="mouseover-slider-top"
        transform="matrix(0,-1,-0.1,0,25.7,52)">
       <path
-         style="fill:#04d0ff;fill-opacity:0.49714284;fill-rule:evenodd;stroke:none"
+         style="fill:currentColor;fill-opacity:0.49714284;fill-rule:evenodd;stroke:none"
          d="m 13,7 0,10 1,0 0,-10 -1,0 z"
          id="path3546"
-         inkscape:connector-curvature="0" />
+         inkscape:connector-curvature="0"
+         class="ColorScheme-ViewHover" />
       <path
          style="fill:#ffffff;fill-opacity:0.27450982;fill-rule:evenodd;stroke:none"
          d="M 9,7 9,17 13,17 13,7 9,7 z"
@@ -346,7 +369,8 @@
          inkscape:connector-curvature="0"
          id="path3552"
          d="m 13,7 0,10 1,0 0,-10 -1,0 z"
-         style="fill:#04d0ff;fill-opacity:0.49714284;fill-rule:evenodd;stroke:none" />
+         style="fill:currentColor;fill-opacity:0.49714284;fill-rule:evenodd;stroke:none"
+         class="ColorScheme-ViewHover" />
       <path
          inkscape:connector-curvature="0"
          id="path3554"
@@ -366,8 +390,9 @@
       <path
          id="path4328"
          d="m 13,7 0,10 1,0 0,-10 -1,0 z"
-         style="fill:#04d0ff;fill-opacity:0.68627451;fill-rule:evenodd;stroke:none"
-         inkscape:connector-curvature="0" />
+         style="fill:currentColor;fill-opacity:0.68627451;fill-rule:evenodd;stroke:none"
+         inkscape:connector-curvature="0"
+         class="ColorScheme-ViewHover" />
       <path
          id="path4330"
          d="M 9,7 9,17 13,17 13,7 9,7 z"
@@ -385,8 +410,9 @@
       <path
          id="path4336"
          d="m 9,2 0,1 c 2.216,0 4,1.784 4,4 l 1,0 C 14,4.23 11.77,2 9,2 z"
-         style="fill:#04d0ff;fill-opacity:0.68627451;fill-rule:evenodd;stroke:none"
-         inkscape:connector-curvature="0" />
+         style="fill:currentColor;fill-opacity:0.68627451;fill-rule:evenodd;stroke:none"
+         inkscape:connector-curvature="0"
+         class="ColorScheme-ViewHover" />
     </g>
     <g
        id="sunken-slider-bottomright"
@@ -398,18 +424,20 @@
          id="path4340" />
       <path
          inkscape:connector-curvature="0"
-         style="fill:#04d0ff;fill-opacity:0.68627451;fill-rule:evenodd;stroke:none"
+         style="fill:currentColor;fill-opacity:0.68627451;fill-rule:evenodd;stroke:none"
          d="m 9,22 0,-1 c 2.216,0 4,-1.784 4,-4 l 1,0 c 0,2.77 -2.23,5 -5,5 z"
-         id="path4342" />
+         id="path4342"
+         class="ColorScheme-ViewHover" />
     </g>
     <g
        id="sunken-slider-left"
        transform="matrix(-1,0,0,1,32,61)">
       <path
-         style="fill:#04d0ff;fill-opacity:0.68627451;fill-rule:evenodd;stroke:none"
+         style="fill:currentColor;fill-opacity:0.68627451;fill-rule:evenodd;stroke:none"
          d="m 13,7 0,10 1,0 0,-10 -1,0 z"
          id="path4347"
-         inkscape:connector-curvature="0" />
+         inkscape:connector-curvature="0"
+         class="ColorScheme-ViewHover" />
       <path
          style="fill:#ffffff;fill-opacity:0.43137255;fill-rule:evenodd;stroke:none"
          d="M 9,7 9,17 13,17 13,7 9,7 z"
@@ -425,10 +453,11 @@
          id="path4353"
          inkscape:connector-curvature="0" />
       <path
-         style="fill:#04d0ff;fill-opacity:0.68627451;fill-rule:evenodd;stroke:none"
+         style="fill:currentColor;fill-opacity:0.68627451;fill-rule:evenodd;stroke:none"
          d="m 9,2 0,1 c 2.216,0 4,1.784 4,4 l 1,0 C 14,4.23 11.77,2 9,2 z"
          id="path4355"
-         inkscape:connector-curvature="0" />
+         inkscape:connector-curvature="0"
+         class="ColorScheme-ViewHover" />
     </g>
     <g
        id="sunken-slider-bottomleft"
@@ -441,8 +470,9 @@
       <path
          id="path4361"
          d="m 9,22 0,-1 c 2.216,0 4,-1.784 4,-4 l 1,0 c 0,2.77 -2.23,5 -5,5 z"
-         style="fill:#04d0ff;fill-opacity:0.68627451;fill-rule:evenodd;stroke:none"
-         inkscape:connector-curvature="0" />
+         style="fill:currentColor;fill-opacity:0.68627451;fill-rule:evenodd;stroke:none"
+         inkscape:connector-curvature="0"
+         class="ColorScheme-ViewHover" />
     </g>
     <g
        transform="matrix(0,-1,-0.1,0,25.7,76)"
@@ -451,7 +481,8 @@
          inkscape:connector-curvature="0"
          id="path4365"
          d="m 13,7 0,10 1,0 0,-10 -1,0 z"
-         style="fill:#04d0ff;fill-opacity:0.68627451;fill-rule:evenodd;stroke:none" />
+         style="fill:currentColor;fill-opacity:0.68627451;fill-rule:evenodd;stroke:none"
+         class="ColorScheme-ViewHover" />
       <path
          inkscape:connector-curvature="0"
          id="path4367"
@@ -462,10 +493,11 @@
        id="sunken-slider-bottom"
        transform="matrix(0,1,-0.1,0,25.7,70)">
       <path
-         style="fill:#04d0ff;fill-opacity:0.68627451;fill-rule:evenodd;stroke:none"
+         style="fill:currentColor;fill-opacity:0.68627451;fill-rule:evenodd;stroke:none"
          d="m 13,7 0,10 1,0 0,-10 -1,0 z"
          id="path4371"
-         inkscape:connector-curvature="0" />
+         inkscape:connector-curvature="0"
+         class="ColorScheme-ViewHover" />
       <path
          style="fill:#ffffff;fill-opacity:0.43137255;fill-rule:evenodd;stroke:none"
          d="M 9,7 9,17 13,17 13,7 9,7 z"

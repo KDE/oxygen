@@ -3,7 +3,7 @@
    id="svg2"
    version="1.1"
    viewBox="0 0 137.14547 52.100001"
-   sodipodi:docname="switch.svg"
+   sodipodi:docname="switch.svgz"
    inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
    width="137.14546"
    height="52.100002"
@@ -12,6 +12,14 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
+  <style
+     id="current-color-scheme"
+     type="text/css">.ColorScheme-Text { color:#232629; }
+.ColorScheme-ViewBackground { color:#fcfcfc; }
+.ColorScheme-ButtonHover { color:#3daee9; }
+.ColorScheme-ButtonFocus { color:#3daee9; }
+
+</style>
   <defs
      id="defs57">
     <linearGradient
@@ -19,46 +27,61 @@
       <stop
          id="stop9"
          offset="0"
-         style="stop-color:#29d7f5;stop-opacity:1;" />
+         stop-opacity="1"
+         class="ColorScheme-ButtonHover"
+         stop-color="currentColor" />
       <stop
-         style="stop-color:#29d7f5;stop-opacity:1;"
+         stop-color="currentColor"
+         stop-opacity="1"
          offset="0.70000076"
-         id="stop10" />
+         id="stop10"
+         class="ColorScheme-ButtonHover" />
       <stop
-         style="stop-color:#38c2e9;stop-opacity:0.45614034;"
+         stop-color="currentColor"
+         stop-opacity="0.45614034"
          offset="0.80243009"
-         id="stop11" />
+         id="stop11"
+         class="ColorScheme-ButtonHover" />
       <stop
          id="stop12"
          offset="0.90793967"
-         style="stop-color:#31a7f2;stop-opacity:0.13157895;" />
+         stop-color="currentColor"
+         stop-opacity="0.13157895"
+         class="ColorScheme-ButtonHover" />
       <stop
          id="stop13"
          offset="1"
-         style="stop-color:#2a8dfc;stop-opacity:0;" />
+         stop-color="currentColor"
+         stop-opacity="0"
+         class="ColorScheme-ButtonHover" />
     </linearGradient>
     <linearGradient
        id="linearGradient8">
       <stop
          id="stop4"
          offset="0"
-         style="stop-color:#29d7f5;stop-opacity:1;" />
+         style="stop-color:currentColor;stop-opacity:1"
+         class="ColorScheme-ButtonHover" />
       <stop
-         style="stop-color:#29d7f5;stop-opacity:1;"
+         style="stop-color:currentColor;stop-opacity:1"
          offset="0.68429989"
-         id="stop5" />
+         id="stop5"
+         class="ColorScheme-ButtonHover" />
       <stop
-         style="stop-color:#38c2e9;stop-opacity:0.45614034;"
+         style="stop-color:currentColor;stop-opacity:0.45614034"
          offset="0.75800991"
-         id="stop6" />
+         id="stop6"
+         class="ColorScheme-ButtonHover" />
       <stop
          id="stop7"
          offset="0.83060694"
-         style="stop-color:#31a7f2;stop-opacity:0.13157895;" />
+         style="stop-color:currentColor;stop-opacity:0.13157895"
+         class="ColorScheme-ButtonHover" />
       <stop
          id="stop8"
          offset="1"
-         style="stop-color:#2a8dfc;stop-opacity:0;" />
+         style="stop-color:currentColor;stop-opacity:0"
+         class="ColorScheme-ButtonHover" />
     </linearGradient>
     <linearGradient
        id="linearGradient3610">
@@ -161,23 +184,28 @@
       <stop
          id="stop4256-9"
          offset="0"
-         style="stop-color:#29d7f5;stop-opacity:1;" />
+         style="stop-color:currentColor;stop-opacity:1"
+         class="ColorScheme-ButtonFocus" />
       <stop
-         style="stop-color:#29d7f5;stop-opacity:1;"
+         style="stop-color:currentColor;stop-opacity:1"
          offset="0.75999999"
-         id="stop4272-3" />
+         id="stop4272-3"
+         class="ColorScheme-ButtonFocus" />
       <stop
-         style="stop-color:#38c2e9;stop-opacity:0.45614034;"
+         style="stop-color:currentColor;stop-opacity:0.45614034"
          offset="0.85537487"
-         id="stop4270-1" />
+         id="stop4270-1"
+         class="ColorScheme-ButtonFocus" />
       <stop
          id="stop3222-9"
          offset="0.93000001"
-         style="stop-color:#31a7f2;stop-opacity:0.13157895;" />
+         style="stop-color:currentColor;stop-opacity:0.13157895"
+         class="ColorScheme-ButtonFocus" />
       <stop
          id="stop4258-4"
          offset="1"
-         style="stop-color:#2a8dfc;stop-opacity:0;" />
+         style="stop-color:currentColor;stop-opacity:0"
+         class="ColorScheme-ButtonFocus" />
     </linearGradient>
     <radialGradient
        inkscape:collect="always"
@@ -311,15 +339,15 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="true"
-     inkscape:zoom="8.2888629"
-     inkscape:cx="62.07124"
-     inkscape:cy="36.434431"
-     inkscape:window-width="2048"
-     inkscape:window-height="1068"
+     inkscape:zoom="5.8611112"
+     inkscape:cx="37.620853"
+     inkscape:cy="42.227488"
+     inkscape:window-width="1021"
+     inkscape:window-height="1040"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="handle-hover"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2"
      showguides="true">
     <inkscape:grid
        type="xygrid"
@@ -361,28 +389,6 @@
        id="guide23"
        inkscape:locked="false" />
   </sodipodi:namedview>
-  <style
-     id="current-color-scheme"
-     type="text/css">.ColorScheme-Text {
-            color:#232629;
-            stop-color:#232629;
-        }
-        .ColorScheme-Background {
-            color:#eff0f1;
-            stop-color:#eff0f1;
-        }
-        .ColorScheme-Highlight {
-            color:#3daee9;
-            stop-color:#3daee9;
-        }
-        .ColorScheme-ButtonText {
-            color:#232629;
-            stop-color:#232629;
-        }
-        .ColorScheme-ButtonBackground {
-            color:#eff0f1;
-            stop-color:#eff0f1;
-        }</style>
   <rect
      id="hint-stretch-borders"
      y="38.000004"
@@ -628,8 +634,9 @@
        style="stroke-width:0.577356">
       <path
          id="rect8669-3-6"
-         style="fill:#4ee3fc;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.577356"
-         d="m 264,108 v 4 14.5 4.5 h 5 v -4.5 -14.5 -4 z" />
+         style="fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.577356"
+         d="m 264,108 v 4 14.5 4.5 h 5 v -4.5 -14.5 -4 z"
+         class="ColorScheme-ButtonFocus" />
     </g>
     <g
        id="groove-top-2"
@@ -686,7 +693,7 @@
        d="m 15,10 c -4.466125,-3.05e-4 -8.5931092,2.382222 -10.8261719,6.25 -2.2329097,3.867514 -2.2329097,8.632486 0,12.5 C 6.4068908,32.617778 10.533875,35.000305 15,35 v -0.999999 c -4.098783,5.4e-5 -7.8862225,-2.213984 -9.9355469,-5.763673 -2.04947,-3.549631 -2.04947,-7.923025 0,-11.472656 C 7.1137775,13.213983 10.901217,10.999946 15,11.000001 Z"
        sodipodi:nodetypes="csscccccc" />
     <path
-       style="font-variation-settings:'wght' 100;display:inline;fill:#4ee3fc;fill-opacity:1;stroke-width:9.00041;stroke-linecap:round;stroke-linejoin:round"
+       style="font-variation-settings:'wght' 100;display:inline;fill:currentColor;fill-opacity:1;stroke-width:9.00041;stroke-linecap:round;stroke-linejoin:round"
        id="path16-6"
        sodipodi:type="arc"
        sodipodi:cx="15.000857"
@@ -697,7 +704,8 @@
        sodipodi:end="4.712389"
        sodipodi:arc-type="slice"
        d="m 15.000857,34.000003 a 11.473436,11.500001 0 0 1 -9.9362869,-5.750001 11.473436,11.500001 0 0 1 -1e-7,-11.500001 11.473436,11.500001 0 0 1 9.936287,-5.75 v 11.500001 z"
-       inkscape:label="path16-6" />
+       inkscape:label="path16-6"
+       class="ColorScheme-ButtonFocus" />
     <path
        id="path14-6"
        style="font-variation-settings:'wght' 100;fill:#000000;fill-opacity:0.22;stroke-width:9.00041;stroke-linecap:round;stroke-linejoin:round"
@@ -714,7 +722,7 @@
      transform="matrix(0.9999102,0,0,1,57.647087,-9.9999994)"
      style="stroke-width:1.00004">
     <path
-       style="font-variation-settings:'wght' 100;fill:#4ee3fc;fill-opacity:1;stroke-width:9.00041;stroke-linecap:round;stroke-linejoin:round"
+       style="font-variation-settings:'wght' 100;fill:currentColor;fill-opacity:1;stroke-width:9.00041;stroke-linecap:round;stroke-linejoin:round"
        id="path20-8"
        sodipodi:type="arc"
        sodipodi:cx="-20"
@@ -725,7 +733,8 @@
        sodipodi:end="4.712389"
        sodipodi:arc-type="slice"
        d="m -20,34.000003 a 11.47265,11.500001 0 0 1 -9.935606,-5.750001 11.47265,11.500001 0 0 1 0,-11.500001 11.47265,11.500001 0 0 1 9.935606,-5.75 v 11.500001 z"
-       transform="scale(-1,1)" />
+       transform="scale(-1,1)"
+       class="ColorScheme-ButtonFocus" />
     <path
        id="path21-7"
        style="font-variation-settings:'wght' 100;fill:#ffffff;fill-opacity:0.2;stroke-width:9.00041;stroke-linecap:round;stroke-linejoin:round"

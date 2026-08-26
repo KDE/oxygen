@@ -2,26 +2,25 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="128"
    height="128"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.91 r13725"
+   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
    version="1.0"
    sodipodi:docname="slider.svgz"
    inkscape:output_extension="org.inkscape.output.svgz.inkscape"
    inkscape:export-filename="arrow-up.png"
    inkscape:export-xdpi="11.25"
-   inkscape:export-ydpi="11.25">
+   inkscape:export-ydpi="11.25"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <sodipodi:namedview
      id="base"
      pagecolor="#9a9a9a"
@@ -32,21 +31,24 @@
      objecttolerance="10"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="5.097285"
-     inkscape:cy="120.41181"
+     inkscape:zoom="4"
+     inkscape:cx="41.25"
+     inkscape:cy="49.625"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      width="128px"
      height="128px"
      showgrid="true"
-     inkscape:window-width="1110"
-     inkscape:window-height="711"
-     inkscape:window-x="15"
-     inkscape:window-y="208"
+     inkscape:window-width="1021"
+     inkscape:window-height="1040"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:snap-nodes="true"
      inkscape:snap-global="true"
-     inkscape:window-maximized="0">
+     inkscape:window-maximized="0"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1">
     <inkscape:grid
        id="GridFromPre046Settings"
        type="xygrid"
@@ -60,8 +62,17 @@
        empopacity="0.4"
        empspacing="2"
        visible="true"
-       enabled="true" />
+       enabled="true"
+       units="px" />
   </sodipodi:namedview>
+  <style
+     id="current-color-scheme"
+     type="text/css">.ColorScheme-Text { color:#232629; }
+.ColorScheme-ViewBackground { color:#fcfcfc; }
+.ColorScheme-ButtonHover { color:#3daee9; }
+.ColorScheme-ButtonFocus { color:#3daee9; }
+.ColorScheme-Highlight { color:#3daee9; }
+</style>
   <defs
      id="defs4">
     <linearGradient
@@ -248,8 +259,8 @@
          style="stop-color:#dddddd;stop-opacity:1;" />
     </linearGradient>
     <linearGradient
-       osb:paint="solid"
-       id="linearGradient6476">
+       id="linearGradient6476"
+       inkscape:swatch="solid">
       <stop
          id="stop6478"
          offset="0"
@@ -324,7 +335,7 @@
     </linearGradient>
     <linearGradient
        id="linearGradient6476-6"
-       osb:paint="solid">
+       inkscape:swatch="solid">
       <stop
          style="stop-color:#ffffff;stop-opacity:1;"
          offset="0"
@@ -440,23 +451,28 @@
       <stop
          id="stop4256-9"
          offset="0"
-         style="stop-color:#29d7f5;stop-opacity:1;" />
+         style="stop-color:currentColor;stop-opacity:1"
+         class="ColorScheme-ButtonFocus" />
       <stop
-         style="stop-color:#29d7f5;stop-opacity:1;"
+         style="stop-color:currentColor;stop-opacity:1"
          offset="0.75999999"
-         id="stop4272-3" />
+         id="stop4272-3"
+         class="ColorScheme-ButtonFocus" />
       <stop
-         style="stop-color:#38c2e9;stop-opacity:0.45614034;"
+         style="stop-color:currentColor;stop-opacity:0.45614034"
          offset="0.85537487"
-         id="stop4270-1" />
+         id="stop4270-1"
+         class="ColorScheme-ButtonFocus" />
       <stop
          id="stop3222-9"
          offset="0.93000001"
-         style="stop-color:#31a7f2;stop-opacity:0.13157895;" />
+         style="stop-color:currentColor;stop-opacity:0.13157895"
+         class="ColorScheme-ButtonFocus" />
       <stop
          id="stop4258-4"
          offset="1"
-         style="stop-color:#2a8dfc;stop-opacity:0;" />
+         style="stop-color:currentColor;stop-opacity:0"
+         class="ColorScheme-ButtonFocus" />
     </linearGradient>
     <linearGradient
        id="linearGradient3647">
@@ -596,19 +612,21 @@
        id="groove-highlight-center">
       <path
          inkscape:connector-curvature="0"
-         style="fill:#4fe2fd;fill-opacity:0.63137255;fill-rule:nonzero;stroke:none"
+         style="fill:currentColor;fill-opacity:0.63137255;fill-rule:nonzero;stroke:none"
          d="m 264,112 0,5 5,0 0,-5 -5,0 z"
-         id="path4733" />
+         id="path4733"
+         class="ColorScheme-Highlight" />
     </g>
     <g
        transform="translate(-232,-101)"
        id="groove-highlight-topleft">
       <path
-         style="fill:#4fe2fd;fill-opacity:0.63137255;fill-rule:nonzero;stroke:none"
+         style="fill:currentColor;fill-opacity:0.63137255;fill-rule:nonzero;stroke:none"
          d="m 263,108 c -1.68216,0 -3,1.31784 -3,3 l 0,1 4,0 0,-4 z"
          id="path4737"
          sodipodi:nodetypes="cccccc"
-         inkscape:connector-curvature="0" />
+         inkscape:connector-curvature="0"
+         class="ColorScheme-Highlight" />
       <path
          style="fill:#ffffff;fill-opacity:0.19607843;fill-rule:nonzero;stroke:none"
          d="M 263.00414,107 C 260.92932,107 259,108.75191 259,110.99813 l 0,1.00187 1,0 0,-1.00187 C 260,109.30342 261.32448,108 263.00414,108 l 0.99586,0 0,-1 z"
@@ -639,9 +657,10 @@
          id="path4747" />
       <path
          inkscape:connector-curvature="0"
-         style="fill:#4fe2fd;fill-opacity:0.63137255;fill-rule:nonzero;stroke:none"
+         style="fill:currentColor;fill-opacity:0.63137255;fill-rule:nonzero;stroke:none"
          d="m 260,112 0,5 4,0 0,-5 -4,0 z"
-         id="path4749" />
+         id="path4749"
+         class="ColorScheme-Highlight" />
       <path
          id="path4751"
          d="m 260,112 0,5 1,0 0,-5 -1,0 z"
@@ -653,9 +672,10 @@
        id="groove-highlight-top">
       <path
          inkscape:connector-curvature="0"
-         style="fill:#4fe2fd;fill-opacity:0.63137255;fill-rule:nonzero;stroke:none"
+         style="fill:currentColor;fill-opacity:0.63137255;fill-rule:nonzero;stroke:none"
          d="m 264,108 0,4 5,0 0,-4 -5,0 z"
-         id="path4755" />
+         id="path4755"
+         class="ColorScheme-Highlight" />
       <path
          inkscape:connector-curvature="0"
          style="fill:url(#radialGradient4807);fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -688,11 +708,12 @@
          inkscape:connector-curvature="0"
          sodipodi:nodetypes="cssccsscc" />
       <path
-         style="fill:#4fe2fd;fill-opacity:0.63137255;fill-rule:nonzero;stroke:none"
+         style="fill:currentColor;fill-opacity:0.63137255;fill-rule:nonzero;stroke:none"
          d="m 260,117 0,1 c 0,1.68216 1.31785,3 3,3 l 1,0 0,-4 z"
          id="path4769"
          sodipodi:nodetypes="cccccc"
-         inkscape:connector-curvature="0" />
+         inkscape:connector-curvature="0"
+         class="ColorScheme-Highlight" />
       <path
          style="fill:#000000;fill-opacity:0.21568627;fill-rule:nonzero;stroke:none"
          d="m 1,12 0,1.028884 C 1,14.711044 2.3015842,16 3.9837342,16 L 5,16 5,15 4.3274842,15 C 3.0658742,15 2,13.946754 2,12.685134 L 2,12 z"
@@ -711,9 +732,10 @@
          id="path4775" />
       <path
          inkscape:connector-curvature="0"
-         style="fill:#4fe2fd;fill-opacity:0.63137255;fill-rule:nonzero;stroke:none"
+         style="fill:currentColor;fill-opacity:0.63137255;fill-rule:nonzero;stroke:none"
          d="m 264,117 0,4 5,0 0,-4 -5,0 z"
-         id="path4777" />
+         id="path4777"
+         class="ColorScheme-Highlight" />
       <path
          id="path4779"
          d="m 264,120 0,1 5,0 0,-1 z"
@@ -725,11 +747,12 @@
        transform="translate(-230,-101)"
        id="groove-highlight-topright">
       <path
-         style="fill:#4fe2fd;fill-opacity:0.63137255;fill-rule:nonzero;stroke:none"
+         style="fill:currentColor;fill-opacity:0.63137255;fill-rule:nonzero;stroke:none"
          d="m 269,108 0,4 4,0 0,-0.95329 C 273,109.36455 271.6733,108 269.99115,108 z"
          id="path4783"
          sodipodi:nodetypes="cccccc"
-         inkscape:connector-curvature="0" />
+         inkscape:connector-curvature="0"
+         class="ColorScheme-Highlight" />
       <path
          style="fill:#ffffff;fill-opacity:0.19607843;fill-rule:nonzero;stroke:none"
          d="m 269,107 0,1 1.01449,0 c 1.78064,0 2.98551,1.55504 2.98551,2.95953 l 0,1.04047 1,0 0,-1.04047 C 274,109.01614 272.35431,107 270.01449,107 z"
@@ -760,9 +783,10 @@
          id="path4793" />
       <path
          inkscape:connector-curvature="0"
-         style="fill:#4fe2fd;fill-opacity:0.63137255;fill-rule:nonzero;stroke:none"
+         style="fill:currentColor;fill-opacity:0.63137255;fill-rule:nonzero;stroke:none"
          d="m 269,112 0,5 4,0 0,-5 -4,0 z"
-         id="path4795" />
+         id="path4795"
+         class="ColorScheme-Highlight" />
       <path
          id="path4797"
          d="m 272,112 0,5 1,0 0,-5 z"
@@ -780,11 +804,12 @@
          inkscape:connector-curvature="0"
          sodipodi:nodetypes="cssccsscc" />
       <path
-         style="fill:#4fe2fd;fill-opacity:0.63137255;fill-rule:nonzero;stroke:none"
+         style="fill:currentColor;fill-opacity:0.63137255;fill-rule:nonzero;stroke:none"
          d="m 269,117 0,4 1,0 c 1.50538,0 3,-1.16875 3,-3 l 0,-1 z"
          id="path4803"
          sodipodi:nodetypes="cccccc"
-         inkscape:connector-curvature="0" />
+         inkscape:connector-curvature="0"
+         class="ColorScheme-Highlight" />
       <path
          style="fill:#000000;fill-opacity:0.21568627;fill-rule:nonzero;stroke:none"
          d="m 15,12 0,1 c 0,1.37344 -0.87096,2 -2,2 l -1,0 0,1 1,0 c 1.50538,0 3,-1.173019 3,-3.004269 L 16,12 z"
