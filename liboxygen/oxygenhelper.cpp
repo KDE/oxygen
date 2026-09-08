@@ -97,7 +97,7 @@ void Helper::renderWindowBackground(QPainter *p, const QRectF &clipRect, const Q
     QRectF upperRect = windowRect;
     if (splitY + yShift > 0) {
         upperRect.setHeight(splitY + yShift);
-        QPixmap tile(verticalGradient(color, splitY + yShift, yShift));
+        QPixmap tile(verticalGradient(color, splitY + yShift, yShift, devicePixelRatio(p)));
         p->drawTiledPixmap(upperRect, tile);
     }
 
@@ -111,7 +111,7 @@ void Helper::renderWindowBackground(QPainter *p, const QRectF &clipRect, const Q
     const int radialW(qMin(600.0, windowRect.width()));
     const QRect radialRect((windowRect.width() - radialW) / 2 + windowRect.x(), windowRect.y(), radialW, 64 + yShift);
     if (clipRect.intersects(radialRect)) {
-        QPixmap tile = radialGradient(color, radialW, 64 + yShift);
+        QPixmap tile = radialGradient(color, radialW, 64 + yShift, devicePixelRatio(p));
         p->drawPixmap(radialRect, tile);
     }
 
@@ -359,15 +359,16 @@ QColor Helper::backgroundColor(const QColor &color, qreal ratio)
 }
 
 //____________________________________________________________________
-QPixmap Helper::verticalGradient(const QColor &color, int height, int offset)
+QPixmap Helper::verticalGradient(const QColor &color, int height, int offset, qreal dpr)
 {
-    const quint64 key((colorKey(color) << 32) | height | 0x8000);
+    const quint64 dprKey(quint64(qRound((dpr > 0 ? dpr : qApp->devicePixelRatio()) * 64.0)));
+    const quint64 key((colorKey(color) << 32) | (dprKey << 12) | height | 0x8000);
 
     if (QPixmap *cachedPixmap = _backgroundCache.object(key)) {
         return *cachedPixmap;
     }
 
-    QPixmap pixmap(1, height);
+    QPixmap pixmap(highDpiPixmap(1, height, dpr));
     pixmap.fill(Qt::transparent);
 
     QLinearGradient gradient(0, offset, 0, height);
@@ -385,15 +386,16 @@ QPixmap Helper::verticalGradient(const QColor &color, int height, int offset)
 }
 
 //____________________________________________________________________
-QPixmap Helper::radialGradient(const QColor &color, int width, int height)
+QPixmap Helper::radialGradient(const QColor &color, int width, int height, qreal dpr)
 {
-    const quint64 key((colorKey(color) << 32) | width | 0xb000);
+    const quint64 dprKey(quint64(qRound((dpr > 0 ? dpr : qApp->devicePixelRatio()) * 64.0)));
+    const quint64 key((colorKey(color) << 32) | (dprKey << 12) | width | 0xb000);
 
     if (QPixmap *cachedPixmap = _backgroundCache.object(key)) {
         return *cachedPixmap;
     }
 
-    QPixmap pixmap(width, height);
+    QPixmap pixmap(highDpiPixmap(width, height, dpr));
     pixmap.fill(Qt::transparent);
 
     QRadialGradient gradient(64, height - 64, 64);
@@ -408,6 +410,7 @@ QPixmap Helper::radialGradient(const QColor &color, int width, int height)
     gradient.setColorAt(1, radialColor);
 
     QPainter painter(&pixmap);
+    painter.setViewport(0, 0, width, height);
     painter.setWindow(0, 0, 128, height);
     painter.fillRect(QRect(0, 0, 128, height), gradient);
 
@@ -708,10 +711,10 @@ const QWidget *Helper::checkAutoFillBackground(const QWidget *w) const
 }
 
 //______________________________________________________________________________________
-QPixmap Helper::highDpiPixmap(int width, int height) const
+QPixmap Helper::highDpiPixmap(int width, int height, qreal dpr) const
 {
-    const qreal dpiRatio(qApp->devicePixelRatio());
-    QPixmap pixmap(width * dpiRatio, height * dpiRatio);
+    const qreal dpiRatio(dpr > 0 ? dpr : qApp->devicePixelRatio());
+    QPixmap pixmap(qRound(width * dpiRatio), qRound(height * dpiRatio));
     pixmap.setDevicePixelRatio(dpiRatio);
     return pixmap;
 }
@@ -720,6 +723,12 @@ QPixmap Helper::highDpiPixmap(int width, int height) const
 qreal Helper::devicePixelRatio(const QPixmap &pixmap) const
 {
     return pixmap.devicePixelRatio();
+}
+
+//______________________________________________________________________________________
+qreal Helper::devicePixelRatio(QPainter *painter) const
+{
+    return painter->device() ? painter->device()->devicePixelRatioF() : qApp->devicePixelRatio();
 }
 
 //______________________________________________________________________________

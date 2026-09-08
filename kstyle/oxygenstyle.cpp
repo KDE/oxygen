@@ -1428,7 +1428,14 @@ bool Style::eventFilterCommandLinkButton(QCommandLinkButton *button, QEvent *eve
         if (!button->icon().isNull()) {
             const QSize pixmapSize(button->icon().actualSize(button->iconSize()));
             const QRect pixmapRect(QPoint(offset.x(), button->description().isEmpty() ? (button->height() - pixmapSize.height()) / 2 : offset.y()), pixmapSize);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            const QPixmap pixmap(button->icon().pixmap(pixmapSize,
+                                                       _helper->devicePixelRatio(&painter),
+                                                       enabled ? QIcon::Normal : QIcon::Disabled,
+                                                       button->isChecked() ? QIcon::On : QIcon::Off));
+#else
             const QPixmap pixmap(button->icon().pixmap(pixmapSize, enabled ? QIcon::Normal : QIcon::Disabled, button->isChecked() ? QIcon::On : QIcon::Off));
+#endif
             drawItemPixmap(&painter, pixmapRect, Qt::AlignCenter, pixmap);
 
             offset.rx() += pixmapSize.width() + 4;
@@ -4340,7 +4347,11 @@ bool Style::drawIndicatorTabClosePrimitive(const QStyleOption *option, QPainter 
         mode = QIcon::Disabled;
 
     QIcon::State state = option->state & State_Sunken ? QIcon::On : QIcon::Off;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QPixmap pixmap(_tabCloseIcon.pixmap(QSize(size, size), _helper->devicePixelRatio(painter), mode, state));
+#else
     QPixmap pixmap(_tabCloseIcon.pixmap(size, mode, state));
+#endif
     drawItemPixmap(painter, option->rect, Qt::AlignCenter, pixmap);
     return true;
 }
@@ -4727,7 +4738,11 @@ bool Style::drawPushButtonLabelControl(const QStyleOption *option, QPainter *pai
         else
             iconMode = QIcon::Normal;
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        const QPixmap pixmap = buttonOption->icon.pixmap(iconSize, _helper->devicePixelRatio(painter), iconMode, iconState);
+#else
         const QPixmap pixmap = buttonOption->icon.pixmap(iconSize, iconMode, iconState);
+#endif
         drawItemPixmap(painter, iconRect, Qt::AlignCenter, pixmap);
     }
 
@@ -4842,7 +4857,11 @@ bool Style::drawToolButtonLabelControl(const QStyleOption *option, QPainter *pai
         else
             iconMode = QIcon::Normal;
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        const QPixmap pixmap = toolButtonOption->icon.pixmap(iconSize, _helper->devicePixelRatio(painter), iconMode, iconState);
+#else
         const QPixmap pixmap = toolButtonOption->icon.pixmap(iconSize, iconMode, iconState);
+#endif
         drawItemPixmap(painter, iconRect, Qt::AlignCenter, pixmap);
     }
 
@@ -4950,7 +4969,11 @@ bool Style::drawMenuBarItemControl(const QStyleOption *option, QPainter *painter
             iconState = sunken ? QIcon::On : QIcon::Off;
         }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        const auto pixmap = menuItemOption->icon.pixmap(QSize(iconSize, iconSize), _helper->devicePixelRatio(painter), iconMode, iconState);
+#else
         const auto pixmap = menuItemOption->icon.pixmap(iconSize, iconMode, iconState);
+#endif
         drawItemPixmap(painter, iconRect, Qt::AlignCenter, pixmap);
 
     } else {
@@ -5104,7 +5127,11 @@ bool Style::drawMenuItemControl(const QStyleOption *option, QPainter *painter, c
 
         // icon state
         const QIcon::State iconState(sunken ? QIcon::On : QIcon::Off);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        const QPixmap icon = menuItemOption->icon.pixmap(iconRect.size(), _helper->devicePixelRatio(painter), mode, iconState);
+#else
         const QPixmap icon = menuItemOption->icon.pixmap(iconRect.size(), mode, iconState);
+#endif
         painter->drawPixmap(iconRect, icon);
     }
 
@@ -6436,7 +6463,11 @@ bool Style::drawToolBoxTabLabelControl(const QStyleOption *option, QPainter *pai
 
         iconRect = visualRect(option, iconRect);
         const QIcon::Mode mode(enabled ? QIcon::Normal : QIcon::Disabled);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        const QPixmap pixmap(toolBoxOption->icon.pixmap(QSize(iconSize, iconSize), _helper->devicePixelRatio(painter), mode));
+#else
         const QPixmap pixmap(toolBoxOption->icon.pixmap(iconSize, mode));
+#endif
         drawItemPixmap(painter, iconRect, textFlags, pixmap);
     }
 
@@ -7048,7 +7079,8 @@ bool Style::drawSliderComplexControl(const QStyleOptionComplex *option, QPainter
         const QColor glow(_helper->buttonGlowColor(palette, styleOptions, opacity, mode));
 
         // render
-        painter->drawPixmap(handleRect.topLeft(), _helper->sliderSlab(color, glow, sunken, 0));
+        const qreal dpr(_helper->devicePixelRatio(painter));
+        painter->drawPixmap(handleRect.topLeft(), _helper->sliderSlab(color, glow, sunken, 0, dpr));
     }
 
     return true;
@@ -7148,7 +7180,11 @@ bool Style::drawTitleBarComplexControl(const QStyleOptionComplex *option, QPaint
         const int iconWidth(pixelMetric(PM_SmallIconSize, option, widget));
         const QSize iconSize(iconWidth, iconWidth);
         iconRect = centerRect(iconRect, iconSize);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        const QPixmap pixmap = titleBarOption->icon.pixmap(iconSize, _helper->devicePixelRatio(painter), QIcon::Normal, QIcon::On);
+#else
         const QPixmap pixmap = titleBarOption->icon.pixmap(iconSize, QIcon::Normal, QIcon::On);
+#endif
         painter->drawPixmap(iconRect, pixmap);
     }
 
@@ -7919,7 +7955,8 @@ void Style::renderRadioButton(QPainter *painter,
     // get pixmap
     const QColor color(palette.color(QPalette::Button));
     const QColor glow(_helper->buttonGlowColor(palette, options, opacity, mode));
-    QPixmap pixmap(_helper->roundSlab(color, glow, 0));
+    const qreal dpr(_helper->devicePixelRatio(painter));
+    QPixmap pixmap(_helper->roundSlab(color, glow, 0, dpr));
 
     // center rect
     const QRect rect(centerRect(constRect, pixmap.size() / _helper->devicePixelRatio(pixmap)));
@@ -7930,9 +7967,10 @@ void Style::renderRadioButton(QPainter *painter,
     // draw the radio mark
     if (state != CheckOff) {
         const qreal radius(2.6);
-        const qreal dx(0.5 * rect.width() - radius);
-        const qreal dy(0.5 * rect.height() - radius);
-        const QRectF symbolRect(QRectF(rect).adjusted(dx, dy, -dx, -dy));
+        const QSizeF logicalPixmapSize(QSizeF(pixmap.size()) / _helper->devicePixelRatio(pixmap));
+        const qreal dx(0.5 * logicalPixmapSize.width() - radius);
+        const qreal dy(0.5 * logicalPixmapSize.height() - radius);
+        const QRectF symbolRect(QRectF(rect.topLeft(), logicalPixmapSize).adjusted(dx, dy, -dx, -dy));
 
         painter->save();
         painter->setRenderHints(QPainter::Antialiasing);

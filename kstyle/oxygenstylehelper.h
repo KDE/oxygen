@@ -153,16 +153,16 @@ public:
     QPixmap dialSlab(const QColor &, const QColor &, qreal shade, int size = TileSet::DefaultSize);
 
     // round slabs
-    QPixmap roundSlab(const QColor &color, qreal shade, int size = TileSet::DefaultSize)
+    QPixmap roundSlab(const QColor &color, qreal shade, qreal dpr, int size = TileSet::DefaultSize)
     {
-        return roundSlab(color, QColor(), shade, size);
+        return roundSlab(color, QColor(), shade, dpr, size);
     }
 
     // round slab
-    QPixmap roundSlab(const QColor &, const QColor &glow, qreal shade, int size = TileSet::DefaultSize);
+    QPixmap roundSlab(const QColor &, const QColor &glow, qreal shade, qreal dpr, int size = TileSet::DefaultSize);
 
     //* slider slab
-    QPixmap sliderSlab(const QColor &, const QColor &glow, bool sunken, qreal shade, int size = TileSet::DefaultSize);
+    QPixmap sliderSlab(const QColor &, const QColor &glow, bool sunken, qreal shade, qreal dpr, int size = TileSet::DefaultSize);
 
     //@}
 

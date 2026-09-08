@@ -670,16 +670,17 @@ QPixmap StyleHelper::dialSlab(const QColor &color, const QColor &glow, qreal sha
 }
 
 //__________________________________________________________________________________________________________
-QPixmap StyleHelper::roundSlab(const QColor &color, const QColor &glow, qreal shade, int size)
+QPixmap StyleHelper::roundSlab(const QColor &color, const QColor &glow, qreal shade, qreal dpr, int size)
 {
     Oxygen::Cache<QPixmap>::Value cache(_roundSlabCache.get(color));
 
-    const quint64 key((colorKey(glow) << 32) | (quint64(256.0 * shade) << 24) | size);
+    const quint64 dprKey(quint64(qRound(dpr * 64.0)));
+    const quint64 key((colorKey(glow) << 32) | (quint64(256.0 * shade) << 24) | (dprKey << 12) | size);
     if (QPixmap *cachedPixmap = cache->object(key)) {
         return *cachedPixmap;
     }
 
-    QPixmap pixmap(highDpiPixmap(size * 3));
+    QPixmap pixmap(highDpiPixmap(size * 3, dpr));
     pixmap.fill(Qt::transparent);
 
     QPainter painter(&pixmap);
@@ -705,16 +706,17 @@ QPixmap StyleHelper::roundSlab(const QColor &color, const QColor &glow, qreal sh
 }
 
 //__________________________________________________________________________________________________________
-QPixmap StyleHelper::sliderSlab(const QColor &color, const QColor &glow, bool sunken, qreal shade, int size)
+QPixmap StyleHelper::sliderSlab(const QColor &color, const QColor &glow, bool sunken, qreal shade, qreal dpr, int size)
 {
     Oxygen::Cache<QPixmap>::Value cache(_sliderSlabCache.get(color));
 
-    const quint64 key((colorKey(glow) << 32) | (quint64(256.0 * shade) << 24) | (sunken << 23) | size);
+    const quint64 dprKey(quint64(qRound(dpr * 64.0)));
+    const quint64 key((colorKey(glow) << 32) | (quint64(256.0 * shade) << 24) | (sunken << 23) | (dprKey << 12) | size);
     if (QPixmap *cachedPixmap = cache->object(key)) {
         return *cachedPixmap;
     }
 
-    QPixmap pixmap(highDpiPixmap(size * 3));
+    QPixmap pixmap(highDpiPixmap(size * 3, dpr));
     pixmap.fill(Qt::transparent);
 
     QPainter painter(&pixmap);

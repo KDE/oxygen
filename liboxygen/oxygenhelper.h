@@ -325,10 +325,10 @@ public:
     virtual QColor backgroundBottomColor(const QColor &color);
 
     //* vertical gradient for window background
-    virtual QPixmap verticalGradient(const QColor &color, int height, int offset = 0);
+    virtual QPixmap verticalGradient(const QColor &color, int height, int offset = 0, qreal dpr = 0);
 
     //* radial gradient for window background
-    virtual QPixmap radialGradient(const QColor &color, int width, int height = 20);
+    virtual QPixmap radialGradient(const QColor &color, int width, int height = 20, qreal dpr = 0);
 
     //* merge background and front color for check marks, arrows, etc. using _contrast
     virtual QColor decoColor(const QColor &background, const QColor &color);
@@ -402,22 +402,25 @@ public:
     //@{
 
     //* return dpi-aware pixmap of given size
-    virtual QPixmap highDpiPixmap(const QSize &size) const
+    virtual QPixmap highDpiPixmap(const QSize &size, qreal dpr = 0) const
     {
-        return highDpiPixmap(size.width(), size.height());
+        return highDpiPixmap(size.width(), size.height(), dpr);
     }
 
     //* return dpi-aware pixmap of given size
-    virtual QPixmap highDpiPixmap(int width) const
+    virtual QPixmap highDpiPixmap(int width, qreal dpr = 0) const
     {
-        return highDpiPixmap(width, width);
+        return highDpiPixmap(width, width, dpr);
     }
 
     //* return dpi-aware pixmap of given size
-    virtual QPixmap highDpiPixmap(int width, int height) const;
+    virtual QPixmap highDpiPixmap(int width, int height, qreal dpr = 0) const;
 
     //* return device pixel ratio for a given pixmap
     virtual qreal devicePixelRatio(const QPixmap &) const;
+
+    //* return the device pixel ratio of whatever surface a painter is currently targeting
+    qreal devicePixelRatio(QPainter *painter) const;
 
     //@}
 
