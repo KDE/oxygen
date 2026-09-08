@@ -243,7 +243,7 @@ msgstr "Réglages spécifiques de fenêtre"
 #: config/ui/oxygendetectwidget.ui:14 config/ui/oxygenexceptiondialog.ui:14
 #, kde-format
 msgid "Dialog"
-msgstr "Boîte de dialogue"
+msgstr "Boite de dialogue"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: config/ui/oxygendetectwidget.ui:20

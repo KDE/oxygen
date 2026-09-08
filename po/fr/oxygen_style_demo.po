@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:53+0000\n"
 "PO-Revision-Date: 2021-01-13 17:32+0100\n"
-"Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
+"Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -553,7 +553,7 @@ msgstr "&Enfoncée"
 #: ui/oxygenframedemowidget.ui:147
 #, kde-format
 msgid "GroupBox"
-msgstr "Boîte de groupement"
+msgstr "Boite de groupement"
 
 #. i18n: ectx: property (text), widget (QCheckBox, flatGroupBoxCheckBox)
 #: ui/oxygenframedemowidget.ui:153
@@ -608,7 +608,7 @@ msgstr "Troisième élément"
 #: ui/oxygeninputdemowidget.ui:123
 #, kde-format
 msgid "Spinbox:"
-msgstr "Boîte de sélection :"
+msgstr "Boite de sélection :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ui/oxygeninputdemowidget.ui:146
@@ -821,7 +821,7 @@ msgstr "Titre :"
 #: ui/oxygenmdidemowidget.ui:78
 #, kde-format
 msgid "Toolbox"
-msgstr "Boîte d'outils"
+msgstr "Boite d'outils"
 
 #. i18n: ectx: attribute (label), widget (QWidget, page)
 #: ui/oxygenmdidemowidget.ui:96
