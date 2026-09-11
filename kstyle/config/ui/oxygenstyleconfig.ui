@@ -282,13 +282,13 @@
          <item>
           <widget class="QSlider" name="_scrollBarWidthSlider">
            <property name="minimum">
-            <number>10</number>
+            <number>8</number>
            </property>
            <property name="maximum">
             <number>30</number>
            </property>
            <property name="pageStep">
-            <number>5</number>
+            <number>4</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -297,7 +297,7 @@
             <enum>QSlider::TicksBelow</enum>
            </property>
            <property name="tickInterval">
-            <number>5</number>
+            <number>4</number>
            </property>
           </widget>
          </item>
@@ -310,7 +310,7 @@
             <string>px</string>
            </property>
            <property name="minimum">
-            <number>10</number>
+            <number>8</number>
            </property>
            <property name="maximum">
             <number>30</number>

@@ -74,7 +74,7 @@
 
     <!-- scrollbars -->
     <entry name="ScrollBarWidth" type="Int">
-      <default>15</default>
+      <default>12</default>
     </entry>
     <entry name="ScrollBarAddLineButtons" type="Int">
       <default>2</default>
