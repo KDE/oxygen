@@ -10,6 +10,16 @@ ForegroundNormal=230,231,232
 ForegroundPositive=0,95,0
 ForegroundVisited=97,147,207
 
+[Colors:Selection]
+ForegroundActive=255,0,0
+ForegroundInactive=177,202,232
+ForegroundLink=0,0,255
+ForegroundNegative=107,0,0
+ForegroundNeutral=0,90,95
+ForegroundNormal=255,248,209
+ForegroundPositive=0,95,0
+ForegroundVisited=88,55,150
+
 [Colors:Tooltip]
 BackgroundAlternate=40,40,40
 BackgroundNormal=50,50,50
