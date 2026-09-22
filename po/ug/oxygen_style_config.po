@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:53+0000\n"
-"PO-Revision-Date: 2026-06-01 16:34-0400\n"
+"PO-Revision-Date: 2026-09-22 18:03+0900\n"
 "Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
-"Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
+"Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
 "Language: ug\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -173,7 +173,7 @@ msgstr "چاشقىنەككە ئەگىشىش ۋاقتى:"
 #: ui/oxygenfollowmouseanimationconfigbox.ui:114
 #, kde-format
 msgid " ms"
-msgstr " ms"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
 #: ui/oxygenstyleconfig.ui:26
@@ -320,7 +320,7 @@ msgstr "سىيرىغۇچ بالداق كەڭلىكى(&D):"
 #: ui/oxygenstyleconfig.ui:310
 #, kde-format
 msgid "px"
-msgstr "px"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ui/oxygenstyleconfig.ui:340

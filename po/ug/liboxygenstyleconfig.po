@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: liboxygenstyleconfig\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-14 00:47+0000\n"
-"PO-Revision-Date: 2026-06-01 16:34-0400\n"
+"PO-Revision-Date: 2026-09-22 18:03+0900\n"
 "Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
 "Language: ug\n"
@@ -58,7 +58,7 @@ msgstr "داۋاملىشىش ۋاقتى:"
 #: ui/oxygengenericanimationconfigbox.ui:64
 #, kde-format
 msgid " ms"
-msgstr " ms"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygenshadowconfigurationui.ui:23
@@ -71,7 +71,7 @@ msgstr "چوڭلۇقى: "
 #: ui/oxygenshadowconfigurationui.ui:36 ui/oxygenshadowconfigurationui.ui:56
 #, kde-format
 msgid "px"
-msgstr "px"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ui/oxygenshadowconfigurationui.ui:43
