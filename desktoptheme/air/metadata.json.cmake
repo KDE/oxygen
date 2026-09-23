@@ -38,6 +38,7 @@
                 "Name[sl]": "Projekt Oxygen",
                 "Name[sv]": "Oxygen-projektet",
                 "Name[tr]": "Oksijen Projesi",
+                "Name[ug]": "ئوكسىگېن قۇرۇلۇشى",
                 "Name[uk]": "Проєкт Oxygen",
                 "Name[zh_CN]": "Oxygen 轻氧项目",
                 "Name[zh_TW]": "Oxygen 專案"
@@ -74,6 +75,7 @@
         "Description[sl]": "Vdih svežega zraka",
         "Description[sv]": "Ett friskt andetag",
         "Description[tr]": "Temiz hava",
+        "Description[ug]": "ساپ ھاۋادىن نەپەسلىنىش",
         "Description[uk]": "Ковток свіжого повітря",
         "Description[zh_CN]": "清新空气般淡雅的主题",
         "Description[zh_TW]": "新鮮空氣",
@@ -110,6 +112,7 @@
         "Name[sl]": "Zrak",
         "Name[sv]": "Air",
         "Name[tr]": "Hava",
+        "Name[ug]": "ھاۋا",
         "Name[uk]": "Повітря",
         "Name[zh_CN]": "Air 空幻",
         "Name[zh_TW]": "Air",

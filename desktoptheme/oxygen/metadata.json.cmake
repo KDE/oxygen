@@ -38,6 +38,7 @@
                 "Name[sl]": "Projekt Oxygen",
                 "Name[sv]": "Oxygen-projektet",
                 "Name[tr]": "Oksijen Projesi",
+                "Name[ug]": "ئوكسىگېن قۇرۇلۇشى",
                 "Name[uk]": "Проєкт Oxygen",
                 "Name[zh_CN]": "Oxygen 轻氧项目",
                 "Name[zh_TW]": "Oxygen 專案"
@@ -79,6 +80,7 @@
         "Description[sl]": "Tema izdelana v slogu Oxygen",
         "Description[sv]": "Tema skapat med Oxygen-stilen",
         "Description[tr]": "Oksijen biçeminde yapılmış tema",
+        "Description[ug]": "ئوكسىگېن ئۇسلۇبىدىكى ئۆرنەك",
         "Description[uk]": "Тему виконано у стилі Oxygen",
         "Description[zh_CN]": "Oxygen 轻氧风格的主题",
         "Description[zh_TW]": "以 Oxygen 風格所做的主題",

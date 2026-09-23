@@ -36,6 +36,7 @@
         "Description[sl]": "Spremeni videz okraskov oken",
         "Description[sv]": "Ändra utseende på fönsterdekorationer",
         "Description[tr]": "Pencere dekorasyonlarının görünüşünü değiştir",
+        "Description[ug]": "كۆزنەك بېزىكىنىڭ قىياپىتىنى ئۆزگەرتىدۇ",
         "Description[uk]": "Внесення змін до обрамлення вікон",
         "Description[zh_CN]": "调整窗口装饰外观",
         "Description[zh_TW]": "修改視窗裝飾的外觀",
@@ -76,6 +77,7 @@
         "Name[sl]": "Okraski oken Kisik",
         "Name[sv]": "Oxygen-fönsterdekoration",
         "Name[tr]": "Oksijen Pencere Dekorasyonu",
+        "Name[ug]": "ئوكسىگېن كۆزنەك بېزىكى",
         "Name[uk]": "Декорації вікон Oxygen",
         "Name[zh_CN]": "Oxygen 轻氧窗口装饰",
         "Name[zh_TW]": "Oxygen 視窗裝飾"
@@ -114,6 +116,7 @@
     "X-KDE-Keywords[sl]": "kisik,dekoracija",
     "X-KDE-Keywords[sv]": "oxygen,dekoration",
     "X-KDE-Keywords[tr]": "oksijen,oxygen,dekorasyon",
+    "X-KDE-Keywords[ug]": "oxygen,decoration,ئوكسىگېن,بېزەك",
     "X-KDE-Keywords[uk]": "oxygen,decoration,декорація,обрамлення",
     "X-KDE-Keywords[zh_CN]": "oxygen,decoration,qingyang,yangqi,zhuangshi,轻氧,氧气,装饰",
     "X-KDE-Keywords[zh_TW]": "oxygen,裝飾"

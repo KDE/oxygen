@@ -39,6 +39,7 @@
                 "Name[sl]": "Skupina Oxygen",
                 "Name[sv]": "Oxygen-gruppen",
                 "Name[tr]": "Oksijen Takımı",
+                "Name[ug]": "ئوكسىگېن قوشۇنى",
                 "Name[uk]": "Команда Oxygen",
                 "Name[zh_CN]": "Oxygen 轻氧团队",
                 "Name[zh_TW]": "Oxygen 開發團隊"
@@ -80,6 +81,7 @@
         "Description[sl]": "Oxygen Desktop Design Language",
         "Description[sv]": "Oxygen-skrivbordsdesignspråk",
         "Description[tr]": "Oksijen Masaüstü Tasarım Dili",
+        "Description[ug]": "ئوكسىگېن ئۈستەلئۈستى لايىھە تىلى",
         "Description[uk]": "Мова компонування стільниці Oxygen",
         "Description[zh_CN]": "Oxygen 轻氧桌面设计语言",
         "Description[zh_TW]": "Oxygen 桌面設計語言",
@@ -110,6 +112,7 @@
         "Name[sl]": "Kisik temen",
         "Name[sv]": "Oxygen mörk",
         "Name[tr]": "Oksijen Koyu",
+        "Name[ug]": "ئوكسىگېن قاراڭغۇ",
         "Name[uk]": "Темна Oxygen",
         "Name[zh_CN]": "Oxygen 轻氧深色",
         "Name[zh_TW]": "Oxygen Dark",

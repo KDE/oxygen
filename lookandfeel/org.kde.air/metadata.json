@@ -39,6 +39,7 @@
                 "Name[sl]": "Skupina Oxygen",
                 "Name[sv]": "Oxygen-gruppen",
                 "Name[tr]": "Oksijen Takımı",
+                "Name[ug]": "ئوكسىگېن قوشۇنى",
                 "Name[uk]": "Команда Oxygen",
                 "Name[zh_CN]": "Oxygen 轻氧团队",
                 "Name[zh_TW]": "Oxygen 開發團隊"
@@ -71,6 +72,7 @@
         "Description[sl]": "Air Desktop Design Language",
         "Description[sv]": "Air-skrivbordsdesignspråk",
         "Description[tr]": "Hava Masaüstü Tasarım Dili",
+        "Description[ug]": "ھاۋا ئۈستەلئۈستى لايىھە تىلى",
         "Description[uk]": "Мова компонування стільниці Air",
         "Description[zh_CN]": "Air 空幻桌面设计语言",
         "Description[zh_TW]": "Air 桌面設計語言",
@@ -106,6 +108,7 @@
         "Name[sl]": "Zrak",
         "Name[sv]": "Air",
         "Name[tr]": "Hava",
+        "Name[ug]": "ھاۋا",
         "Name[uk]": "Повітря",
         "Name[zh_CN]": "Air 空幻",
         "Name[zh_TW]": "Air",
