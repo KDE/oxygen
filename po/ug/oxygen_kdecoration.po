@@ -1,14 +1,14 @@
 # Uyghur translation for oxygen_kdecoration.
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the oxygen package.
-# Abduqadir Abliz <sahranbay@gmail.com>, 2026., YEAR.
+# Abduqadir Abliz <sahranbay@gmail.com>, 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-08 00:46+0000\n"
-"PO-Revision-Date: 2026-09-23 06:56+0900\n"
+"PO-Revision-Date: 2026-09-24 19:49-0400\n"
 "Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
 "Language: ug\n"
@@ -331,7 +331,7 @@ msgstr "يان گىرۋىكى يوق"
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
-msgstr "بەك كىچىك"
+msgstr "بەكلا كىچىك"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:122
@@ -359,7 +359,7 @@ msgstr "بەك چوڭ"
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Huge"
-msgstr "ئىنتايىن چوڭ"
+msgstr "زور"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:142

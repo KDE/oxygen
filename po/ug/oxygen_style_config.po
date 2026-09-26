@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:53+0000\n"
-"PO-Revision-Date: 2026-09-23 06:56+0900\n"
+"PO-Revision-Date: 2026-09-24 19:50-0400\n"
 "Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
 "Language: ug\n"
@@ -173,7 +173,7 @@ msgstr "چاشقىنەككە ئەگىشىش ۋاقتى:"
 #: ui/oxygenfollowmouseanimationconfigbox.ui:114
 #, kde-format
 msgid " ms"
-msgstr ""
+msgstr " ms"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OxygenStyleConfig)
 #: ui/oxygenstyleconfig.ui:26
@@ -282,7 +282,7 @@ msgstr "شاخ كېڭەيتكۈچ چوڭلۇقى(&T):"
 #, kde-format
 msgctxt "triangle size"
 msgid "Tiny"
-msgstr "بەك كىچىك"
+msgstr "بەكلا كىچىك"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _viewTriangularExpanderSize)
 #: ui/oxygenstyleconfig.ui:214
@@ -320,7 +320,7 @@ msgstr "سىيرىغۇچ بالداق كەڭلىكى(&D):"
 #: ui/oxygenstyleconfig.ui:310
 #, kde-format
 msgid "px"
-msgstr ""
+msgstr "px"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ui/oxygenstyleconfig.ui:340
