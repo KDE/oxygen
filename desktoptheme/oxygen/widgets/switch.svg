@@ -741,4 +741,5 @@
        d="m 19.999997,12 c 5.79899,0 10.5,4.70101 10.5,10.5 -0.0071,0.166907 -0.01816,0.333621 -0.0332,0.5 C 30.200314,17.40997 25.596367,13.011349 20,13 v -1 z"
        sodipodi:nodetypes="cccccc" />
   </g>
+  <rect id="groove-hint-tile-center" x="145" y="0" width="5" height="5" style="fill:#0000ff;stroke-width:156.246;stroke-linecap:round" />
 </svg>

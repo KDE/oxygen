@@ -1503,4 +1503,5 @@
          style="opacity:0.6" />
     </g>
   </g>
+  <rect id="groove-highlight-hint-tile-center" x="136" y="0" width="5" height="5" style="fill:#4e9a06;fill-opacity:1;fill-rule:nonzero;stroke:none" />
 </svg>

@@ -263,4 +263,5 @@
      height="12.010189"
      x="14.020378"
      y="20.108381" />
+  <rect id="hint-tile-center" x="68" y="0" width="5" height="5" style="opacity:1;fill:#4f8100;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:6.69999981;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
 </svg>

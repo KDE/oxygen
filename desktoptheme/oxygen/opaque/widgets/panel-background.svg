@@ -3918,4 +3918,8 @@
          style="opacity:0;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:1.08779998;stroke-opacity:1" />
     </g>
   </g>
+  <rect id="east-mask-hint-tile-center" x="256" y="0" width="5" height="5" style="opacity:0.875;fill:#008000;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  <rect id="north-mask-hint-tile-center" x="264" y="0" width="5" height="5" style="opacity:0.875;fill:#008000;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  <rect id="south-mask-hint-tile-center" x="272" y="0" width="5" height="5" style="opacity:0.875;fill:#008000;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  <rect id="west-mask-hint-tile-center" x="280" y="0" width="5" height="5" style="opacity:0.875;fill:#008000;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
 </svg>

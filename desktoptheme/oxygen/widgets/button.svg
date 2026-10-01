@@ -1319,4 +1319,6 @@
        id="path4711-1"
        sodipodi:nodetypes="ccccc" />
   </g>
+  <rect id="focus-hint-tile-center" x="68" y="0" width="5" height="5" style="opacity:1;fill:#4e9a06;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+  <rect id="hover-hint-tile-center" x="76" y="0" width="5" height="5" style="opacity:1;fill:#4e9a06;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
 </svg>

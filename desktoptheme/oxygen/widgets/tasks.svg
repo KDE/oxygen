@@ -3438,4 +3438,12 @@
        x="34.857628"
        height="5.0021462" />
   </g>
+  <rect id="east-minimized-hint-tile-center" x="90" y="0" width="5" height="5" style="opacity:0.875;fill:#008080;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  <rect id="east-normal-hint-tile-center" x="98" y="0" width="5" height="5" style="opacity:0.875;fill:#008080;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  <rect id="minimized-hint-tile-center" x="106" y="0" width="5" height="5" style="opacity:0.875;fill:#008080;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  <rect id="normal-hint-tile-center" x="114" y="0" width="5" height="5" style="opacity:0.875;fill:#008080;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  <rect id="north-minimized-hint-tile-center" x="122" y="0" width="5" height="5" style="opacity:0.875;fill:#008080;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  <rect id="north-normal-hint-tile-center" x="130" y="0" width="5" height="5" style="opacity:0.875;fill:#008080;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  <rect id="west-minimized-hint-tile-center" x="138" y="0" width="5" height="5" style="opacity:0.875;fill:#008080;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  <rect id="west-normal-hint-tile-center" x="146" y="0" width="5" height="5" style="opacity:0.875;fill:#008080;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
 </svg>
