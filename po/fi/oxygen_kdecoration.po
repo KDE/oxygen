@@ -5,7 +5,7 @@
 # Kim Enkovaara <kim.enkovaara@iki.fi>, 2005.
 # Teemu Rytilahti <teemu.rytilahti@kde-fi.org>, 2008.
 # Teemu Rytilahti <teemu.rytilahti@d5k.net>, 2008.
-# Tommi Nieminen <translator@legisign.org>, 2009, 2010, 2012, 2015, 2017.
+# SPDX-FileCopyrightText: 2009, 2010, 2012, 2015, 2017, 2026 Tommi Nieminen <translator@legisign.org>
 # Lasse Liehu <lliehu@kolumbus.fi>, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
 # Jorma Karvonen <karvonen.jorma@gmail.com>, 2011.
 #
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-08 00:46+0000\n"
-"PO-Revision-Date: 2017-12-26 10:01+0200\n"
+"PO-Revision-Date: 2026-08-25 10:33+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -24,6 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #: config/oxygenanimationconfigwidget.cpp:30
 #, kde-format
@@ -199,7 +200,7 @@ msgstr "Käytä samoja värejä otsikkopalkissa ja ikkunan sisällössä"
 #: config/ui/oxygenconfigurationui.ui:144
 #, kde-format
 msgid "Draw titlebar background gradient"
-msgstr ""
+msgstr "Piirrä otsikkoriville taustaväriliuku"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: config/ui/oxygenconfigurationui.ui:152
