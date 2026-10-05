@@ -1,13 +1,14 @@
 # Translation of oxygen_style_config.po into Serbian.
 # Chusslove Illich <caslav.ilic@gmx.net>, 2005, 2007, 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2017.
 # Dalibor Djuric <daliborddjuric@gmail.com>, 2009, 2010, 2011.
+# Nemanja Hiršl <nemhirsl@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: oxygen_style_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:53+0000\n"
-"PO-Revision-Date: 2017-10-30 23:08+0100\n"
-"Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
+"PO-Revision-Date: 2026-10-04 12:24+0200\n"
+"Last-Translator: Nemanja Hiršl <nemhirsl@gmail.com>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr@latin\n"
 "MIME-Version: 1.0\n"
@@ -231,25 +232,25 @@ msgstr "preko svih praznih područja"
 #: ui/oxygenstyleconfig.ui:70
 #, kde-format
 msgid "Keyboard accelerators visibility:"
-msgstr "Vidljivost ubrzivače sa tastature:"
+msgstr "Vidljivost ubrzivača sa tastature:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
 #: ui/oxygenstyleconfig.ui:84
 #, kde-format
 msgid "Always hide"
-msgstr ""
+msgstr "uvek sakrij"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
 #: ui/oxygenstyleconfig.ui:89
 #, kde-format
 msgid "Show when Alt key is pressed"
-msgstr ""
+msgstr "prikaži pri pritisku tastera Alt"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, _mnemonicsMode)
 #: ui/oxygenstyleconfig.ui:94
 #, kde-format
 msgid "Always show"
-msgstr ""
+msgstr "uvek prikaži"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygenstyleconfig.ui:108
@@ -413,18 +414,3 @@ msgstr "Prema &boji izbora (obično)"
 #, kde-format
 msgid "Use selec&tion color (subtle)"
 msgstr "Prema boji izbora (&fino)"
-
-# >> @item:inlistbox Keyboard accelerators visibility:
-# rewrite-msgid: /Keyboard Accelerators//
-#~ msgid "Always Hide Keyboard Accelerators"
-#~ msgstr "stalno skriveni"
-
-# >> @item:inlistbox Keyboard accelerators visibility:
-# rewrite-msgid: /Keyboard Accelerators//
-#~ msgid "Show Keyboard Accelerators When Needed"
-#~ msgstr "prikazani kad je potrebno"
-
-# >> @item:inlistbox Keyboard accelerators visibility:
-# rewrite-msgid: /Keyboard Accelerators//
-#~ msgid "Always Show Keyboard Accelerators"
-#~ msgstr "stalno prikazani"

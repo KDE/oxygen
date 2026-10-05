@@ -2,13 +2,14 @@
 # Toplica Tanaskovic <toptan@kde.org.yu>, 2004.
 # Chusslove Illich <caslav.ilic@gmx.net>, 2005, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017.
 # Dalibor Djuric <daliborddjuric@gmail.com>, 2009, 2010, 2011.
+# Nemanja Hiršl <nemhirsl@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: oxygen_kdecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-07-08 00:46+0000\n"
-"PO-Revision-Date: 2017-12-17 18:00+0100\n"
-"Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
+"PO-Revision-Date: 2026-10-04 12:24+0200\n"
+"Last-Translator: Nemanja Hiršl <nemhirsl@gmail.com>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr@ijekavian\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +24,7 @@ msgstr ""
 #: config/oxygenanimationconfigwidget.cpp:30
 #, kde-format
 msgid "Button mouseover transition"
-msgstr "Промена дугмета на прелазак мишем"
+msgstr "Промјена дугмета на прелазак мишем"
 
 #: config/oxygenanimationconfigwidget.cpp:30
 #, kde-format
@@ -33,7 +34,7 @@ msgstr "Подесите анимацију истицања дугмади пр
 #: config/oxygenanimationconfigwidget.cpp:35
 #, kde-format
 msgid "Window active state change transitions"
-msgstr "Прелаз при промени стања активности прозора"
+msgstr "Прелаз при промјени стања активности прозора"
 
 #: config/oxygenanimationconfigwidget.cpp:36
 #, kde-format
@@ -41,7 +42,7 @@ msgid ""
 "Configure fading between window shadow and glow when window's active state "
 "is changed"
 msgstr ""
-"Подесите претапање између сенке и сијања прозора када се промени његово "
+"Подесите претапање између сијенке и сијања прозора када се промијени његово "
 "стање активности"
 
 #: config/oxygenexceptionlistwidget.cpp:87
@@ -190,7 +191,7 @@ msgstr "Величина &дугмади:"
 #: config/ui/oxygenconfigurationui.ui:117
 #, kde-format
 msgid "Allow resizing maximized windows from window edges"
-msgstr "Максимизованим прозорима може да се мења величина преко ивица"
+msgstr "Максимизованим прозорима може да се мијења величина преко ивица"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useWindowColors)
 #: config/ui/oxygenconfigurationui.ui:137
@@ -202,7 +203,7 @@ msgstr "Иста боја за насловну траку и садржај п�
 #: config/ui/oxygenconfigurationui.ui:144
 #, kde-format
 msgid "Draw titlebar background gradient"
-msgstr ""
+msgstr "Прелив у позадини насловне траке"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: config/ui/oxygenconfigurationui.ui:152
@@ -214,7 +215,7 @@ msgstr "Анимације"
 #: config/ui/oxygenconfigurationui.ui:165
 #, kde-format
 msgid "Shadows"
-msgstr "Сенке"
+msgstr "Сијенке"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, activeShadowConfiguration)
 #: config/ui/oxygenconfigurationui.ui:171
@@ -226,7 +227,7 @@ msgstr "Сијање активног прозора"
 #: config/ui/oxygenconfigurationui.ui:181
 #, kde-format
 msgid "Window Drop-Down Shadow"
-msgstr "Падајућа сенка прозора"
+msgstr "Падајућа сијенка прозора"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: config/ui/oxygenconfigurationui.ui:205
@@ -405,6 +406,3 @@ msgstr "Додај"
 #, kde-format
 msgid "Edit"
 msgstr "Уреди"
-
-#~ msgid "Add handle to resize windows with no border"
-#~ msgstr "Ручка за промену величине прозора без ивица"

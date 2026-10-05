@@ -1,13 +1,14 @@
 # Translation of oxygen_style_demo.po into Serbian.
 # Chusslove Illich <caslav.ilic@gmx.net>, 2005, 2007, 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2017.
 # Dalibor Djuric <daliborddjuric@gmail.com>, 2009, 2010, 2011.
+# Nemanja Hiršl <nemhirsl@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: oxygen_style_demo\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:53+0000\n"
-"PO-Revision-Date: 2017-05-07 21:01+0200\n"
-"Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
+"PO-Revision-Date: 2026-10-04 12:24+0200\n"
+"Last-Translator: Nemanja Hiršl <nemhirsl@gmail.com>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr@latin\n"
 "MIME-Version: 1.0\n"
@@ -526,18 +527,16 @@ msgstr "Okvir"
 
 #. i18n: ectx: property (text), widget (QRadioButton, raisedFrameRadioButton)
 #: ui/oxygenframedemowidget.ui:104
-#, fuzzy, kde-format
-#| msgid "Raised"
+#, kde-format
 msgid "&Raised"
-msgstr "Izdignut"
+msgstr "&Izdignut"
 
 #. i18n: ectx: property (text), widget (QRadioButton, plainFrameRadioButton)
 #: ui/oxygenframedemowidget.ui:117
-#, fuzzy, kde-format
-#| msgid "Flat"
+#, kde-format
 msgctxt "Flat frame. No frame is actually drawn."
 msgid "&Flat"
-msgstr "Pljosnato"
+msgstr "&Pljosnat"
 
 #. i18n: ectx: property (text), widget (QRadioButton, sunkenFrameRadioButton)
 #: ui/oxygenframedemowidget.ui:124
