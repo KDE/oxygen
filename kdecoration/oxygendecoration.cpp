@@ -44,6 +44,7 @@ using ShadowMap = QHash<int, std::shared_ptr<KDecoration3::DecorationShadow>>;
 
 static int g_sDecoCount = 0;
 static ShadowMap g_sShadows;
+static constexpr qreal s_cornerRadius = 3.5;
 
 Decoration::Decoration(QObject *parent, const QVariantList &args)
     : KDecoration3::Decoration(parent, args)
@@ -208,6 +209,11 @@ bool Decoration::eventFilter(QObject *watched, QEvent *event)
 //________________________________________________________________
 void Decoration::updateTitleBar()
 {
+    if (isShadowOnly()) {
+        setTitleBar(QRect(0, 0, 0, 0));
+        return;
+    }
+
     auto s = settings();
     const bool maximized = isMaximized();
     const auto clientPtr = window();
@@ -309,12 +315,12 @@ void Decoration::recalculateBorders()
     auto testFlag = [&](Qt::Edge edge) {
         return edges.testFlag(edge) && !m_internalSettings->drawBorderOnMaximizedWindows();
     };
-    const int left = isMaximizedHorizontally() || testFlag(Qt::LeftEdge) ? 0 : borderSize();
-    const int right = isMaximizedHorizontally() || testFlag(Qt::RightEdge) ? 0 : borderSize();
-    const int bottom = isMaximizedVertically() || c->isShaded() || testFlag(Qt::BottomEdge) ? 0 : borderSize(true);
+    const int left = isShadowOnly() || isMaximizedHorizontally() || testFlag(Qt::LeftEdge) ? 0 : borderSize();
+    const int right = isShadowOnly() || isMaximizedHorizontally() || testFlag(Qt::RightEdge) ? 0 : borderSize();
+    const int bottom = isShadowOnly() || isMaximizedVertically() || c->isShaded() || testFlag(Qt::BottomEdge) ? 0 : borderSize(true);
 
     int top = 0;
-    if (hideTitleBar())
+    if (isShadowOnly() || hideTitleBar())
         top = bottom;
     else {
         QFontMetrics fm(s->font());
@@ -334,7 +340,7 @@ void Decoration::recalculateBorders()
     const int extSize = s->largeSpacing();
     int extSides = 0;
     int extBottom = 0;
-    if (hasNoBorders()) {
+    if (isShadowOnly() || hasNoBorders()) {
         if (!isMaximizedHorizontally())
             extSides = extSize;
         if (!isMaximizedVertically())
@@ -345,6 +351,12 @@ void Decoration::recalculateBorders()
     }
 
     setResizeOnlyBorders(QMargins(extSides, 0, extSides, extBottom));
+
+    if (isShadowOnly() && !isMaximized()) {
+        setBorderRadius(KDecoration3::BorderRadius(s_cornerRadius, s_cornerRadius, s_cornerRadius, s_cornerRadius));
+    } else {
+        setBorderRadius(KDecoration3::BorderRadius());
+    }
 }
 
 //________________________________________________________________
@@ -427,6 +439,10 @@ void Decoration::updateButtonsGeometry()
 //________________________________________________________________
 void Decoration::paint(QPainter *painter, const QRectF &repaintRegion)
 {
+    if (isShadowOnly()) {
+        return;
+    }
+
     const auto c = window();
     const auto palette = c->palette();
 
@@ -532,7 +548,7 @@ void Decoration::updateShadow()
     const auto clientPtr = window();
     key.active = SettingsProvider::self()->shadowCache()->isEnabled(QPalette::Active) && clientPtr->isActive();
     key.isShade = clientPtr->isShaded();
-    key.hasBorder = !hasNoBorders();
+    key.hasBorder = isShadowOnly() || !hasNoBorders();
 
     if (animated) {
         static const int maxIndex = 255;
@@ -572,7 +588,7 @@ void Decoration::renderCorners(QPainter *painter, const QRectF &frame, const QPa
 
     painter->setPen(QPen(lg, 1));
     painter->setBrush(Qt::NoBrush);
-    painter->drawRoundedRect(frame.adjusted(0.5, 0.5, -0.5, -0.5), 3.5, 3.5);
+    painter->drawRoundedRect(frame.adjusted(0.5, 0.5, -0.5, -0.5), s_cornerRadius, s_cornerRadius);
 }
 
 //_________________________________________________________

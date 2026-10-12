@@ -134,6 +134,7 @@ private:
     inline bool isMaximizedHorizontally(void) const;
     inline bool isMaximizedVertically(void) const;
     inline bool hideTitleBar(void) const;
+    inline bool isShadowOnly(void) const;
     //@}
 
     InternalSettingsPtr m_internalSettings;
@@ -180,6 +181,10 @@ bool Decoration::isMaximizedVertically(void) const
 bool Decoration::hideTitleBar(void) const
 {
     return m_internalSettings->hideTitleBar() && !window()->isShaded();
+}
+bool Decoration::isShadowOnly(void) const
+{
+    return style() == KDecoration3::Style::Shadow;
 }
 }
 

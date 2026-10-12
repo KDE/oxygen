@@ -104,6 +104,10 @@
     },
     "X-KDE-ConfigModule": "kcm_oxygendecoration",
     "org.kde.kdecoration3": {
-        "blur": false
+        "blur": false,
+        "styles": [
+            "shadow",
+            "titled"
+        ]
     }
 }
