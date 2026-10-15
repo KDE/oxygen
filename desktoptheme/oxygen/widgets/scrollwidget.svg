@@ -400,4 +400,5 @@
        style="opacity:0.59999999999999998;fill:#8b8b8b;fill-opacity:0;stroke:none;stroke-width:20;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        transform="scale(-1,-1)" />
   </g>
+  <rect id="border-hint-tile-center" x="136" y="0" width="5" height="5" style="fill:#ff6600" />
 </svg>

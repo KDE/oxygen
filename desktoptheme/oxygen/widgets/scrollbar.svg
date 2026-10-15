@@ -1259,4 +1259,7 @@
        height="11"
        width="11"
        id="hint-scrollbar-size"
-       style="fill:#4e9a06;fill-opacity:1;fill-rule:nonzero;stroke:none" /></g></svg>
+       style="fill:#4e9a06;fill-opacity:1;fill-rule:nonzero;stroke:none" /></g>  <rect id="mouseover-slider-hint-tile-center" x="56" y="0" width="5" height="5" style="opacity:0.875;fill:#008000;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  <rect id="slider-hint-tile-center" x="64" y="0" width="5" height="5" style="opacity:0.875;fill:#008000;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  <rect id="sunken-slider-hint-tile-center" x="72" y="0" width="5" height="5" style="opacity:0.875;fill:#008000;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+</svg>
