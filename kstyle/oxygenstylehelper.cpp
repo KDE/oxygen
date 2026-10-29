@@ -131,12 +131,13 @@ void StyleHelper::renderMenuBackground(QPainter *painter, const QRectF &clipRect
     const int height(w->frameGeometry().height());
     const int splitY(qMin(200, (3 * height) / 4));
 
+    // old code drew lower and upper backgrounds separately and then stiched them together
+    // that led to unwanted lines at splitY when using fractional scaling
+    // so in 2026 we'll instead draw one full flat fill and overlay the gradient on top
+    painter->fillRect(r, backgroundBottomColor(color));
     const QRect upperRect(QRect(0, 0, r.width(), splitY));
-    const QPixmap tile(verticalGradient(color, splitY));
-    painter->drawTiledPixmap(upperRect, tile);
-
-    const QRect lowerRect(0, splitY, r.width(), r.height() - splitY);
-    painter->fillRect(lowerRect, backgroundBottomColor(color));
+    const QPixmap tile(verticalGradient(color, splitY, 0, devicePixelRatio(painter)));
+    painter->drawPixmap(upperRect, tile);
 
     if (clipRect.isValid()) {
         painter->restore();
