@@ -244,7 +244,7 @@ int Decoration::borderSize(bool bottom) const
     if (m_internalSettings && (m_internalSettings->mask() & BorderSize)) {
         switch (m_internalSettings->borderSize()) {
         case InternalSettings::BorderNone:
-            return 0;
+            return 1;
         case InternalSettings::BorderNoSides:
             return bottom ? qMax(4, baseSize) : 0;
         default:
@@ -267,7 +267,7 @@ int Decoration::borderSize(bool bottom) const
     } else {
         switch (settings()->borderSize()) {
         case KDecoration3::BorderSize::None:
-            return 0;
+            return 1;
         case KDecoration3::BorderSize::NoSides:
             return bottom ? qMax(4, baseSize) : 0;
         default:
