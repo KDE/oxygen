@@ -37,7 +37,7 @@ msgid ""
 "widget enabled/disabled state transition"
 msgstr ""
 "Sett opp fokus på skjermelementer og animert fremheving under musepeker, og "
-"overgang mellom skjermelementets av/på-tilstand"
+"overgang mellom skjermelementets på/av-tilstand"
 
 #: oxygenanimationconfigwidget.cpp:39
 #, kde-format
