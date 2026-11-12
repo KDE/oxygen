@@ -87,7 +87,7 @@
         "Description[sr@latin]": "Tema urađena u stilu Kiseonika",
         "Description[sr]": "Тема урађена у стилу Кисеоника",
         "Description[sv]": "Tema skapat med Oxygen-stilen",
-        "Description[tr]": "Oksijen biçeminde yapılmış tema",
+        "Description[tr]": "Oksijen stilinde yapılmış tema",
         "Description[ug]": "ئوكسىگېن ئۇسلۇبىدىكى ئۆرنەك",
         "Description[uk]": "Тему виконано у стилі Oxygen",
         "Description[zh_CN]": "Oxygen 轻氧风格的主题",
