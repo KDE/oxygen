@@ -464,6 +464,8 @@ int Decoration::buttonHeight() const
 {
     const int baseSize = settings()->gridUnit() + 2; // oxygen icons were always slightly larger
     switch (m_internalSettings->buttonSize()) {
+    case InternalSettings::ButtonTiny:
+        return baseSize * 1;
     case InternalSettings::ButtonSmall:
         return baseSize * 1.5;
     default:
