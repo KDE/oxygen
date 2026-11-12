@@ -4,21 +4,21 @@
 # Serdar Soytetir <tulliana@gmail.com>, 2008, 2009, 2012.
 # H. İbrahim Güngör <ibrahim@pardus.org.tr>, 2011, 2013.
 # Volkan Gezer <volkangezer@gmail.com>, 2013, 2014, 2017.
-# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Emir SARI <emir_sari@icloud.com>
+# SPDX-FileCopyrightText: 2022-2026 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstyle_config\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:53+0000\n"
-"PO-Revision-Date: 2025-04-22 20:11+0300\n"
-"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
+"PO-Revision-Date: 2026-11-10 21:39+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.04.0\n"
+"X-Generator: Lokalize 26.08.2\n"
 
 #: main.cpp:37 oxygendemodialog.cpp:39 oxygendemodialog.cpp:186
 #, kde-format
@@ -81,7 +81,7 @@ msgstr "Sağdan sola yerleşim"
 #: oxygendemodialog.cpp:66
 #, kde-format
 msgid "Style"
-msgstr "Biçem"
+msgstr "Stil"
 
 #: oxygendemodialog.cpp:87
 #, kde-format
@@ -218,7 +218,7 @@ msgstr "Bu bir metin örneğidir"
 #: oxygenstylechooser.cpp:39
 #, kde-format
 msgid "Select the application widget style"
-msgstr "Uygulama araç takımı biçemini seçin"
+msgstr "Uygulama araç takımı stilini seçin"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ui/oxygenbenchmarkwidget.ui:29
