@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kwin_clients\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-08 00:46+0000\n"
+"POT-Creation-Date: 2026-11-13 01:01+0000\n"
 "PO-Revision-Date: 2014-02-17 11:58+0100\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -117,113 +117,122 @@ msgstr "Allmeen"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
 #: config/ui/oxygenconfigurationui.ui:31
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Border size:"
+#| msgid "Tiny"
+msgctxt "@item:inlistbox Button size:"
+msgid "Tiny"
+msgstr "Lierlütt"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
+#: config/ui/oxygenconfigurationui.ui:36
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Small"
 msgstr "Lütt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
-#: config/ui/oxygenconfigurationui.ui:36
+#: config/ui/oxygenconfigurationui.ui:41
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Normal"
 msgstr "Normaal"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
-#: config/ui/oxygenconfigurationui.ui:41
+#: config/ui/oxygenconfigurationui.ui:46
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Large"
 msgstr "Groot"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
-#: config/ui/oxygenconfigurationui.ui:46
+#: config/ui/oxygenconfigurationui.ui:51
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
 msgstr "Bannig groot"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: config/ui/oxygenconfigurationui.ui:67
+#: config/ui/oxygenconfigurationui.ui:72
 #, kde-format
 msgid "Tit&le alignment:"
 msgstr "Tite&lutrichten:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
-#: config/ui/oxygenconfigurationui.ui:81
+#: config/ui/oxygenconfigurationui.ui:86
 #, kde-format
 msgid "Left"
 msgstr "Links"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
-#: config/ui/oxygenconfigurationui.ui:86
+#: config/ui/oxygenconfigurationui.ui:91
 #, kde-format
 msgid "Center"
 msgstr "Merrn"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
-#: config/ui/oxygenconfigurationui.ui:91
+#: config/ui/oxygenconfigurationui.ui:96
 #, kde-format
 msgid "Center (Full Width)"
 msgstr "Merrn (Heel Breed)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
-#: config/ui/oxygenconfigurationui.ui:96
+#: config/ui/oxygenconfigurationui.ui:101
 #, kde-format
 msgid "Right"
 msgstr "Rechts"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: config/ui/oxygenconfigurationui.ui:104
+#: config/ui/oxygenconfigurationui.ui:109
 #, kde-format
 msgid "B&utton size:"
 msgstr "Kn&oopgrött:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, drawBorderOnMaximizedWindows)
-#: config/ui/oxygenconfigurationui.ui:117
+#: config/ui/oxygenconfigurationui.ui:122
 #, kde-format
 msgid "Allow resizing maximized windows from window edges"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, useWindowColors)
-#: config/ui/oxygenconfigurationui.ui:137
+#: config/ui/oxygenconfigurationui.ui:142
 #, kde-format
 msgid "Use the same colors for title bar and window content"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, drawBackgroundGradient)
-#: config/ui/oxygenconfigurationui.ui:144
+#: config/ui/oxygenconfigurationui.ui:149
 #, fuzzy, kde-format
 #| msgid "Draw window background"
 msgid "Draw titlebar background gradient"
 msgstr "Finsterachtergrund wiesen"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: config/ui/oxygenconfigurationui.ui:152
+#: config/ui/oxygenconfigurationui.ui:157
 #, kde-format
 msgid "Animations"
 msgstr "Animeren"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: config/ui/oxygenconfigurationui.ui:165
+#: config/ui/oxygenconfigurationui.ui:170
 #, kde-format
 msgid "Shadows"
 msgstr "Schaddens"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, activeShadowConfiguration)
-#: config/ui/oxygenconfigurationui.ui:171
+#: config/ui/oxygenconfigurationui.ui:176
 #, kde-format
 msgid "Active Window Glow"
 msgstr "Glöön för aktiev Finster"
 
 #. i18n: ectx: property (title), widget (Oxygen::ShadowConfigWidget, inactiveShadowConfiguration)
-#: config/ui/oxygenconfigurationui.ui:181
+#: config/ui/oxygenconfigurationui.ui:186
 #, kde-format
 msgid "Window Drop-Down Shadow"
 msgstr "Opdukmenü-Schadden"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: config/ui/oxygenconfigurationui.ui:205
+#: config/ui/oxygenconfigurationui.ui:210
 #, kde-format
 msgid "Window-Specific Overrides"
 msgstr "Besünner Instellen för enkelte Finstern"

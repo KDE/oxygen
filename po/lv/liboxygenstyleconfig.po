@@ -1,14 +1,14 @@
 # Copyright (C) 2024 This file is copyright:
 # This file is distributed under the same license as the oxygen package.
 #
-# SPDX-FileCopyrightText: 2024 Toms Trasuns <toms.trasuns@posteo.net>
+# SPDX-FileCopyrightText: 2024, 2026 Toms Trasuns <toms.trasuns@posteo.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: oxygen\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-14 00:47+0000\n"
-"PO-Revision-Date: 2024-01-25 10:57+0200\n"
-"Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
+"PO-Revision-Date: 2026-11-11 15:48+0200\n"
+"Last-Translator: Toms Trasūns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
 "Language: lv\n"
 "MIME-Version: 1.0\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 26.08.2\n"
 
 #: oxygenanimationconfigitem.cpp:97
 #, kde-format
 msgid "oxygen-settings - information"
-msgstr "oxygen-settings — informācija"
+msgstr "„oxygen-settings“ — informācija"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableCheckBox)
 #: ui/oxygenanimationconfigitem.ui:29
@@ -46,7 +46,7 @@ msgstr "Ieslēgt animācijas"
 #: ui/oxygengenericanimationconfigbox.ui:20
 #, kde-format
 msgid "Frame"
-msgstr "Ietvars"
+msgstr "Rāmis"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ui/oxygengenericanimationconfigbox.ui:38
@@ -71,7 +71,7 @@ msgstr "Izmērs: "
 #: ui/oxygenshadowconfigurationui.ui:36 ui/oxygenshadowconfigurationui.ui:56
 #, kde-format
 msgid "px"
-msgstr "px"
+msgstr "piks."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ui/oxygenshadowconfigurationui.ui:43
@@ -83,7 +83,7 @@ msgstr "Vertikālā nobīde"
 #: ui/oxygenshadowconfigurationui.ui:63
 #, kde-format
 msgid "Follow accent color"
-msgstr ""
+msgstr "Ievērot akcenta krāsu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ui/oxygenshadowconfigurationui.ui:70
