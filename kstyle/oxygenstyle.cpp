@@ -556,11 +556,7 @@ int Style::pixelMetric(PixelMetric metric, const QStyleOption *option, const QWi
 
     // buttons
     case PM_ButtonMargin: {
-        /* HACK: needs special case for kcalc buttons, to prevent the application to set too small margins */
-        if (widget && widget->inherits("KCalcButton"))
-            return Metrics::Button_MarginWidth + 4;
-        else
-            return Metrics::Button_MarginWidth;
+        return Metrics::Button_MarginWidth;
     }
 
     // buttons
