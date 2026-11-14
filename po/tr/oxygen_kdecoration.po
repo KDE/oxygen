@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-13 01:01+0000\n"
-"PO-Revision-Date: 2026-07-08 19:30+0300\n"
+"PO-Revision-Date: 2026-11-13 18:53+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 26.04.2\n"
+"X-Generator: Lokalize 26.08.2\n"
 
 #: config/oxygenanimationconfigwidget.cpp:30
 #, kde-format
@@ -47,17 +47,17 @@ msgstr ""
 #: config/oxygenexceptionlistwidget.cpp:87
 #, kde-format
 msgid "New Exception - Oxygen Settings"
-msgstr "Yeni İstisna - Oksijen Ayarları"
+msgstr "Yeni İstisna — Oksijen Ayarları"
 
 #: config/oxygenexceptionlistwidget.cpp:134
 #, kde-format
 msgid "Edit Exception - Oxygen Settings"
-msgstr "İstisnayı Düzenle - Oksijen Ayarları"
+msgstr "İstisnayı Düzenle — Oksijen Ayarları"
 
 #: config/oxygenexceptionlistwidget.cpp:166
 #, kde-format
 msgid "Question - Oxygen Settings"
-msgstr "Soru - Oksijen Ayarları"
+msgstr "Soru — Oksijen Ayarları"
 
 #: config/oxygenexceptionlistwidget.cpp:167
 #, kde-format
@@ -74,7 +74,7 @@ msgstr "Kaldır"
 #: config/oxygenexceptionlistwidget.cpp:301
 #, kde-format
 msgid "Warning - Oxygen Settings"
-msgstr "Uyarı - Oksijen Ayarları"
+msgstr "Uyarı — Oksijen Ayarları"
 
 #: config/oxygenexceptionlistwidget.cpp:301
 #, kde-format
@@ -116,12 +116,10 @@ msgstr "Genel"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
 #: config/ui/oxygenconfigurationui.ui:31
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Tiny"
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
-msgstr "Çok Küçük"
+msgstr "Çok küçük"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
 #: config/ui/oxygenconfigurationui.ui:36
@@ -149,13 +147,13 @@ msgstr "Büyük"
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
-msgstr "Çok Büyük"
+msgstr "Çok büyük"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: config/ui/oxygenconfigurationui.ui:72
 #, kde-format
 msgid "Tit&le alignment:"
-msgstr "Baş&lık hizalama:"
+msgstr "&Başlık hizalama:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
 #: config/ui/oxygenconfigurationui.ui:86
@@ -173,7 +171,7 @@ msgstr "Orta"
 #: config/ui/oxygenconfigurationui.ui:96
 #, kde-format
 msgid "Center (Full Width)"
-msgstr "Orta (Tam Genişlik)"
+msgstr "Orta (tam genişlik)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, titleAlignment)
 #: config/ui/oxygenconfigurationui.ui:101
@@ -327,21 +325,21 @@ msgstr "Pencere başlık çubuğunu gizle"
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Border"
-msgstr "Kenarlık Yok"
+msgstr "Kenarlık yok"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:112
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "No Side Borders"
-msgstr "Kenarda Çizgiler Yok"
+msgstr "Kenarda çizgiler yok"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:117
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Tiny"
-msgstr "Çok Küçük"
+msgstr "Çok küçük"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:122
@@ -362,7 +360,7 @@ msgstr "Büyük"
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Large"
-msgstr "Çok Büyük"
+msgstr "Çok büyük"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:137
@@ -376,7 +374,7 @@ msgstr "Kocaman"
 #, kde-format
 msgctxt "@item:inlistbox Border size:"
 msgid "Very Huge"
-msgstr "En Büyük"
+msgstr "En büyük"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, borderSizeComboBox)
 #: config/ui/oxygenexceptiondialog.ui:147

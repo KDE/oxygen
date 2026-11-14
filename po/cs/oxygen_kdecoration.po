@@ -113,9 +113,7 @@ msgstr "Obecné"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
 #: config/ui/oxygenconfigurationui.ui:31
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Tiny"
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
 msgstr "Malá"
