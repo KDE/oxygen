@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: oxygen_kdecoration\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-13 01:01+0000\n"
-"PO-Revision-Date: 2026-10-04 12:24+0200\n"
+"PO-Revision-Date: 2026-11-14 16:15+0100\n"
 "Last-Translator: Nemanja Hiršl <nemhirsl@gmail.com>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr@latin\n"
@@ -121,12 +121,10 @@ msgstr "Opšte"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
 #: config/ui/oxygenconfigurationui.ui:31
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Tiny"
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
-msgstr "sićušne"
+msgstr "sićušna"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
 #: config/ui/oxygenconfigurationui.ui:36
