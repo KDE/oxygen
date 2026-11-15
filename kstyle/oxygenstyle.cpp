@@ -286,16 +286,6 @@ void Style::polish(QWidget *widget)
         widget->setAttribute(Qt::WA_Hover);
     }
 
-    // transparent tooltips
-    if (widget->inherits("QTipLabel")) {
-        widget->setAttribute(Qt::WA_TranslucentBackground);
-
-#ifdef Q_WS_WIN
-        // FramelessWindowHint is needed on windows to make WA_TranslucentBackground work properly
-        widget->setWindowFlags(widget->windowFlags() | Qt::FramelessWindowHint);
-#endif
-    }
-
     if (QAbstractItemView *itemView = qobject_cast<QAbstractItemView *>(widget)) {
         // enable hover effects in itemviews' viewport
         itemView->viewport()->setAttribute(Qt::WA_Hover);
@@ -3984,19 +3974,10 @@ bool Style::drawPanelTipLabelPrimitive(const QStyleOption *option, QPainter *pai
 
     const QRect &rect(option->rect);
     const QColor color(option->palette.brush(QPalette::ToolTipBase).color());
-    QColor topColor(_helper->backgroundTopColor(color));
-    QColor bottomColor(_helper->backgroundBottomColor(color));
+    const QColor topColor(_helper->backgroundTopColor(color));
+    const QColor bottomColor(_helper->backgroundBottomColor(color));
 
-    // make tooltip semi transparents when possible
-    // alpha is copied from "kdebase/apps/dolphin/tooltips/filemetadatatooltip.cpp"
     const bool hasAlpha(_helper->hasAlphaChannel(widget));
-    if (hasAlpha && StyleConfigData::toolTipTransparent()) {
-        if (widget && widget->window()) {
-            _blurHelper->registerWidget(widget->window());
-        }
-        topColor.setAlpha(220);
-        bottomColor.setAlpha(220);
-    }
 
     QLinearGradient gradient(0, rect.top(), 0, rect.bottom());
     gradient.setColorAt(0, topColor);
