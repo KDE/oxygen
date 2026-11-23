@@ -111,12 +111,10 @@ msgstr "常规"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
 #: config/ui/oxygenconfigurationui.ui:31
-#, fuzzy, kde-format
-#| msgctxt "@item:inlistbox Border size:"
-#| msgid "Tiny"
+#, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Tiny"
-msgstr "小"
+msgstr "超小"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, buttonSize)
 #: config/ui/oxygenconfigurationui.ui:36
@@ -144,7 +142,7 @@ msgstr "大"
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
-msgstr "特大"
+msgstr "超大"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: config/ui/oxygenconfigurationui.ui:72
