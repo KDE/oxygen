@@ -37,7 +37,6 @@
 #include "oxygenstyle.h"
 
 #include "oxygenanimations.h"
-#include "oxygenblurhelper.h"
 #include "oxygenframeshadow.h"
 #include "oxygenmdiwindowshadow.h"
 #include "oxygenmnemonics.h"
@@ -193,7 +192,6 @@ Style::Style(void)
     , _frameShadowFactory(new FrameShadowFactory(this))
     , _mdiWindowShadowFactory(new MdiWindowShadowFactory(this, *_helper))
     , _mnemonics(new Mnemonics(this))
-    , _blurHelper(new BlurHelper(this, *_helper))
     , _widgetExplorer(new WidgetExplorer(this))
     , _tabBarData(new OxygenPrivate::TabBarData(this))
     , _splitterFactory(new SplitterFactory(this))
@@ -424,7 +422,6 @@ void Style::unpolish(QWidget *widget)
     _mdiWindowShadowFactory->unregisterWidget(widget);
     _shadowHelper->unregisterWidget(widget);
     _splitterFactory->unregisterWidget(widget);
-    _blurHelper->unregisterWidget(widget);
 
     // event filters
     switch (widget->windowFlags() & Qt::WindowType_Mask) {
@@ -1748,9 +1745,6 @@ void Style::loadConfiguration()
     int cacheSize(StyleConfigData::cacheEnabled() ? StyleConfigData::maxCacheSize() : 0);
 
     _helper->setMaxCacheSize(cacheSize);
-
-    // always enable blur helper
-    _blurHelper->setEnabled(true);
 
     // reinitialize engines
     _animations->setupEngines();

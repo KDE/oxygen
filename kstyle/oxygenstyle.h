@@ -72,7 +72,6 @@ class Transitions;
 class TopLevelManager;
 class WindowManager;
 class WidgetExplorer;
-class BlurHelper;
 
 //* base class for oxygen style
 /** it is responsible to draw all the primitives to be displayed on screen, on request from Qt paint engine */
@@ -646,9 +645,6 @@ private:
 
     //* keyboard accelerators
     Mnemonics *_mnemonics;
-
-    //* blur helper
-    BlurHelper *_blurHelper;
 
     //* widget explorer
     WidgetExplorer *_widgetExplorer;
