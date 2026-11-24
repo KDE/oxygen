@@ -138,7 +138,7 @@ Name[ug]=ئوكسىگېن قاراڭغۇ
 Name[uk]=Темна Oxygen
 Name[zh_CN]=Oxygen 轻氧深色
 Name[zh_TW]=Oxygen 深色
-TintFactor=0.15
+TintFactor=0.075
 shadeSortColumn=true
 
 [KDE]
