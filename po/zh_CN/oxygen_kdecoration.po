@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf6-trunk/messages/oxygen/oxygen_kdecoration.pot\n"
-"X-Crowdin-File-ID: 43105\n"
+"X-Crowdin-File: /kf6-stable/messages/oxygen/oxygen_kdecoration.pot\n"
+"X-Crowdin-File-ID: 50900\n"
 
 #: config/oxygenanimationconfigwidget.cpp:30
 #, kde-format
@@ -135,7 +135,7 @@ msgstr "大"
 #, kde-format
 msgctxt "@item:inlistbox Button size:"
 msgid "Very Large"
-msgstr "特大"
+msgstr "超大"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: config/ui/oxygenconfigurationui.ui:67
